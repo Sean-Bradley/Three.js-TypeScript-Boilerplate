@@ -17,12 +17,13 @@ const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0
 const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
 scene.add(cube)
 
-camera.position.z = 2.5
+camera.position.z = 2
 
 var animate = function () {
     requestAnimationFrame(animate)
 
     cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
 
     controls.update()
 
