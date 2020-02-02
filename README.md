@@ -42,9 +42,11 @@ npm run dev
 Visit
 [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
+You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
 
-While running `npm run dev`, any edits to the `client/client.ts` or `server/server.ts` you make will be auto recompiled and you shoud refresh the browser manually.
 
-See image showing compiled JavaScript using ES6 imports.
+While running `npm run dev`, any edits to the `client/client.ts` or `server/server.ts` you make will be auto recompiled and you should refresh your browser to see the changes.
+
+See image showing compiled client side JavaScript using ES6 import syntax.
 ![ThreeJS using ES6 imports](screengrab3.jpg)
 
