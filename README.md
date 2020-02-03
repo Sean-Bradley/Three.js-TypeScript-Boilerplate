@@ -57,7 +57,7 @@ You should see a rotating green wireframe cube, and be able to rotate it further
 
 ## Notes
 
-1. After opening the project in VSCode, open the file `client.ts`. If VSCode is showing red squigly's under the **import** directives, then press F1, then select 'Restart TS Server'
+1. After opening the project in VSCode, open the file `client.ts`. If VSCode is showing red squigly's under the **import** paths, then press F1, then select 'Restart TS Server'
 
 See image showing imports successfully linked.
 ![All Imports found](screengrab2.jpg)
