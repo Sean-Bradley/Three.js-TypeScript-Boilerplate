@@ -1,7 +1,13 @@
 # Three.js TypeScript Boilerplate
 
-The Boilerplate is a green wireframe rotating cube, with orbit controls enabled.
-And hosted using NodeJS and Express.
+When run, the boilerplate shows a green wireframe rotating cube, with OrbitControls included.
+
+It is hosted using NodeJS and Express.
+
+It contains server and client scripts both written in TypeScript.
+
+The client typescript and compiled javascript both use [ES6 import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+
 
 ![](screengrab1.jpg)
 
@@ -9,33 +15,40 @@ And hosted using NodeJS and Express.
 I am using
 
 - TypeScript verion 3.7.5
-- Threejs version 0.113.2
+- Three.js version 0.113.2
 - Visual Studio Code
 
+## Installing
 
-1. Install TypeScript
+1. Clone Repository
 
+```bash
+git clone https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate.git
 ```
+
+2. Install TypeScript
+
+```bash
 npm install -g typescript
 ```
 
-2. Install dependencies
+3. Install dependencies
 ```bash
 npm install
 ```
 
-3. Build the server and client scripts
+4. Build the server and client scripts
 ```bash
 tsc -p ./src/server
 tsc -p ./src/client
 ```
 
-4. Start it
+5. Start it
 ```bash
 npm run dev
 ```
 
-5. Visit
+6. Visit
 [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
 You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
