@@ -14,7 +14,7 @@ The client typescript and compiled javascript both use [ES6 import syntax](https
 
 I am using
 
-- TypeScript verion 3.7.5
+- TypeScript version 3.7.5
 - Three.js version 0.113.2
 - Visual Studio Code
 
@@ -26,29 +26,34 @@ I am using
 git clone https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate.git
 ```
 
-2. Install TypeScript
+2. CD into folder
+```bash
+cd Three.js-TypeScript-Boilerplate
+```
+
+3. Install TypeScript
 
 ```bash
 npm install -g typescript
 ```
 
-3. Install dependencies
+4. Install dependencies
 ```bash
 npm install
 ```
 
-4. Build the server and client scripts
+5. Build the server and client scripts
 ```bash
 tsc -p ./src/server
 tsc -p ./src/client
 ```
 
-5. Start it
+6. Start it
 ```bash
 npm run dev
 ```
 
-6. Visit
+7. Visit
 [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
 You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
@@ -66,4 +71,9 @@ See image showing imports successfully linked.
 
 See image showing compiled client side JavaScript using ES6 import syntax.
 ![ThreeJS using ES6 imports](screengrab3.jpg)
+
+3. This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F)
+
+
+[![ThreeJS and TypeScript Course](threejs-course-image.png)](https://youtu.be/BcF3yuVqfwo)
 
