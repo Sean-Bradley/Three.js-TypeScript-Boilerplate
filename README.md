@@ -2,7 +2,7 @@
 
 > This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F). Discount Coupon : https://www.udemy.com/course/threejs-tutorials/?couponCode=972845C1D56E4DFE7612
 
-When run, the boilerplate shows a green wireframe rotating cube, with OrbitControls included.
+When run, the boilerplate shows a green wireframe rotating cube, with OrbitControls included. [Example](https://sbcode.net/threejs/threejs-typescript-boilerplate/)
 
 It is hosted using NodeJS and Express.
 
