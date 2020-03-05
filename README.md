@@ -1,6 +1,6 @@
 # Three.js TypeScript Boilerplate
 
-> This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F)    
+> This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
 Discount Coupon : https://www.udemy.com/course/threejs-tutorials/?couponCode=972845C1D56E4DFE7612
 
 When run, the boilerplate shows a green wireframe rotating cube, with OrbitControls included. 
@@ -67,7 +67,7 @@ You should see a rotating green wireframe cube, and be able to rotate it further
 
 ## ThreeJS and TypeScript Course Introduction Video
 
-This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F)
+This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
 
 [![ThreeJS and TypeScript Course](threejs-course-image.png)](https://youtu.be/BcF3yuVqfwo)
 
