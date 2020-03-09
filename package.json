@@ -9,12 +9,12 @@
   "author": "Sean Bradley",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.9.0",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
-    "@types/express": "^4.17.2",
+    "@types/express": "^4.17.3",
     "express": "^4.17.1",
     "three": "^0.113.2"
   }
