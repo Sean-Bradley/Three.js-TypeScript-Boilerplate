@@ -1,5 +1,5 @@
 import * as THREE from '/build/three.module.js'
-import { MapControls } from '/jsm/controls/OrbitControls'
+import { OrbitControls } from '/jsm/controls/OrbitControls'
 
 const scene: THREE.Scene = new THREE.Scene()
 
@@ -9,7 +9,7 @@ const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const controls = new MapControls(camera, renderer.domElement)
+const controls = new OrbitControls(camera, renderer.domElement)
 
 const geometry: THREE.BoxGeometry = new THREE.BoxGeometry()
 const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
