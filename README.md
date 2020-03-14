@@ -63,6 +63,18 @@ npm run dev
 
 You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
 
+## Branches
+
+To get a version of the boilerplate that includes the stats panel then,
+```bash
+checkout stats
+```
+
+To get a version of the boilerplate that includes the stats and the gui panels then,
+```bash
+checkout statsgui
+```
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
