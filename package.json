@@ -9,7 +9,7 @@
   "author": "Sean Bradley",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^13.9.0",
+    "@types/node": "^13.9.1",
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.2"
   },
