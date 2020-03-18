@@ -19,8 +19,8 @@ The client typescript and compiled javascript both use [ES6 import syntax](https
 
 I am using
 
-- TypeScript version 3.7.5
-- Three.js version 0.113.2
+- TypeScript version 3.8.2
+- Three.js version 0.114
 - Visual Studio Code
 
 ## Installing
@@ -65,16 +65,19 @@ You should see a rotating green wireframe cube, and be able to rotate it further
 
 ## Branches
 
-To get a version of the boilerplate that includes the stats panel then,
+The default **master** branch does not include the **Stats.js** or **Dat.GUI** panels.
+
+To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
 checkout stats
 ```
+![With Stats.js](with-stats.jpg)
 
-To get a version of the boilerplate that includes the stats and the gui panels then,
+To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
 ```bash
 checkout statsgui
 ```
-
+![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
