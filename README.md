@@ -65,16 +65,17 @@ You should see a rotating green wireframe cube, and be able to rotate it further
 
 ## Branches
 
-To get a version of the boilerplate that includes the stats panel then,
+To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
 checkout stats
 ```
+![With Stats.js](with-stats.jpg)
 
-To get a version of the boilerplate that includes the stats and the gui panels then,
+To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
 ```bash
 checkout statsgui
 ```
-
+![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
