@@ -16,13 +16,6 @@ The client typescript and compiled javascript both use [ES6 import syntax](https
 
 ![](screengrab1.jpg)
 
-
-I am using
-
-- TypeScript version 3.8.2
-- Three.js version 0.114
-- Visual Studio Code
-
 ## Installing
 
 1. Clone Repository
@@ -79,6 +72,8 @@ checkout statsgui
 ```
 ![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 ---
+
+> Note : The default install of Threejs doesn't include Dat.GUI types. This is not a major problem, but if you want intellisense code completion when writing Dat.GUI code, then see this page on how to set it up in your project. [Setting up Dat.GUI in TypeScript and Threejs](https://sbcode.net/threejs/dat-gui/)
 
 ## ThreeJS and TypeScript Course Introduction Video
 
