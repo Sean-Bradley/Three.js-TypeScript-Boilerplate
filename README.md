@@ -16,13 +16,6 @@ The client typescript and compiled javascript both use [ES6 import syntax](https
 
 ![](screengrab1.jpg)
 
-
-I am using
-
-- TypeScript version 3.8.2
-- Three.js version 0.114
-- Visual Studio Code
-
 ## Installing
 
 1. Clone Repository
