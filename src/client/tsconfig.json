@@ -7,6 +7,7 @@
         "paths": {
             "/build/three.module.js": ["../../node_modules/three/src/Three"],
             "/jsm/*": ["../../node_modules/three/examples/jsm/*"],
+            "/jsm/libs/dat.gui.module": ["../../node_modules/@types/dat.gui"]
         },
         "moduleResolution": "node"
     },
