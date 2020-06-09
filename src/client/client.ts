@@ -1,7 +1,7 @@
 import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
-import {GUI} from '/jsm/libs/dat.gui.module'
+import { GUI } from '/jsm/libs/dat.gui.module'
 
 const scene: THREE.Scene = new THREE.Scene()
 
@@ -41,6 +41,45 @@ cubeFolder.open()
 const cameraFolder = gui.addFolder("Camera")
 cameraFolder.add(camera.position, "z", 0, 10, 0.01)
 cameraFolder.open()
+
+
+let myId: string = ""
+const peerCubes: THREE.Mesh[] = []
+const socket: SocketIOClient.Socket = io();
+socket.on("connect", function () {
+    console.log("connect")
+})
+socket.on("disconnect", function (message: any) {
+    console.log("disconnect " + message)
+})
+socket.on("id", (id: any) => {
+    myId = id
+})
+socket.on("peers", (peers: any) => {
+    Object.keys(peers).forEach((p) => {
+        if (p !== myId) {
+            //console.log(peers[p])
+            if (!peerCubes[p]) {
+                console.log("unknown peer" + p)
+                peerCubes[p] = new THREE.Mesh(geometry, material)
+                peerCubes[p].name = p
+                scene.add(peerCubes[p])
+            } else {
+                //console.log(peers[p].q)
+                //peerCubes[p].position.set(peerCubes[p].p.x, peerCubes[p].p.y, peerCubes[p].p.z)
+                peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w)
+            }
+        }
+    })
+})
+socket.on("removePeer", (id: string) => {
+    scene.remove(scene.getObjectByName(id));
+})
+
+setInterval(() => {
+    socket.emit("update", { p: cube.position, q: cube.quaternion })
+}, 100)
+
 
 var animate = function () {
     requestAnimationFrame(animate)
