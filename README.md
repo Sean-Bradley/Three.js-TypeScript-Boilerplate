@@ -64,14 +64,14 @@ The default **master** branch does not include **Stats.js**, **Dat.GUI** or **So
 
 To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
-checkout stats
+git checkout stats
 ```
 ![With Stats.js](with-stats.jpg)
 
 ### DAT.gui
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
 ```bash
-checkout statsgui
+git checkout statsgui
 ```
 ![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 ---
@@ -82,7 +82,7 @@ checkout statsgui
 
 To get a version of the boilerplate that includes **Socket.IO** then,
 ```bash
-checkout socketio
+git checkout socketio
 ```
 
 ![With SocektIO](with-socketio.jpg)
