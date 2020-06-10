@@ -45,7 +45,7 @@ class App {
                 //console.log(message);
                 if (this.peers[socket.id]) {
                     this.peers[socket.id].p = message.p
-                    this.peers[socket.id].q = message.q
+                    this.peers[socket.id].r = message.r
                 }
             });
         })

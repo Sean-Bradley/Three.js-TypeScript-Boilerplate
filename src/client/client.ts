@@ -20,7 +20,7 @@ const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0
 const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
 scene.add(cube)
 
-camera.position.z = 2
+camera.position.z = 4
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -35,9 +35,15 @@ document.body.appendChild(stats.dom)
 
 const gui = new GUI()
 const cubeFolder = gui.addFolder("Cube")
-cubeFolder.add(cube.rotation, "x", 0, Math.PI * 2, 0.01)
-cubeFolder.add(cube.rotation, "y", 0, Math.PI * 2, 0.01)
-cubeFolder.add(cube.rotation, "z", 0, Math.PI * 2, 0.01)
+const cubePositionFolder = cubeFolder.addFolder("Position")
+cubePositionFolder.add(cube.position, "x", -5, 5)
+cubePositionFolder.add(cube.position, "z", -5, 5)
+cubePositionFolder.open()
+const cubeRotationFolder = cubeFolder.addFolder("Rotation")
+cubeRotationFolder.add(cube.rotation, "x", 0, Math.PI * 2, 0.01)
+cubeRotationFolder.add(cube.rotation, "y", 0, Math.PI * 2, 0.01)
+cubeRotationFolder.add(cube.rotation, "z", 0, Math.PI * 2, 0.01)
+cubeRotationFolder.open()
 cubeFolder.open()
 const cameraFolder = gui.addFolder("Camera")
 cameraFolder.add(camera.position, "z", 0, 10, 0.01)
@@ -62,21 +68,34 @@ socket.on("peers", (peers: any) => {
         if (p !== myId) {
             //console.log(peers[p])
             if (!peerCubes[p]) {
-                console.log("unknown peer" + p)
+                //console.log("unknown peer" + p)
                 peerCubes[p] = new THREE.Mesh(geometry, material)
                 peerCubes[p].name = p
                 scene.add(peerCubes[p])
             } else {
-                //console.log(peers[p].q)
-                //peerCubes[p].position.set(peerCubes[p].p.x, peerCubes[p].p.y, peerCubes[p].p.z)
-                //peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w)
-                
-                tweens[p] = new TWEEN.Tween(peerCubes[p].quaternion)
+                //console.log(peers[p].r)
+
+                // tweens[p] = new TWEEN.Tween(peerCubes[p].quaternion)
+                //     .to({
+                //         x: peers[p].q._x,
+                //         y: peers[p].q._y,
+                //         z: peers[p].q._z,
+                //         w: peers[p].q._w
+                //     }, 100)
+                //     .start()
+
+                tweens[p] = new TWEEN.Tween(peerCubes[p].position)
                     .to({
-                        x: peers[p].q._x,
-                        y: peers[p].q._y,
-                        z: peers[p].q._z,
-                        w: peers[p].q._w
+                        x: peers[p].p.x,
+                        y: peers[p].p.y,
+                        z: peers[p].p.z
+                    }, 100)
+                    .start()
+                tweens[p] = new TWEEN.Tween(peerCubes[p].rotation)
+                    .to({
+                        x: peers[p].r._x,
+                        y: peers[p].r._y,
+                        z: peers[p].r._z
                     }, 100)
                     .start()
             }
@@ -88,7 +107,7 @@ socket.on("removePeer", (id: string) => {
 })
 
 setInterval(() => {
-    socket.emit("update", { p: cube.position, q: cube.quaternion })
+    socket.emit("update", { p: cube.position, r: cube.rotation })
 }, 100)
 
 
@@ -97,10 +116,8 @@ const animate = function () {
 
     controls.update()
 
-    // Object.keys(tweens).forEach((t: TWEEN.Tween) => {
-    //     tweens[t].update()
-    // })
     TWEEN.update();
+
     render()
 
     stats.update()
