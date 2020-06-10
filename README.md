@@ -58,7 +58,9 @@ You should see a rotating green wireframe cube, and be able to rotate it further
 
 ## Branches
 
-The default **master** branch does not include the **Stats.js** or **Dat.GUI** panels.
+The default **master** branch does not include **Stats.js**, **Dat.GUI** or **Socket.IO**
+
+### stats.js
 
 To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
@@ -66,6 +68,7 @@ checkout stats
 ```
 ![With Stats.js](with-stats.jpg)
 
+### DAT.gui
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
 ```bash
 checkout statsgui
@@ -74,6 +77,17 @@ checkout statsgui
 ---
 
 > Note : The default install of Threejs doesn't include Dat.GUI types. This is not a major problem, but if you want intellisense code completion when writing Dat.GUI code, then see this page on how to set it up in your project. [Setting up Dat.GUI in TypeScript and Threejs](https://sbcode.net/threejs/dat-gui/)
+
+### Socket.IO
+
+To get a version of the boilerplate that includes **Socket.IO** then,
+```bash
+checkout socketio
+```
+
+![With SocektIO](with-socketio.jpg)
+
+Open 2 or more browsers, and you can move the cube around and rotate it. You will see the cube mirror itself in the other browsers. Each browser controls there own cube.
 
 ## ThreeJS and TypeScript Course Introduction Video
 
