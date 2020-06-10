@@ -2,6 +2,7 @@ import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
 import Stats from '/jsm/libs/stats.module';
 import { GUI } from '/jsm/libs/dat.gui.module';
+import { TWEEN } from '/jsm/libs/tween.module.min';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
@@ -32,7 +33,8 @@ const cameraFolder = gui.addFolder("Camera");
 cameraFolder.add(camera.position, "z", 0, 10, 0.01);
 cameraFolder.open();
 let myId = "";
-const peerCubes = [];
+const peerCubes = {};
+const tweens = {};
 const socket = io();
 socket.on("connect", function () {
     console.log("connect");
@@ -56,7 +58,15 @@ socket.on("peers", (peers) => {
             else {
                 //console.log(peers[p].q)
                 //peerCubes[p].position.set(peerCubes[p].p.x, peerCubes[p].p.y, peerCubes[p].p.z)
-                peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w);
+                //peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w)
+                tweens[p] = new TWEEN.Tween(peerCubes[p].quaternion)
+                    .to({
+                    x: peers[p].q._x,
+                    y: peers[p].q._y,
+                    z: peers[p].q._z,
+                    w: peers[p].q._w
+                }, 100)
+                    .start();
             }
         }
     });
@@ -67,13 +77,17 @@ socket.on("removePeer", (id) => {
 setInterval(() => {
     socket.emit("update", { p: cube.position, q: cube.quaternion });
 }, 100);
-var animate = function () {
+const animate = function () {
     requestAnimationFrame(animate);
     controls.update();
+    // Object.keys(tweens).forEach((t: TWEEN.Tween) => {
+    //     tweens[t].update()
+    // })
+    TWEEN.update();
     render();
     stats.update();
 };
-function render() {
+const render = function () {
     renderer.render(scene, camera);
-}
+};
 animate();

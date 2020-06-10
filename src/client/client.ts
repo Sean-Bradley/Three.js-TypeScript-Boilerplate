@@ -2,6 +2,7 @@ import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
 import { GUI } from '/jsm/libs/dat.gui.module'
+import { TWEEN, Tween } from '/jsm/libs/tween.module.min'
 
 const scene: THREE.Scene = new THREE.Scene()
 
@@ -44,8 +45,9 @@ cameraFolder.open()
 
 
 let myId: string = ""
-const peerCubes: THREE.Mesh[] = []
-const socket: SocketIOClient.Socket = io();
+const peerCubes: { [id: string]: THREE.Mesh } = {}
+const tweens: { [id: string]: Tween } = {}
+const socket: SocketIOClient.Socket = io()
 socket.on("connect", function () {
     console.log("connect")
 })
@@ -67,7 +69,16 @@ socket.on("peers", (peers: any) => {
             } else {
                 //console.log(peers[p].q)
                 //peerCubes[p].position.set(peerCubes[p].p.x, peerCubes[p].p.y, peerCubes[p].p.z)
-                peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w)
+                //peerCubes[p].quaternion.set(peers[p].q._x, peers[p].q._y, peers[p].q._z, peers[p].q._w)
+                
+                tweens[p] = new TWEEN.Tween(peerCubes[p].quaternion)
+                    .to({
+                        x: peers[p].q._x,
+                        y: peers[p].q._y,
+                        z: peers[p].q._z,
+                        w: peers[p].q._w
+                    }, 100)
+                    .start()
             }
         }
     })
@@ -81,17 +92,21 @@ setInterval(() => {
 }, 100)
 
 
-var animate = function () {
+const animate = function () {
     requestAnimationFrame(animate)
 
     controls.update()
 
+    // Object.keys(tweens).forEach((t: TWEEN.Tween) => {
+    //     tweens[t].update()
+    // })
+    TWEEN.update();
     render()
 
     stats.update()
 };
 
-function render() {
+const render = function () {
     renderer.render(scene, camera)
 }
 animate();
