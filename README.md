@@ -47,11 +47,14 @@ npm install
 npm run dev
 ```
 
-6. Visit
-
-[http://127.0.0.1:3000/](http://127.0.0.1:3000/)
+6. Visit [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
 You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
+
+7. Edit project in VSCode
+```bash
+code .
+```
 
 ## Branches
 
@@ -65,7 +68,7 @@ git checkout stats
 ```
 ![With Stats.js](with-stats.jpg)
 
-View on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/stats/)
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/stats/)
 
 ### DAT.gui
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
@@ -74,7 +77,7 @@ git checkout statsgui
 ```
 ![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 
-View on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
 
 ### Socket.IO
 
@@ -87,7 +90,7 @@ git checkout socketio
 
 Open 2 or more browsers, and you can move the cube around and rotate it. You will see the cube mirror itself in the other browsers. Each browser controls there own cube.
 
-View on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
 
 ---
 
