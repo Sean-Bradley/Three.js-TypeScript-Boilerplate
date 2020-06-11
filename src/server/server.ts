@@ -42,7 +42,6 @@ class App {
             })
 
             socket.on("update", (message: any) => {
-                //console.log(message);
                 if (this.peers[socket.id]) {
                     this.peers[socket.id].t = message.t //client timestamp
                     this.peers[socket.id].p = message.p //position
@@ -53,7 +52,7 @@ class App {
 
         setInterval(() => {
             this.io.emit("peers", this.peers)
-        }, 100)
+        }, 50)
     }
 
     public Start() {

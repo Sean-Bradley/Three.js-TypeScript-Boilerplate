@@ -35,7 +35,6 @@ class App {
                 }
             });
             socket.on("update", (message) => {
-                //console.log(message);
                 if (this.peers[socket.id]) {
                     this.peers[socket.id].t = message.t; //client timestamp
                     this.peers[socket.id].p = message.p; //position
@@ -45,7 +44,7 @@ class App {
         });
         setInterval(() => {
             this.io.emit("peers", this.peers);
-        }, 100);
+        }, 50);
     }
     Start() {
         this.server.listen(this.port, () => {
@@ -54,4 +53,3 @@ class App {
     }
 }
 new App(port).Start();
-//# sourceMappingURL=server.js.map
