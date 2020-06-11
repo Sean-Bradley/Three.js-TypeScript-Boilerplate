@@ -87,6 +87,8 @@ git checkout socketio
 
 Open 2 or more browsers, and you can move the cube around and rotate it. You will see the cube mirror itself in the other browsers. Each browser controls there own cube.
 
+View on codesandbox [https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
