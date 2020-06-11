@@ -37,8 +37,9 @@ class App {
             socket.on("update", (message) => {
                 //console.log(message);
                 if (this.peers[socket.id]) {
-                    this.peers[socket.id].p = message.p;
-                    this.peers[socket.id].r = message.r;
+                    this.peers[socket.id].t = message.t; //client timestamp
+                    this.peers[socket.id].p = message.p; //position
+                    this.peers[socket.id].r = message.r; //rotation
                 }
             });
         });

@@ -12,7 +12,14 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 const cube = new THREE.Mesh(geometry, material);
+cube.position.x = (Math.random() * 4) - 2;
+cube.position.z = (Math.random() * 4) - 2;
 scene.add(cube);
+var size = 10;
+var divisions = 10;
+var gridHelper = new THREE.GridHelper(size, divisions);
+gridHelper.position.y = -.5;
+scene.add(gridHelper);
 camera.position.z = 4;
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
@@ -35,10 +42,8 @@ cubeRotationFolder.add(cube.rotation, "y", 0, Math.PI * 2, 0.01);
 cubeRotationFolder.add(cube.rotation, "z", 0, Math.PI * 2, 0.01);
 cubeRotationFolder.open();
 cubeFolder.open();
-const cameraFolder = gui.addFolder("Camera");
-cameraFolder.add(camera.position, "z", 0, 10, 0.01);
-cameraFolder.open();
 let myId = "";
+let timestamp = 0;
 const peerCubes = {};
 const tweens = {};
 const socket = io();
@@ -52,7 +57,10 @@ socket.on("id", (id) => {
     myId = id;
 });
 socket.on("peers", (peers) => {
+    let pingStatsHtml = "Socket Ping Stats<br/><br/>";
     Object.keys(peers).forEach((p) => {
+        timestamp = Date.now();
+        pingStatsHtml += p + " " + (timestamp - peers[p].t) + "ms<br/>";
         if (p !== myId) {
             //console.log(peers[p])
             if (!peerCubes[p]) {
@@ -62,43 +70,38 @@ socket.on("peers", (peers) => {
                 scene.add(peerCubes[p]);
             }
             else {
-                //console.log(peers[p].r)
-                // tweens[p] = new TWEEN.Tween(peerCubes[p].quaternion)
-                //     .to({
-                //         x: peers[p].q._x,
-                //         y: peers[p].q._y,
-                //         z: peers[p].q._z,
-                //         w: peers[p].q._w
-                //     }, 100)
-                //     .start()
-                tweens[p] = new TWEEN.Tween(peerCubes[p].position)
-                    .to({
-                    x: peers[p].p.x,
-                    y: peers[p].p.y,
-                    z: peers[p].p.z
-                }, 100)
-                    .start();
-                tweens[p] = new TWEEN.Tween(peerCubes[p].rotation)
-                    .to({
-                    x: peers[p].r._x,
-                    y: peers[p].r._y,
-                    z: peers[p].r._z
-                }, 100)
-                    .start();
+                if (peers[p]) {
+                    tweens[p] = new TWEEN.Tween(peerCubes[p].position)
+                        .to({
+                        x: peers[p].p.x,
+                        y: peers[p].p.y,
+                        z: peers[p].p.z
+                    }, 100)
+                        .start();
+                    tweens[p] = new TWEEN.Tween(peerCubes[p].rotation)
+                        .to({
+                        x: peers[p].r._x,
+                        y: peers[p].r._y,
+                        z: peers[p].r._z
+                    }, 100)
+                        .start();
+                }
             }
         }
     });
+    document.getElementById("pingStats").innerHTML = pingStatsHtml;
 });
 socket.on("removePeer", (id) => {
     scene.remove(scene.getObjectByName(id));
 });
 setInterval(() => {
-    socket.emit("update", { p: cube.position, r: cube.rotation });
+    socket.emit("update", { t: Date.now(), p: cube.position, r: cube.rotation });
 }, 100);
 const animate = function () {
     requestAnimationFrame(animate);
     controls.update();
     TWEEN.update();
+    camera.lookAt(cube.position);
     render();
     stats.update();
 };
