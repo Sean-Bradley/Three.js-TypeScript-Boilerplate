@@ -76,8 +76,6 @@ git checkout statsgui
 ![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 ---
 
-> Note : The default install of Threejs doesn't include Dat.GUI types. This is not a major problem, but if you want intellisense code completion when writing Dat.GUI code, then see this page on how to set it up in your project. [Setting up Dat.GUI in TypeScript and Threejs](https://sbcode.net/threejs/dat-gui/)
-
 ### Socket.IO
 
 To get a version of the boilerplate that includes **Socket.IO** then,
