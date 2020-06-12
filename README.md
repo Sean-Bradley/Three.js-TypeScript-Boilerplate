@@ -92,6 +92,17 @@ Open 2 or more browsers, and you can move the cube around and rotate it. You wil
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
 
+### Cannon.js
+To get a version of the boilerplate that includes **Cannon.js** then
+
+```bash
+git checkout cannonjs
+```
+
+![With Cannon.js](with-cannonjs.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
