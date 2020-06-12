@@ -2,7 +2,7 @@ import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
 import { GUI } from '/jsm/libs/dat.gui.module'
-import { TWEEN, Tween } from '/jsm/libs/tween.module.min'
+import { TWEEN } from '/jsm/libs/tween.module.min'
 
 const scene: THREE.Scene = new THREE.Scene()
 
