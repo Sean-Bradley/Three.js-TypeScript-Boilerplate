@@ -74,6 +74,11 @@ socket.on("peers", (peers) => {
             }
         }
     });
+    Object.keys(peerCubes).forEach((p) => {
+        if (!peers[p]) {
+            scene.remove(scene.getObjectByName(p));
+        }
+    });
     document.getElementById("pingStats").innerHTML = pingStatsHtml;
 });
 socket.on("removePeer", (id) => {
