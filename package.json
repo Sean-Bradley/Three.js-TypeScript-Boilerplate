@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "concurrently -k \"tsc -p ./src/server -w\" \"tsc -p ./src/client -w\" \"sleep 5 && nodemon ./dist/server/server.js\"",
+    "dev": "concurrently -k \"tsc -p ./src/server -w\" \"tsc -p ./src/client -w\" \"nodemon ./dist/server/server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/server/server.js"
   },
@@ -22,7 +22,7 @@
     "cannon": "^0.6.2",
     "express": "^4.17.1",
     "socket.io": "^2.3.0",
-    "three": "^0.116.1",
+    "three": "^0.117.1",
     "typescript": "3.8.3"
   }
 }
