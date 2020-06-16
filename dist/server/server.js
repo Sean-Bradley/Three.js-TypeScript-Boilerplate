@@ -16,8 +16,6 @@ class App {
         app.use('/jsm/controls/OrbitControls', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/controls/OrbitControls.js')));
         app.use('/jsm/libs/stats.module', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/libs/stats.module.js')));
         app.use('/jsm/libs/dat.gui.module', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/libs/dat.gui.module.js')));
-        app.use('/jsm/loaders/OBJLoader', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/loaders/OBJLoader.js')));
-        app.use('/cannon/cannon.min', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/cannon/build/cannon.min.js')));
         this.server = new http_1.default.Server(app);
     }
     Start() {
