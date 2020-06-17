@@ -74,6 +74,8 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
 ```bash
 git checkout statsgui
+npm install
+npm run dev
 ```
 ![With Stats.js and Dat.GUI](with-stats-gui.jpg)
 
@@ -84,6 +86,8 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 To get a version of the boilerplate that includes **Socket.IO** then,
 ```bash
 git checkout socketio
+npm install
+npm run dev
 ```
 
 ![With SocketIO](with-socketio.jpg)
@@ -97,11 +101,26 @@ To get a version of the boilerplate that includes **Cannon.js** then
 
 ```bash
 git checkout cannonjs
+npm install
+npm run dev
 ```
 
 ![With Cannon.js](with-cannonjs.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
+
+### Webcam as Texture
+To get a version of the boilerplate that uses your webcam as a texture then
+
+```bash
+git checkout webcam
+npm install
+npm run dev
+```
+
+![With Webcam as Texture](with-webcam.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
 
 ---
 
