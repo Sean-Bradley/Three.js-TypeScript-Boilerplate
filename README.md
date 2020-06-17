@@ -110,7 +110,7 @@ npm run dev
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
 
 ### Webcam as Texture
-To get a version of the boilerplate that uses your webcam, as a texture then
+To get a version of the boilerplate that uses your webcam as a texture then
 
 ```bash
 git checkout webcam
