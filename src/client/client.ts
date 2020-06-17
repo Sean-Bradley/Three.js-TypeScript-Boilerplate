@@ -14,7 +14,11 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-camera.position.z = 1.5
+const gridHelper = new THREE.GridHelper(10, 10);
+gridHelper.position.y = -1.5
+scene.add(gridHelper);
+
+camera.position.z = 5
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -32,7 +36,8 @@ navigator.getUserMedia = navigator.getUserMedia ||
 
 window.URL = window.URL || window.webkitURL
 
-const webcam = <HTMLMediaElement>document.getElementById('webcam');
+const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
+webcam.autoplay = true
 
 if (navigator.getUserMedia) {
     navigator.getUserMedia({
@@ -60,27 +65,100 @@ function noStream(e) {
     alert(msg);
 }
 
-const webcamCanvas = <HTMLCanvasElement>document.getElementById('webcamCanvas');
-const canvasCtx = webcamCanvas.getContext('2d');
+const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
+webcamCanvas.width = 1024
+webcamCanvas.height = 1024
+
+const canvasCtx: CanvasRenderingContext2D = webcamCanvas.getContext('2d');
 canvasCtx.fillStyle = '#000000';
 canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
-const webcamTexture = new THREE.Texture(webcamCanvas);
+const webcamTexture: THREE.Texture = new THREE.Texture(webcamCanvas);
 webcamTexture.minFilter = THREE.LinearFilter;
 webcamTexture.magFilter = THREE.LinearFilter;
 
 const geometry: THREE.BoxGeometry = new THREE.BoxGeometry()
-const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: webcamTexture, side: THREE.FrontSide })
+//const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: webcamTexture})
+
+function vertexShader() {
+    return `
+        varying vec2 vUv;
+        void main( void ) {     
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }
+    `
+}
+function fragmentShader() {
+    return `
+        uniform vec3 keyColor;
+        uniform float similarity;
+        uniform float smoothness;
+        varying vec2 vUv;
+        uniform sampler2D texture;
+        void main() {
+
+            vec4 videoColor = texture2D(texture, vUv);
+     
+            float Y1 = 0.299 * keyColor.r + 0.587 * keyColor.g + 0.114 * keyColor.b;
+            float Cr1 = keyColor.r - Y1;
+            float Cb1 = keyColor.b - Y1;
+            
+            float Y2 = 0.299 * videoColor.r + 0.587 * videoColor.g + 0.114 * videoColor.b;
+            float Cr2 = videoColor.r - Y2; 
+            float Cb2 = videoColor.b - Y2; 
+            
+            float blend = smoothstep(similarity, similarity + smoothness, distance(vec2(Cr2, Cb2), vec2(Cr1, Cb1)));
+            gl_FragColor = vec4(videoColor.rgb, videoColor.a * blend); 
+        }
+    `
+}
+
+const material = new THREE.ShaderMaterial(
+    {
+        transparent: true,
+        uniforms: {
+            texture: { value: webcamTexture },
+            keyColor: { value: [0.0, 1.0, 0.0] },
+            similarity: { value: 0.8 },
+            smoothness: { value: 0.0 }
+        },
+        vertexShader: vertexShader(),
+        fragmentShader: fragmentShader()
+    });
+
 
 const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
-cube.rotation.x += .5
-cube.rotation.y += .5
+cube.add(new THREE.BoxHelper(cube, 0xff0000))
+
+cube.rotateY(.5)
+cube.scale.x = 4
+cube.scale.y = 3
+cube.scale.z = 4
 scene.add(cube)
 
-const stats = Stats()
+const stats: Stats = Stats()
 document.body.appendChild(stats.dom)
 
-const gui = new GUI()
+var data = {
+    keyColor: [0, 255, 0],
+    similarity: 0.8,
+    smoothness: 0.0
+};
 
+const gui = new GUI()
+gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
+gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
+gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
+
+function updateKeyColor(v) {
+    material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255]
+}
+function updateSimilarity(v) {
+    material.uniforms.similarity.value = v
+}
+function updateSmoothness(v) {
+    material.uniforms.smoothness.value = v
+}
 
 var animate = function () {
     requestAnimationFrame(animate)
