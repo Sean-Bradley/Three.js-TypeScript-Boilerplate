@@ -105,6 +105,17 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 
 ---
 
+### Webcam as Texture
+To get a version of the boilerplate that uses your webcam, as a texture then
+
+```bash
+git checkout webcam
+```
+
+![With Webcam as Texture](with-webcam.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
+
 ## ThreeJS and TypeScript Course Introduction Video
 
 This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
