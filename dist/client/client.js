@@ -29,8 +29,8 @@ const webcam = document.createElement("video");
 var constraints = {
     audio: false,
     video: {
-        width: 900,
-        height: 600
+        width: 600,
+        height: 400
     }
 };
 navigator.mediaDevices.getUserMedia(constraints)
@@ -46,8 +46,8 @@ navigator.mediaDevices.getUserMedia(constraints)
         alert(err.name + ": " + err.message);
     });
 const webcamCanvas = document.createElement('canvas');
-webcamCanvas.width = 1024;
-webcamCanvas.height = 1024;
+webcamCanvas.width = 512;
+webcamCanvas.height = 512;
 const canvasCtx = webcamCanvas.getContext('2d');
 canvasCtx.fillStyle = '#000000';
 canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
@@ -141,11 +141,10 @@ function updateSmoothness(v) {
 }
 var animate = function () {
     requestAnimationFrame(animate);
-    //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-    canvasCtx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
-    if (webcamTexture)
+    if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
+        canvasCtx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
         webcamTexture.needsUpdate = true;
-    //}
+    }
     controls.update();
     render();
     stats.update();
