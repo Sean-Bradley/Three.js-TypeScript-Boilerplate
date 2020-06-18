@@ -1,8 +1,12 @@
 /// <reference types="webrtc" />
 import * as THREE from '/build/three.module.js';
-import { OrbitControls } from '/jsm/controls/OrbitControls';
+import {
+    OrbitControls
+} from '/jsm/controls/OrbitControls';
 import Stats from '/jsm/libs/stats.module';
-import { GUI } from '/jsm/libs/dat.gui.module';
+import {
+    GUI
+} from '/jsm/libs/dat.gui.module';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
@@ -14,6 +18,7 @@ gridHelper.position.y = -1.5;
 scene.add(gridHelper);
 camera.position.z = 5;
 window.addEventListener('resize', onWindowResize, false);
+
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -21,16 +26,25 @@ function onWindowResize() {
     render();
 }
 const webcam = document.createElement("video");
-webcam.autoplay = true;
-var constraints = { audio: false, video: { width: 640, height: 480 } };
+var constraints = {
+    audio: false,
+    video: {
+        width: 900,
+        height: 600
+    }
+};
 navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
-    webcam.srcObject = mediaStream;
-    webcam.onloadedmetadata = function (e) {
-        webcam.play();
-    };
-})
-    .catch(function (err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+        webcam.srcObject = mediaStream;
+        webcam.onloadedmetadata = function (e) {
+            webcam.setAttribute('autoplay', 'true');
+            webcam.setAttribute('playsinline', 'true');
+            webcam.play();
+        };
+    })
+    .catch(function (err) {
+        alert(err.name + ": " + err.message);
+    });
 const webcamCanvas = document.createElement('canvas');
 webcamCanvas.width = 1024;
 webcamCanvas.height = 1024;
@@ -51,6 +65,7 @@ function vertexShader() {
         }
     `;
 }
+
 function fragmentShader() {
     return `
         uniform vec3 keyColor;
@@ -78,10 +93,18 @@ function fragmentShader() {
 const material = new THREE.ShaderMaterial({
     transparent: true,
     uniforms: {
-        texture: { value: webcamTexture },
-        keyColor: { value: [0.0, 1.0, 0.0] },
-        similarity: { value: 0.8 },
-        smoothness: { value: 0.0 }
+        texture: {
+            value: webcamTexture
+        },
+        keyColor: {
+            value: [0.0, 1.0, 0.0]
+        },
+        similarity: {
+            value: 0.8
+        },
+        smoothness: {
+            value: 0.0
+        }
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader()
@@ -104,26 +127,30 @@ const gui = new GUI();
 gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
 gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
 gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
+
 function updateKeyColor(v) {
     material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255];
 }
+
 function updateSimilarity(v) {
     material.uniforms.similarity.value = v;
 }
+
 function updateSmoothness(v) {
     material.uniforms.smoothness.value = v;
 }
 var animate = function () {
     requestAnimationFrame(animate);
-    if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-        canvasCtx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
-        if (webcamTexture)
-            webcamTexture.needsUpdate = true;
-    }
+    //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
+    canvasCtx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
+    if (webcamTexture)
+        webcamTexture.needsUpdate = true;
+    //}
     controls.update();
     render();
     stats.update();
 };
+
 function render() {
     renderer.render(scene, camera);
 }

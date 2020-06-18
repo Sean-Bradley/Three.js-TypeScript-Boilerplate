@@ -40,7 +40,9 @@ navigator.mediaDevices.getUserMedia(constraints)
             webcam.play();
         };
     })
-    .catch(function (err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+    .catch(function (err) { 
+        alert(err.name + ": " + err.message); 
+    }); 
 
 const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
 webcamCanvas.width = 1024
@@ -140,11 +142,11 @@ function updateSmoothness(v) {
 var animate = function () {
     requestAnimationFrame(animate)
 
-    if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-        canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height);
-        if (webcamTexture)
-            webcamTexture.needsUpdate = true;
-    }
+    //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
+    canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height);
+    if (webcamTexture)
+        webcamTexture.needsUpdate = true;
+    //}
 
     controls.update()
 
