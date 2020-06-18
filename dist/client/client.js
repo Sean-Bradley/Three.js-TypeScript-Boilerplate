@@ -21,6 +21,7 @@ function onWindowResize() {
     render();
 }
 const webcam = document.createElement("video");
+webcam.autoplay = true;
 var constraints = { audio: false, video: { width: 640, height: 480 } };
 navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {

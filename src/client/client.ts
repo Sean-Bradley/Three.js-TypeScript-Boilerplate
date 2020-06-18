@@ -29,6 +29,7 @@ function onWindowResize() {
 }
 
 const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
+webcam.autoplay = true
 
 var constraints = { audio: false, video: { width: 640, height: 480 } };
 
