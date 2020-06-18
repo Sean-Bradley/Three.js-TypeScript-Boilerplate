@@ -28,42 +28,18 @@ function onWindowResize() {
     render()
 }
 
-
-navigator.getUserMedia = navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia
-
-window.URL = window.URL || window.webkitURL
-
 const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
-webcam.autoplay = true
 
-if (navigator.getUserMedia) {
-    navigator.getUserMedia({
-        video: true
-    }, gotStream, noStream);
-} else {
-    alert('Sorry. <code>navigator.getUserMedia()</code> is not available.');
-}
+var constraints = { audio: false, video: { width: 640, height: 480 } };
 
-function gotStream(stream) {
-    webcam.srcObject = stream;
-
-    webcam.onerror = function (e) {
-        stream.stop();
-    };
-
-    stream.onended = noStream;
-}
-
-function noStream(e) {
-    var msg = 'No camera available.';
-    if (e.code == 1) {
-        msg = 'User denied access to use camera.';
-    }
-    alert(msg);
-}
+navigator.mediaDevices.getUserMedia(constraints)
+    .then(function (mediaStream) {
+        webcam.srcObject = mediaStream;
+        webcam.onloadedmetadata = function (e) {
+            webcam.play();
+        };
+    })
+    .catch(function (err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
 
 const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
 webcamCanvas.width = 1024
