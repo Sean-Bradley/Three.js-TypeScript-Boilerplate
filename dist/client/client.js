@@ -1,3 +1,4 @@
+//http://tdc-www.harvard.edu/catalogs/bsc5.readme
 import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
 import Stats from '/jsm/libs/stats.module';
@@ -44,15 +45,48 @@ bsc5dat.onreadystatechange = function () {
                 name: row.slice(4, 14).trim(),
                 gLon: Number(row.slice(90, 96)),
                 gLat: Number(row.slice(96, 102)),
-                mag: Number(row.slice(102, 107))
+                mag: Number(row.slice(102, 107)),
+                spectralClass: row.slice(129, 130)
             };
+            //console.log(star.spectralClass)
             stars[star.id] = star;
             let v = new THREE.Vector3().setFromSphericalCoords(100, (90 - star.gLat) / 180 * Math.PI, (star.gLon) / 180 * Math.PI);
             positions.push(v.x);
             positions.push(v.y);
             positions.push(v.z);
-            var g = ((star.mag + 1.46) * 32.03) / 255;
-            color.setRGB(g, g, g);
+            //var g = ((star.mag + 1.46) * 32.03) / 255
+            switch (star.spectralClass) {
+                case "O":
+                    color.setHex(0x91b5ff);
+                    break;
+                case "B":
+                    color.setHex(0xa7c3ff);
+                    break;
+                case "A":
+                    color.setHex(0xd0ddff);
+                    break;
+                case "F":
+                    color.setHex(0xf1f1fd);
+                    break;
+                case "G":
+                    color.setHex(0xfdefe7);
+                    break;
+                case "K":
+                    color.setHex(0xffddbb);
+                    break;
+                case "M":
+                    color.setHex(0xffb466);
+                    break;
+                case "L":
+                    color.setHex(0xff820e);
+                    break;
+                case "T":
+                    color.setHex(0xff3a00);
+                    break;
+                default:
+                    color.setHex(0xffffff);
+                //console.log(star.spectralClass)
+            }
             colors.push(color.r, color.g, color.b);
             if (star.name.length >= 3) {
                 let abv = star.name.substr(star.name.length - 3);
@@ -68,27 +102,18 @@ bsc5dat.onreadystatechange = function () {
         const starsGeometry = new THREE.BufferGeometry();
         starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         starsGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-        const starsMaterial = new THREE.PointsMaterial({ size: .25, vertexColors: true });
+        console.log(starsGeometry);
+        const starsMaterial = new THREE.PointsMaterial({ size: 1, vertexColors: true, sizeAttenuation: false });
         const points = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(points);
-        Object.keys(constellations).forEach((c) => {
-            console.log(c);
-            var points = [];
-            // constellations[c].forEach(s => {
-            //     const v = new THREE.Vector3().setFromSphericalCoords(
-            //         100,
-            //         (90 - s.gLat) / 180 * Math.PI,
-            //         (s.gLon) / 180 * Math.PI)
-            //     points.push(v)
-            // })
-            const constellationGeometry = new THREE.BufferGeometry().setFromPoints(constellations[c]);
-            const constellationMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
-            const constellationLine = new THREE.Line(constellationGeometry, constellationMaterial);
-            //geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            //geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            //generateMorphTargets(geometry);
-            scene.add(constellationLine);
-        });
+        // Object.keys(constellations).forEach((c) => {
+        //     console.log(c)
+        //     var points = [];
+        //     const constellationGeometry = new THREE.BufferGeometry().setFromPoints(constellations[c]);
+        //     const constellationMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+        //     const constellationLine = new THREE.Line(constellationGeometry, constellationMaterial);
+        //     scene.add(constellationLine);
+        // })
     }
 };
 bsc5dat.send();
