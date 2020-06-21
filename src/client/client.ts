@@ -1,4 +1,3 @@
-/// <reference types="webrtc" />
 import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
@@ -14,11 +13,13 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-const gridHelper = new THREE.GridHelper(10, 10);
-gridHelper.position.y = -1.5
-scene.add(gridHelper);
+const geometry: THREE.BoxGeometry = new THREE.BoxGeometry()
+const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
 
-camera.position.z = 5
+const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
+scene.add(cube)
+
+camera.position.z = 2
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -28,125 +29,105 @@ function onWindowResize() {
     render()
 }
 
-const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
-webcam.autoplay = true
-
-var constraints = { audio: false, video: { width: 640, height: 480 } };
-
-navigator.mediaDevices.getUserMedia(constraints)
-    .then(function (mediaStream) {
-        webcam.srcObject = mediaStream;
-        webcam.onloadedmetadata = function (e) {
-            webcam.play();
-        };
-    })
-    .catch(function (err) { 
-        alert(err.name + ": " + err.message); 
-    }); 
-
-const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
-webcamCanvas.width = 1024
-webcamCanvas.height = 1024
-
-const canvasCtx: CanvasRenderingContext2D = webcamCanvas.getContext('2d');
-canvasCtx.fillStyle = '#000000';
-canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
-const webcamTexture: THREE.Texture = new THREE.Texture(webcamCanvas);
-webcamTexture.minFilter = THREE.LinearFilter;
-webcamTexture.magFilter = THREE.LinearFilter;
-
-const geometry: THREE.BoxGeometry = new THREE.BoxGeometry()
-//const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: webcamTexture})
-
-function vertexShader() {
-    return `
-        varying vec2 vUv;
-        void main( void ) {     
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
-    `
-}
-function fragmentShader() {
-    return `
-        uniform vec3 keyColor;
-        uniform float similarity;
-        uniform float smoothness;
-        varying vec2 vUv;
-        uniform sampler2D texture;
-        void main() {
-
-            vec4 videoColor = texture2D(texture, vUv);
-     
-            float Y1 = 0.299 * keyColor.r + 0.587 * keyColor.g + 0.114 * keyColor.b;
-            float Cr1 = keyColor.r - Y1;
-            float Cb1 = keyColor.b - Y1;
-            
-            float Y2 = 0.299 * videoColor.r + 0.587 * videoColor.g + 0.114 * videoColor.b;
-            float Cr2 = videoColor.r - Y2; 
-            float Cb2 = videoColor.b - Y2; 
-            
-            float blend = smoothstep(similarity, similarity + smoothness, distance(vec2(Cr2, Cb2), vec2(Cr1, Cb1)));
-            gl_FragColor = vec4(videoColor.rgb, videoColor.a * blend); 
-        }
-    `
-}
-
-const material = new THREE.ShaderMaterial(
-    {
-        transparent: true,
-        uniforms: {
-            texture: { value: webcamTexture },
-            keyColor: { value: [0.0, 1.0, 0.0] },
-            similarity: { value: 0.8 },
-            smoothness: { value: 0.0 }
-        },
-        vertexShader: vertexShader(),
-        fragmentShader: fragmentShader()
-    });
-
-
-const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
-cube.add(new THREE.BoxHelper(cube, 0xff0000))
-
-cube.rotateY(.5)
-cube.scale.x = 4
-cube.scale.y = 3
-cube.scale.z = 4
-scene.add(cube)
-
-const stats: Stats = Stats()
+const stats = Stats()
 document.body.appendChild(stats.dom)
 
-var data = {
-    keyColor: [0, 255, 0],
-    similarity: 0.8,
-    smoothness: 0.0
-};
-
 const gui = new GUI()
-gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
-gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
-gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
+const cubeFolder = gui.addFolder("Cube")
+cubeFolder.add(cube.rotation, "x", 0, Math.PI * 2, 0.01)
+cubeFolder.add(cube.rotation, "y", 0, Math.PI * 2, 0.01)
+cubeFolder.add(cube.rotation, "z", 0, Math.PI * 2, 0.01)
+cubeFolder.open()
 
-function updateKeyColor(v) {
-    material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255]
+interface Star {
+    id: number
+    name: string
+    gLon: number
+    gLat: number
+    mag: number
 }
-function updateSimilarity(v) {
-    material.uniforms.similarity.value = v
+const stars: { [id: number]: Star } = {}
+const constellations: { [id: string]: THREE.Vector3[] } = {}
+
+var bsc5dat = new XMLHttpRequest();
+bsc5dat.open('GET', '/data/bsc5.dat');
+bsc5dat.onreadystatechange = function () {
+    if (bsc5dat.readyState === 4) {
+        const starData = bsc5dat.responseText.split("\n")
+        const positions = [];
+        const colors = [];
+        const color = new THREE.Color();
+
+        starData.forEach(row => {
+            let star: Star = {
+                id: Number(row.slice(0, 4)),
+                name: row.slice(4, 14).trim(),
+                gLon: Number(row.slice(90, 96)),
+                gLat: Number(row.slice(96, 102)),
+                mag: Number(row.slice(102, 107))
+            }
+          
+            stars[star.id] = star
+
+            let v = new THREE.Vector3().setFromSphericalCoords(
+                100,
+                (90 - star.gLat) / 180 * Math.PI,
+                (star.gLon) / 180 * Math.PI)
+
+            positions.push(v.x)
+            positions.push(v.y)
+            positions.push(v.z)
+
+            var g = ((star.mag + 1.46) * 32.03) / 255
+            color.setRGB(g, g, g);
+            colors.push(color.r, color.g, color.b);
+
+            if (star.name.length >= 3) {
+                let abv = star.name.substr(star.name.length - 3)
+                //console.log(abv)
+                if (!(abv in constellations)) {
+                    constellations[abv] = []
+                }
+                constellations[abv].push(v)
+
+            }
+        })
+
+        //console.log(constellations)
+        //console.log(minMag + " " + maxMag)
+        const starsGeometry = new THREE.BufferGeometry();
+        starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        starsGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        const starsMaterial = new THREE.PointsMaterial({ size: .25, vertexColors: true });
+        const points = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(points);
+
+
+        Object.keys(constellations).forEach((c) => {
+            console.log(c)
+            var points = [];
+            // constellations[c].forEach(s => {
+            //     const v = new THREE.Vector3().setFromSphericalCoords(
+            //         100,
+            //         (90 - s.gLat) / 180 * Math.PI,
+            //         (s.gLon) / 180 * Math.PI)
+            //     points.push(v)
+            // })
+            const constellationGeometry = new THREE.BufferGeometry().setFromPoints(constellations[c]);
+            const constellationMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+            const constellationLine = new THREE.Line(constellationGeometry, constellationMaterial);
+            //geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            //geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            //generateMorphTargets(geometry);
+            scene.add(constellationLine);
+        })
+    }
 }
-function updateSmoothness(v) {
-    material.uniforms.smoothness.value = v
-}
+bsc5dat.send();
 
 var animate = function () {
     requestAnimationFrame(animate)
-
-    //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-    canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height);
-    if (webcamTexture)
-        webcamTexture.needsUpdate = true;
-    //}
 
     controls.update()
 
