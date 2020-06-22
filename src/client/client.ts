@@ -29,7 +29,6 @@ function onWindowResize() {
 }
 
 const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
-webcam.autoplay = true
 
 var constraints = { audio: false, video: { width: 640, height: 480 } };
 
@@ -37,12 +36,14 @@ navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
         webcam.srcObject = mediaStream;
         webcam.onloadedmetadata = function (e) {
+            webcam.setAttribute('autoplay', 'true');
+            webcam.setAttribute('playsinline', 'true');
             webcam.play();
         };
     })
-    .catch(function (err) { 
-        alert(err.name + ": " + err.message); 
-    }); 
+    .catch(function (err) {
+        alert(err.name + ": " + err.message);
+    });
 
 const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
 webcamCanvas.width = 1024
