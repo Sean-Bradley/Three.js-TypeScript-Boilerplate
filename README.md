@@ -122,6 +122,20 @@ npm run dev
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
 
+### BSC5 Bright Star Catalog
+
+To get a version of the boilerplate that shopw the BSC5 Bright tar Cataog Data with Constellations
+
+```bash
+git checkout bsc5
+npm install
+npm run dev
+```
+
+![With BSC5 Bright Star Catalog](with-bsc5.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/bsc5/)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
