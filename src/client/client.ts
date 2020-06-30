@@ -76,9 +76,9 @@ bsc5dat.onreadystatechange = function () {
                     break
                 case "A":
                     color.setHex(0xd0ddff)
-                    break;
+                    break
                 case "F":
-                    color.setHex(0xf1f1fd);
+                    color.setHex(0xf1f1fd)
                     break
                 case "G":
                     color.setHex(0xfdefe7)
@@ -132,7 +132,6 @@ bsc5dat.onreadystatechange = function () {
                         for (let i = 0; i < rowData.length - 2; i++) {
                             let starId = parseInt(rowData[i + 2].trim())
                             if (starId in stars) {
-                                //console.log(rowData[i + 2])
                                 const star: Star = stars[starId]
                                 points.push(star.v)
 

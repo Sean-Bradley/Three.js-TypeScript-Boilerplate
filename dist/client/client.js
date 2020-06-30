@@ -110,7 +110,6 @@ bsc5dat.onreadystatechange = function () {
                         for (let i = 0; i < rowData.length - 2; i++) {
                             let starId = parseInt(rowData[i + 2].trim());
                             if (starId in stars) {
-                                //console.log(rowData[i + 2])
                                 const star = stars[starId];
                                 points.push(star.v);
                                 var starDiv = document.createElement('div');
