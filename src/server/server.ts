@@ -19,7 +19,7 @@ class App {
         app.use('/jsm/loaders/OBJLoader', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/loaders/OBJLoader.js')))
         app.use('/cannon/cannon.min', express.static(path.join(__dirname, '../../node_modules/cannon/build/cannon.min.js')))
 
-        this.server = new http.Server(app);
+        this.server = new http.Server(app)
     }
 
     public Start() {
