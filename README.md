@@ -124,7 +124,7 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 
 ### BSC5 Bright Star Catalog
 
-To get a version of the boilerplate that shopw the BSC5 Bright tar Cataog Data with Constellations
+To get a version of the boilerplate that shows the BSC5 Bright star Catalog Data with Constellations
 
 ```bash
 git checkout bsc5
