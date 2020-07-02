@@ -6,7 +6,7 @@ import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer'
 
 const scene: THREE.Scene = new THREE.Scene()
 
-const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
+const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000)
 camera.position.z = 2
 
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
@@ -22,6 +22,7 @@ document.body.appendChild(labelRenderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
+controls.zoomSpeed = 4
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
