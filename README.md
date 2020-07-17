@@ -136,6 +136,20 @@ npm run dev
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/bsc5/)
 
+### The Ball Game
+
+The Ball Game is an example of a multiplayer game using Threejs, SocketIO and server side Cannonjs. 
+
+To get The Ball Game branch
+
+```bash
+git checkout ballgame
+npm install
+npm run dev
+```
+
+![The Ball Game](theballgame.jpg)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
