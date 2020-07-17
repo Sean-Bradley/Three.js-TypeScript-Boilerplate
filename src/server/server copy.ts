@@ -10,7 +10,8 @@ class App {
     private server: http.Server
     private port: number
 
-    private io: socketIO.Server    
+    private io: socketIO.Server
+    
         
     constructor(port: number) {
         this.port = port

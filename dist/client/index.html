@@ -7,6 +7,15 @@
         body {
             overflow: hidden;
             margin: 0px;
+            font-family: monospace;
+        }
+
+        h1 {
+            font-size: 64px;
+        }
+
+        h2 {
+            font-size: 32px;
         }
 
         #pingStats {
@@ -17,13 +26,151 @@
             height: 400px;
             pointer-events: none;
             color: white;
-            font-family: monospace;
+        }
+
+        #gameClock {
+            position: absolute;
+            top: 10px;
+            left: 200px;
+            width: 84px;
+            height: 78px;
+            font-size: 72px;
+            color: white;
+            pointer-events: none;
+        }
+
+        #newGameAlert {
+            position: absolute;
+            height: 400px;
+            width: 500px;
+            margin-top: -200px;
+            margin-left: -250px;
+            top: 50%;
+            left: 50%;
+            color: white;
+            /* border: 1px solid red; */
+            text-align: center;
+            pointer-events: none;
+            display: none;
+        }
+
+        #gameClosedAlert {
+            position: absolute;
+            height: 400px;
+            width: 500px;
+            margin-top: -200px;
+            margin-left: -250px;
+            top: 50%;
+            left: 50%;
+            color: white;
+            /* border: 1px solid red; */
+            text-align: center;
+            pointer-events: none;
+            display: none;
+        }
+
+        #winnerLabel {
+            display: none;
+        }
+
+        #winnerScreenName {
+            font-size: 64px;
+        }
+
+        #menuPanel {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #menuPanel a {
+            pointer-events: auto;
+        }
+
+        #instructions {
+            height: 540px;
+            width: 600px;
+            margin-top: -270px;
+            margin-left: -300px;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            font-size: 21px;
+            border: 1px solid black;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        #startButton {
+            height: 50px;
+            width: 230px;
+            font-size: 24px;
+            margin: 10px;
+            pointer-events: auto;
+        }
+
+        #screenNameInput {
+            font-size: 24px;
+            width: 140px;
+            pointer-events: auto;
+        }
+
+        #recentWinnersTable {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 17px;
+        }
+
+        #recentWinnersTable th{
+            text-align: left;
         }
     </style>
 </head>
 
 <body>
+    <div id="menuPanel">
+        <div id="instructions">
+            <h1>The Ball Game</h1>
+            <h2>Get the jewel to win</h2>
+            <button id="startButton">Click to Start</button><br />
+            Move: WASD<br />
+            Jump: SPACE<br />
+            Look: MOUSE
+            <div>
+                <label for="email">ScreenName:</label>
+                <input type="text" id="screenNameInput" maxlength="12" onClick="this.select();">
+            </div>
+            <p>
+                This is a multiplayer game constructed using Threejs, SocketIO and Server side Cannonjs. It is from my
+                Threejs and TypeScript turorials at <a href="https://sbcode.net/threejs/"
+                    target="_blank">https://sbcode.net/threejs/</a>
+            </p>
+        </div>
+    </div>
+    <div id="newGameAlert">
+        <h1>New Game</h1>
+    </div>
+    <div id="gameClosedAlert">
+        <h1>Game Closed</h1>
+        <h2 id="winnerLabel">Winner</h2><span id="winnerScreenName"></span>
+    </div>
+    <div id="gameClock"></div>
     <div id="pingStats"></div>
+    <table id="recentWinnersTable">
+        <tr>
+            <th>Screen Name</th>
+            <th>Time</th>
+        </tr>
+    </table>
     <script src="socket.io/socket.io.js"></script>
     <script type="module" src="client.js"></script>
 </body>

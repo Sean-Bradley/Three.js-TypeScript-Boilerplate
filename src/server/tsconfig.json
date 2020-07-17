@@ -3,7 +3,11 @@
         "target": "ES2019",
         "module": "commonjs",
         "outDir": "../../dist/server",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "cannon": ["../typings/cannon"]
+        },
     },
     "include": [
         "**/*.ts"
