@@ -3,10 +3,12 @@
 
 <head>
     <title>Three.js TypeScript Tutorials by Sean Bradley</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        html,
         body {
-            overflow: hidden;
-            margin: 0px;
+            margin: 0;
+            height: 100%;
             font-family: monospace;
         }
 
@@ -85,6 +87,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
+            /* display: none; */
         }
 
         #menuPanel a {
@@ -130,8 +133,27 @@
             font-size: 17px;
         }
 
-        #recentWinnersTable th{
+        #recentWinnersTable th {
             text-align: left;
+        }
+
+        #XYControllerLook {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 25px;
+            bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.25);
+            display: none;
+        }
+        #XYControllerMove {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right: 25px;
+            bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.25);
+            display: none;
         }
     </style>
 </head>
@@ -171,6 +193,9 @@
             <th>Time</th>
         </tr>
     </table>
+    <canvas id="XYControllerLook"></canvas>
+    <canvas id="XYControllerMove"></canvas>
+
     <script src="socket.io/socket.io.js"></script>
     <script type="module" src="client.js"></script>
 </body>

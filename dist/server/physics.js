@@ -31,7 +31,7 @@ class Physics {
         this.jewelBody.position.y = 20;
         this.jewelBody.position.z = (Math.random() * 50) - 25;
         this.jewelBody.addEventListener("collide", (e) => {
-            if (theBallGame.gameWinner === "" && theBallGame.gameClock > 0) {
+            if (theBallGame.gameWinner === "" && theBallGame.gameClock > -1) {
                 Object.keys(theBallGame.players).forEach(p => {
                     if (theBallGame.players[p].bodyId === e.contact.bj.id) {
                         theBallGame.gameWinner = p;

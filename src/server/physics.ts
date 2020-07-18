@@ -28,21 +28,21 @@ export default class Physics {
         this.slipperyMaterial.restitution = .25
 
         const groundShape = new CANNON.Box(new CANNON.Vec3(25, 1, 25));
-        const groundBody = new CANNON.Body({ mass: 0, material: this.groundMaterial });
-        groundBody.addShape(groundShape);
+        const groundBody = new CANNON.Body({ mass: 0, material: this.groundMaterial })
+        groundBody.addShape(groundShape)
         groundBody.position.x = 0
         groundBody.position.y = -1
         groundBody.position.z = 0
-        this.world.addBody(groundBody);
+        this.world.addBody(groundBody)
 
-        const jewelShape = new CANNON.Sphere(1);
-        this.jewelBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial });
-        this.jewelBody.addShape(jewelShape);
+        const jewelShape = new CANNON.Sphere(1)
+        this.jewelBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial })
+        this.jewelBody.addShape(jewelShape)
         this.jewelBody.position.x = (Math.random() * 50) - 25
         this.jewelBody.position.y = 20
         this.jewelBody.position.z = (Math.random() * 50) - 25
         this.jewelBody.addEventListener("collide", (e: CANNON.ICollisionEvent) => {
-            if (theBallGame.gameWinner === "" && theBallGame.gameClock > 0) {
+            if (theBallGame.gameWinner === "" && theBallGame.gameClock > -1) {
                 Object.keys(theBallGame.players).forEach(p => {
                     if (theBallGame.players[p].bodyId === e.contact.bj.id) {
                         theBallGame.gameWinner = p
@@ -60,9 +60,8 @@ export default class Physics {
                 })
             }
         })
-        this.world.addBody(this.jewelBody);
+        this.world.addBody(this.jewelBody)
         this.bodies["jewel"] = this.jewelBody
-
     }
 
     public createPlayerSphere(id: string): number {
