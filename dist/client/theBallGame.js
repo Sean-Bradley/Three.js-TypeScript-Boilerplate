@@ -1,9 +1,9 @@
-import XYController from './XYController.js';
 import Explosion from './explosion.js';
 import * as THREE from '/build/three.module.js';
 import { TWEEN } from '/jsm/libs/tween.module.min';
 import { OBJLoader } from '/jsm/loaders/OBJLoader';
 import { Reflector } from '/jsm/objects/Reflector';
+import UI from './ui.js';
 export default class TheBallGame {
     constructor(socket, scene, renderer, camera) {
         this.gamePhase = 0;
@@ -12,24 +12,15 @@ export default class TheBallGame {
         this.obstacles = {};
         this.myId = "";
         this.isMobile = false;
-        //UI menu
-        this.menuActive = true;
-        this.recentWinnersTable = document.getElementById('recentWinnersTable');
-        this.startButton = document.getElementById('startButton');
-        this.menuPanel = document.getElementById('menuPanel');
-        this.newGameAlert = document.getElementById('newGameAlert');
-        this.gameClosedAlert = document.getElementById('gameClosedAlert');
         //UI Input    
         this.vec = [0, 0];
         this.spcKey = 0;
-        this.keyMap = {};
         this.cameraRotationXZOffset = 0;
         this.cameraRotationYOffset = 0;
         this.radius = 4;
         this.sensitivity = 0.004;
         this.sphereGeometry = new THREE.SphereBufferGeometry(1, 24, 24);
         this.cubeGeometry = new THREE.BoxBufferGeometry(2, 2, 2);
-        //private lastPos:THREE.Vector3 = new THREE.Vector3()
         this.update = () => {
             if (this.jewel) {
                 this.jewel.rotation.x += .01;
@@ -62,92 +53,6 @@ export default class TheBallGame {
             // this.lastPos = this.chaseCam.position
             //lastPos + (now - (lastPos /2))
         };
-        //UI Input
-        this.lockChangeAlert = () => {
-            if (document.pointerLockElement === this.renderer.domElement || document.mozPointerLockElement === this.renderer.domElement) {
-                this.renderer.domElement.addEventListener('mousemove', this.onDocumentMouseMove, false);
-                this.renderer.domElement.addEventListener('mousewheel', this.onDocumentMouseWheel, false);
-                document.addEventListener("keydown", this.onDocumentKey, false);
-                document.addEventListener("keyup", this.onDocumentKey, false);
-                this.menuPanel.style.display = 'none';
-                this.recentWinnersTable.style.display = 'block';
-                this.menuActive = false;
-            }
-            else {
-                this.renderer.domElement.removeEventListener('mousemove', this.onDocumentMouseMove, false);
-                this.renderer.domElement.removeEventListener('mousewheel', this.onDocumentMouseWheel, false);
-                document.removeEventListener("keydown", this.onDocumentKey, false);
-                document.removeEventListener("keyup", this.onDocumentKey, false);
-                this.menuPanel.style.display = 'block';
-                this.recentWinnersTable.style.display = 'none';
-                this.gameClosedAlert.style.display = 'none';
-                this.newGameAlert.style.display = 'none';
-                this.menuActive = true;
-            }
-        };
-        this.onDocumentKey = (e) => {
-            this.keyMap[e.keyCode] = e.type == 'keydown';
-            const tmpVec = [0, 0];
-            if (this.keyMap[87]) { //w
-                tmpVec[0] += Math.cos(this.cameraRotationXZOffset);
-                tmpVec[1] -= Math.sin(this.cameraRotationXZOffset);
-            }
-            if (this.keyMap[83]) { //s
-                tmpVec[0] -= Math.cos(this.cameraRotationXZOffset);
-                tmpVec[1] += Math.sin(this.cameraRotationXZOffset);
-            }
-            if (this.keyMap[65]) { //a
-                tmpVec[0] += Math.sin(this.cameraRotationXZOffset);
-                tmpVec[1] += Math.cos(this.cameraRotationXZOffset);
-            }
-            if (this.keyMap[68]) { //d
-                tmpVec[0] -= Math.sin(this.cameraRotationXZOffset);
-                tmpVec[1] -= Math.cos(this.cameraRotationXZOffset);
-            }
-            if (this.keyMap[32]) { //space
-                this.spcKey = 1;
-            }
-            else {
-                this.spcKey = 0;
-            }
-            this.vec = [tmpVec[0], tmpVec[1]];
-        };
-        this.onDocumentMouseWheel = (e) => {
-            this.radius -= e.wheelDeltaY * 0.005;
-            this.radius = Math.max(Math.min(this.radius, 20), 2);
-            return false;
-        };
-        this.onDocumentMouseMove = (e) => {
-            this.cameraRotationXZOffset += (e.movementX * this.sensitivity);
-            this.cameraRotationYOffset += (e.movementY * this.sensitivity);
-            this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
-            return false;
-        };
-        this.onXYControllerLook = (value) => {
-            this.cameraRotationXZOffset -= (value.x) * .1;
-            this.cameraRotationYOffset += (value.y) * .1;
-            this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
-        };
-        this.onXYControllerMove = (value) => {
-            const tmpVec = [0, 0];
-            if (value.y > 0) { //w
-                tmpVec[0] += Math.cos(this.cameraRotationXZOffset) * .75;
-                tmpVec[1] -= Math.sin(this.cameraRotationXZOffset) * .75;
-            }
-            if (value.y < 0) { //s
-                tmpVec[0] -= Math.cos(this.cameraRotationXZOffset) * .75;
-                tmpVec[1] += Math.sin(this.cameraRotationXZOffset) * .75;
-            }
-            if (value.x > 0) { //a
-                tmpVec[0] += Math.sin(this.cameraRotationXZOffset) * .75;
-                tmpVec[1] += Math.cos(this.cameraRotationXZOffset) * .75;
-            }
-            if (value.x < 0) { //d
-                tmpVec[0] -= Math.sin(this.cameraRotationXZOffset) * .75;
-                tmpVec[1] -= Math.cos(this.cameraRotationXZOffset) * .75;
-            }
-            this.vec = [tmpVec[0], tmpVec[1]];
-        };
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             this.isMobile = true;
         }
@@ -155,6 +60,8 @@ export default class TheBallGame {
         this.scene = scene;
         this.renderer = renderer;
         this.camera = camera;
+        this.socket = socket;
+        this.ui = new UI(this, renderer.domElement);
         // this.chaseCam = new THREE.Mesh(
         //     new THREE.BoxBufferGeometry(),
         //     new THREE.MeshBasicMaterial({ wireframe: true })
@@ -238,7 +145,7 @@ export default class TheBallGame {
             this.updateInterval = setInterval(() => {
                 socket.emit("update", { t: Date.now(), vec: this.vec, spc: this.spcKey }); //, p: myObject3D.position, r: myObject3D.rotation })
             }, 50);
-            this.updateScoreBoard(recentWinners);
+            this.ui.updateScoreBoard(recentWinners);
         });
         socket.on("winner", (position, screenName, recentWinners) => {
             this.jewel.visible = false;
@@ -247,31 +154,24 @@ export default class TheBallGame {
             });
             document.getElementById("winnerLabel").style.display = "block";
             document.getElementById("winnerScreenName").innerHTML = screenName;
-            this.updateScoreBoard(recentWinners);
+            this.ui.updateScoreBoard(recentWinners);
         });
         socket.on("newGame", () => {
             if (this.jewel) {
                 this.jewel.visible = true;
             }
-            this.gameClosedAlert.style.display = "none";
-            if (!this.menuActive) {
-                this.newGameAlert.style.display = "block";
+            this.ui.gameClosedAlert.style.display = "none";
+            if (!this.ui.menuActive) {
+                this.ui.newGameAlert.style.display = "block";
                 setTimeout(() => {
-                    this.newGameAlert.style.display = "none";
+                    this.ui.newGameAlert.style.display = "none";
                 }, 2000);
             }
         });
         socket.on("removePlayer", (id) => {
             scene.remove(scene.getObjectByName(id));
         });
-        //let lastTime = Date.now()
         socket.on("gameData", (gameData) => {
-            // const now = Date.now()
-            // const dt = (now - lastTime) /// 2
-            // lastTime = now
-            // //if (dt > 55) {
-            // console.log(dt)
-            // //}
             if (gameData.gameClock >= 0) {
                 if (this.gamePhase != 1) {
                     console.log("new game");
@@ -290,11 +190,11 @@ export default class TheBallGame {
                     this.jewel.visible = false;
                 }
                 document.getElementById("gameClock").style.display = "none";
-                if (!this.menuActive && gameData.gameClock >= -3 && this.gamePhase === 1) {
+                if (!this.ui.menuActive && gameData.gameClock >= -3 && this.gamePhase === 1) {
                     console.log("game closed");
-                    this.gameClosedAlert.style.display = "block";
+                    this.ui.gameClosedAlert.style.display = "block";
                     setTimeout(() => {
-                        this.gameClosedAlert.style.display = "none";
+                        this.ui.gameClosedAlert.style.display = "none";
                     }, 4000);
                 }
                 this.gamePhase = 0;
@@ -412,48 +312,6 @@ export default class TheBallGame {
                 }
             }
             document.getElementById("pingStats").innerHTML = pingStatsHtml;
-        });
-        this.startButton.addEventListener('click', () => {
-            if (this.isMobile) {
-                this.xycontrollerLook = new XYController(document.getElementById("XYControllerLook"), this.onXYControllerLook);
-                this.xycontrollerMove = new XYController(document.getElementById("XYControllerMove"), this.onXYControllerMove);
-                this.menuPanel.style.display = 'none';
-                this.recentWinnersTable.style.display = 'block';
-                this.menuActive = false;
-            }
-            else {
-                this.renderer.domElement.requestPointerLock();
-            }
-        }, false);
-        document.addEventListener('pointerlockchange', this.lockChangeAlert, false);
-        document.getElementById('screenNameInput').addEventListener('keyup', (e) => {
-            if (e.which === 13)
-                blur();
-        });
-        document.getElementById('screenNameInput').addEventListener("change", (e) => {
-            var letterNumber = /^[0-9a-zA-Z]+$/;
-            var value = e.target.value;
-            if (value.match(letterNumber) && value.length <= 12) {
-                socket.emit("updateScreenName", e.target.value);
-            }
-            else {
-                alert("Alphanumeric screen names only please. Max length 12");
-            }
-        });
-    }
-    //for UI
-    updateScoreBoard(recentWinners) {
-        const rows = this.recentWinnersTable.rows;
-        var i = rows.length;
-        while (--i) {
-            this.recentWinnersTable.deleteRow(i);
-        }
-        recentWinners.forEach(w => {
-            const row = this.recentWinnersTable.insertRow();
-            const cell0 = row.insertCell(0);
-            cell0.appendChild(document.createTextNode(w.screenName));
-            const cell1 = row.insertCell(1);
-            cell1.appendChild(document.createTextNode(w.time));
         });
     }
 }

@@ -1,6 +1,7 @@
 import CANNON from "cannon"
 import TheBallGame from "theBallGame"
 import socketIO from "socket.io"
+import Obstacle from "./obstacle"
 
 export default class Physics {
 
@@ -15,7 +16,7 @@ export default class Physics {
     private theBallGame: TheBallGame
 
     constructor(theBallGame: TheBallGame, io: socketIO.Server) {
-        
+
         this.theBallGame = theBallGame
 
         this.world.gravity.set(0, -9.82, 0)
@@ -67,7 +68,7 @@ export default class Physics {
     public createPlayerSphere(id: string): number {
 
         const sphereShape = new CANNON.Sphere(1)
-        const sphereBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial})//, angularDamping: .9 })
+        const sphereBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial })//, angularDamping: .9 })
         sphereBody.addShape(sphereShape)
         sphereBody.addEventListener("collide", (e: CANNON.ICollisionEvent) => {
             if (e.contact.ni.dot(new CANNON.Vec3(0, 1, 0)) < -0.5) {
@@ -82,5 +83,26 @@ export default class Physics {
         this.bodies[id] = sphereBody
 
         return sphereBody.id
+    }
+
+    public regenerateObstacles(obstacles: { [id: string]: Obstacle }): void {
+        for (let i = 0; i < 10; i++) {
+            const size = { x: (Math.random() * 4) + 1, y: (Math.random() * 4) + 1, z: (Math.random() * 4) + 1 }
+            const cubeShape = new CANNON.Box(new CANNON.Vec3(size.x, size.y, size.z));
+            const cubeBody = new CANNON.Body({ mass: 1 });
+            cubeBody.addShape(cubeShape);
+            cubeBody.position.x = (Math.random() * 50) - 25
+            cubeBody.position.y = (Math.random() * 20) + 10
+            cubeBody.position.z = (Math.random() * 50) - 25
+
+            obstacles[i] = new Obstacle()
+            obstacles[i].s = { x: size.x, y: size.y, z: size.z }
+
+            if (this.bodies["obstacle_" + i]) {
+                this.world.remove(this.bodies["obstacle_" + i]) //remove old
+            }
+            this.world.addBody(cubeBody); // add new
+            this.bodies["obstacle_" + i] = cubeBody
+        }
     }
 }

@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const player_1 = __importDefault(require("./player"));
-const obstacle_1 = __importDefault(require("./obstacle"));
 const physics_1 = __importDefault(require("./physics"));
 const cannon_1 = __importDefault(require("cannon"));
 class TheBallGame {
@@ -88,22 +87,7 @@ class TheBallGame {
             this.gameClock -= 1;
             if (this.gameClock < -5) {
                 //generate new game
-                for (let i = 0; i < 10; i++) {
-                    const size = { x: (Math.random() * 4) + 1, y: (Math.random() * 4) + 1, z: (Math.random() * 4) + 1 };
-                    const cubeShape = new cannon_1.default.Box(new cannon_1.default.Vec3(size.x, size.y, size.z));
-                    const cubeBody = new cannon_1.default.Body({ mass: 1 });
-                    cubeBody.addShape(cubeShape);
-                    cubeBody.position.x = (Math.random() * 50) - 25;
-                    cubeBody.position.y = (Math.random() * 20) + 10;
-                    cubeBody.position.z = (Math.random() * 50) - 25;
-                    this.obstacles[i] = new obstacle_1.default();
-                    this.obstacles[i].s = { x: size.x, y: size.y, z: size.z };
-                    if (this.physics.bodies["obstacle_" + i]) {
-                        this.physics.world.remove(this.physics.bodies["obstacle_" + i]); //remove old
-                    }
-                    this.physics.world.addBody(cubeBody); // add new
-                    this.physics.bodies["obstacle_" + i] = cubeBody;
-                }
+                this.physics.regenerateObstacles(this.obstacles);
                 this.physics.jewelBody.wakeUp();
                 this.gamePhase = 1;
                 this.gameClock = 10;

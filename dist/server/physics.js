@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cannon_1 = __importDefault(require("cannon"));
+const obstacle_1 = __importDefault(require("./obstacle"));
 class Physics {
     constructor(theBallGame, io) {
         this.world = new cannon_1.default.World();
@@ -66,6 +67,24 @@ class Physics {
         this.world.addBody(sphereBody);
         this.bodies[id] = sphereBody;
         return sphereBody.id;
+    }
+    regenerateObstacles(obstacles) {
+        for (let i = 0; i < 10; i++) {
+            const size = { x: (Math.random() * 4) + 1, y: (Math.random() * 4) + 1, z: (Math.random() * 4) + 1 };
+            const cubeShape = new cannon_1.default.Box(new cannon_1.default.Vec3(size.x, size.y, size.z));
+            const cubeBody = new cannon_1.default.Body({ mass: 1 });
+            cubeBody.addShape(cubeShape);
+            cubeBody.position.x = (Math.random() * 50) - 25;
+            cubeBody.position.y = (Math.random() * 20) + 10;
+            cubeBody.position.z = (Math.random() * 50) - 25;
+            obstacles[i] = new obstacle_1.default();
+            obstacles[i].s = { x: size.x, y: size.y, z: size.z };
+            if (this.bodies["obstacle_" + i]) {
+                this.world.remove(this.bodies["obstacle_" + i]); //remove old
+            }
+            this.world.addBody(cubeBody); // add new
+            this.bodies["obstacle_" + i] = cubeBody;
+        }
     }
 }
 exports.default = Physics;

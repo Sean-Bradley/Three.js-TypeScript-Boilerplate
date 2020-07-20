@@ -33,7 +33,6 @@ const animate = function () {
 
     stats.update()
 
-
 };
 
 animate();
