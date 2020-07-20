@@ -62,7 +62,7 @@ export default class TheBallGame {
     private jewelMaterial: THREE.MeshMatcapMaterial
     private groundMirror: Reflector
 
-    constructor(socket: SocketIOClient.Socket, scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
+    constructor(socket: SocketIOClient.Socket, scene: THREE.Scene, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
 
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             this.isMobile = true
@@ -71,7 +71,7 @@ export default class TheBallGame {
         //threejs
         this.scene = scene
         this.renderer = renderer
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+        this.camera = camera
         this.chaseCam = new THREE.Object3D()
         scene.add(this.chaseCam)
 
@@ -194,8 +194,6 @@ export default class TheBallGame {
         socket.on("removePlayer", (id: string) => {
             scene.remove(scene.getObjectByName(id));
         })
-
-
 
         socket.on("gameData", (gameData: any) => {
             if (gameData.gameClock >= 0) {
@@ -406,10 +404,6 @@ export default class TheBallGame {
     }
 
 
-
-
-
-
     //UI Input
     public lockChangeAlert = () => {
         if (document.pointerLockElement === this.renderer.domElement || (document as any).mozPointerLockElement === this.renderer.domElement) {
@@ -462,20 +456,22 @@ export default class TheBallGame {
     public onDocumentMouseWheel = (e) => {
         this.radius -= e.wheelDeltaY * 0.005;
         this.radius = Math.max(Math.min(this.radius, 20), 2);
+        return false;
     }
     public onDocumentMouseMove = (e) => {
         this.cameraRotationXZOffset += (e.movementX * this.sensitivity / 5)
         this.cameraRotationYOffset += (e.movementY * this.sensitivity / 5)
+        this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5)
         return false;
     }
 
-    public onXYControllerLook(value: vec2) {
-        //console.log(value)
+    public onXYControllerLook = (value: vec2) => {
         this.cameraRotationXZOffset -= (value.x) * .1
         this.cameraRotationYOffset += (value.y) * .1
-        return false;
+        this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5)
     }
-    public onXYControllerMove(value: vec2) {
+    
+    public onXYControllerMove = (value: vec2) => {
         this.vec = [0, 0]
         if (value.y > 0) { //w
             this.vec[0] += Math.cos(this.cameraRotationXZOffset) * .25
@@ -494,7 +490,5 @@ export default class TheBallGame {
             this.vec[1] -= Math.cos(this.cameraRotationXZOffset) * .25
         }
 
-        return false;
     }
-
 }

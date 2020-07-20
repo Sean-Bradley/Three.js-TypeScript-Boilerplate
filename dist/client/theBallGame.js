@@ -5,7 +5,7 @@ import { TWEEN } from '/jsm/libs/tween.module.min';
 import { OBJLoader } from '/jsm/loaders/OBJLoader';
 import { Reflector } from '/jsm/objects/Reflector';
 export default class TheBallGame {
-    constructor(socket, scene, renderer) {
+    constructor(socket, scene, renderer, camera) {
         this.gamePhase = 0;
         this.timestamp = 0;
         this.players = {};
@@ -97,11 +97,37 @@ export default class TheBallGame {
         this.onDocumentMouseWheel = (e) => {
             this.radius -= e.wheelDeltaY * 0.005;
             this.radius = Math.max(Math.min(this.radius, 20), 2);
+            return false;
         };
         this.onDocumentMouseMove = (e) => {
             this.cameraRotationXZOffset += (e.movementX * this.sensitivity / 5);
             this.cameraRotationYOffset += (e.movementY * this.sensitivity / 5);
+            this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
             return false;
+        };
+        this.onXYControllerLook = (value) => {
+            this.cameraRotationXZOffset -= (value.x) * .1;
+            this.cameraRotationYOffset += (value.y) * .1;
+            this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
+        };
+        this.onXYControllerMove = (value) => {
+            this.vec = [0, 0];
+            if (value.y > 0) { //w
+                this.vec[0] += Math.cos(this.cameraRotationXZOffset) * .25;
+                this.vec[1] -= Math.sin(this.cameraRotationXZOffset) * .25;
+            }
+            if (value.y < 0) { //s
+                this.vec[0] -= Math.cos(this.cameraRotationXZOffset) * .25;
+                this.vec[1] += Math.sin(this.cameraRotationXZOffset) * .25;
+            }
+            if (value.x > 0) { //a
+                this.vec[0] += Math.sin(this.cameraRotationXZOffset) * .25;
+                this.vec[1] += Math.cos(this.cameraRotationXZOffset) * .25;
+            }
+            if (value.x < 0) { //d
+                this.vec[0] -= Math.sin(this.cameraRotationXZOffset) * .25;
+                this.vec[1] -= Math.cos(this.cameraRotationXZOffset) * .25;
+            }
         };
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             this.isMobile = true;
@@ -109,7 +135,7 @@ export default class TheBallGame {
         //threejs
         this.scene = scene;
         this.renderer = renderer;
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = camera;
         this.chaseCam = new THREE.Object3D();
         scene.add(this.chaseCam);
         this.ambientLight = new THREE.AmbientLight(0xffffff);
@@ -392,31 +418,5 @@ export default class TheBallGame {
             const cell1 = row.insertCell(1);
             cell1.appendChild(document.createTextNode(w.time));
         });
-    }
-    onXYControllerLook(value) {
-        //console.log(value)
-        this.cameraRotationXZOffset -= (value.x) * .1;
-        this.cameraRotationYOffset += (value.y) * .1;
-        return false;
-    }
-    onXYControllerMove(value) {
-        this.vec = [0, 0];
-        if (value.y > 0) { //w
-            this.vec[0] += Math.cos(this.cameraRotationXZOffset) * .25;
-            this.vec[1] -= Math.sin(this.cameraRotationXZOffset) * .25;
-        }
-        if (value.y < 0) { //s
-            this.vec[0] -= Math.cos(this.cameraRotationXZOffset) * .25;
-            this.vec[1] += Math.sin(this.cameraRotationXZOffset) * .25;
-        }
-        if (value.x > 0) { //a
-            this.vec[0] += Math.sin(this.cameraRotationXZOffset) * .25;
-            this.vec[1] += Math.cos(this.cameraRotationXZOffset) * .25;
-        }
-        if (value.x < 0) { //d
-            this.vec[0] -= Math.sin(this.cameraRotationXZOffset) * .25;
-            this.vec[1] -= Math.cos(this.cameraRotationXZOffset) * .25;
-        }
-        return false;
     }
 }

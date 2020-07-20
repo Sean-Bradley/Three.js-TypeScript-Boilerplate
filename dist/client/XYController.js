@@ -13,8 +13,15 @@ export default class XYController {
         this.update();
         this.canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
-            this.coords.x = e.touches[0].screenX - this.canvas.offsetLeft;
-            this.coords.y = e.touches[0].screenY - this.canvas.offsetTop;
+            let touchesId = 0; //use the touchId of the touch within the boundary of the canvas
+            if (e.touches[0].screenX > this.canvas.offsetLeft && e.touches[0].screenX < this.canvas.offsetLeft + this.canvas.width) {
+                touchesId = 0;
+            }
+            else {
+                touchesId = 1; //assume that there is a mx of 2 possible fingers on the screen
+            }
+            this.coords.x = e.touches[touchesId].screenX - this.canvas.offsetLeft;
+            this.coords.y = e.touches[touchesId].screenY - this.canvas.offsetTop;
         });
         this.canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
