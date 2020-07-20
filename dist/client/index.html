@@ -3,7 +3,7 @@
 
 <head>
     <title>Three.js TypeScript Tutorials by Sean Bradley</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
         html,
@@ -11,6 +11,7 @@
             margin: 0;
             height: 100%;
             font-family: monospace;
+            background-color: black;
         }
 
         h1 {
@@ -34,10 +35,12 @@
         #gameClock {
             position: absolute;
             top: 10px;
-            left: 200px;
+            left: 50%;
+            margin-left: -42px;
             width: 84px;
             height: 78px;
             font-size: 72px;
+            text-align: center;
             color: white;
             pointer-events: none;
         }
@@ -132,6 +135,7 @@
             top: 20px;
             color: white;
             font-size: 17px;
+            display: none;
         }
 
         #recentWinnersTable th {
@@ -147,6 +151,7 @@
             background-color: rgba(255, 255, 255, 0.25);
             display: none;
         }
+
         #XYControllerMove {
             position: absolute;
             width: 100px;
@@ -156,10 +161,116 @@
             background-color: rgba(255, 255, 255, 0.25);
             display: none;
         }
+
+        @media only screen and (max-width: 812px) {
+
+            #pingStats {
+                position: absolute;
+                top: 50px;
+                left: 4px;
+                width: 100px;
+                height: 100px;
+                pointer-events: none;
+                color: white;
+                font-size: 12px;
+            }
+
+            #instructions {
+                height: 260px;
+                width: 600px;
+                margin-top: -130px;
+                margin-left: -300px;
+                position: relative;
+                top: 50%;
+                left: 50%;
+                font-size: 13px;
+                border: 1px solid black;
+                text-align: center;
+                pointer-events: none;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 17px;
+            }
+
+            #startButton {
+                height: 25px;
+                width: 120px;
+                font-size: 17px;
+                margin: 4px;
+                pointer-events: auto;
+            }
+
+            #screenNameInput {
+                font-size: 14px;
+                width: 100px;
+                pointer-events: auto;
+            }
+
+        }
+
+        @media only screen and (max-width: 375px) {
+            #pingStats {
+                position: absolute;
+                top: 50px;
+                left: 4px;
+                width: 100px;
+                height: 100px;
+                pointer-events: none;
+                color: white;
+                font-size: 10px;
+            }
+
+            #recentWinnersTable {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                border: 1px solid black;
+                right: 4px;
+                top: 4px;
+                color: white;
+                font-size: 10px;
+            }
+
+            #instructions {
+                height: 540px;
+                width: 300px;
+                margin-top: -270px;
+                margin-left: -150px;
+                position: relative;
+                top: 50%;
+                left: 50%;
+                font-size: 17px;
+                border: 1px solid black;
+                text-align: center;
+                pointer-events: none;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            #screenNameInput {
+                font-size: 17px;
+                width: 100px;
+                pointer-events: auto;
+            }
+
+
+        }
     </style>
 </head>
 
 <body>
+    <div id="gameClock"></div>
     <div id="menuPanel">
         <div id="instructions">
             <h1>The Ball Game</h1>
@@ -185,8 +296,7 @@
     <div id="gameClosedAlert">
         <h1>Game Closed</h1>
         <h2 id="winnerLabel">Winner</h2><span id="winnerScreenName"></span>
-    </div>
-    <div id="gameClock"></div>
+    </div>    
     <div id="pingStats"></div>
     <table id="recentWinnersTable">
         <tr>

@@ -67,7 +67,7 @@ export default class Physics {
     public createPlayerSphere(id: string): number {
 
         const sphereShape = new CANNON.Sphere(1)
-        const sphereBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial, angularDamping: .9 })
+        const sphereBody = new CANNON.Body({ mass: 1, material: this.slipperyMaterial})//, angularDamping: .9 })
         sphereBody.addShape(sphereShape)
         sphereBody.addEventListener("collide", (e: CANNON.ICollisionEvent) => {
             if (e.contact.ni.dot(new CANNON.Vec3(0, 1, 0)) < -0.5) {

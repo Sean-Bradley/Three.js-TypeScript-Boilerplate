@@ -60,12 +60,10 @@ export default class TheBallGame {
 
             socket.on("update", (message: any) => {
                 //console.log(message)
-                if (this.players[socket.id]) {                    
-                    const now = Date.now()
-                    const dt = (now - this.players[socket.id].t) / 20
+                if (this.players[socket.id]) {
                     this.players[socket.id].t = message.t //client timestamp   
-                    this.physics.bodies[socket.id].angularVelocity.z += message.vec[0] * dt
-                    this.physics.bodies[socket.id].angularVelocity.x += message.vec[1] * dt
+                    const aVel = new CANNON.Vec3(message.vec[1], 0, message.vec[0]).scale(20)
+                    this.physics.bodies[socket.id].angularVelocity.copy(aVel)
                     if (message.spc) {
                         if (this.players[socket.id].canJump) {
                             this.players[socket.id].canJump = false
@@ -86,9 +84,9 @@ export default class TheBallGame {
             io.emit("gameData", { gameId: this.gameId, gamePhase: this.gamePhase, gameClock: this.gameClock, players: this.players, obstacles: this.obstacles, jewel: this.jewel })
         }, 50)
 
+
         setInterval(() => {
             this.physics.world.step(.025)
-
             Object.keys(this.players).forEach((p) => {
                 this.players[p].p = { x: this.physics.bodies[p].position.x, y: this.physics.bodies[p].position.y, z: this.physics.bodies[p].position.z }
                 this.players[p].q = { x: this.physics.bodies[p].quaternion.x, y: this.physics.bodies[p].quaternion.y, z: this.physics.bodies[p].quaternion.z, w: this.physics.bodies[p].quaternion.w }

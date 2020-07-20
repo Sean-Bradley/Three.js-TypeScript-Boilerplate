@@ -26,11 +26,11 @@ export default class TheBallGame {
         this.cameraRotationXZOffset = 0;
         this.cameraRotationYOffset = 0;
         this.radius = 4;
-        this.sensitivity = 0.02;
+        this.sensitivity = 0.004;
         this.sphereGeometry = new THREE.SphereBufferGeometry(1, 24, 24);
         this.cubeGeometry = new THREE.BoxBufferGeometry(2, 2, 2);
+        //private lastPos:THREE.Vector3 = new THREE.Vector3()
         this.update = () => {
-            TWEEN.update();
             if (this.jewel) {
                 this.jewel.rotation.x += .01;
                 this.jewel.rotation.y += .025;
@@ -46,6 +46,21 @@ export default class TheBallGame {
                 this.groundMirror.visible = true;
                 this.players[this.myId].visible = true;
             }
+            TWEEN.update();
+            // this.chaseCam.position.set(
+            //     this.players[this.myId].position.x,
+            //     this.players[this.myId].position.y + 1.5,
+            //     this.players[this.myId].position.z
+            // )
+            // let diffX = this.lastPos.x - this.players[this.myId].position.x
+            // let diffY = this.lastPos.y - (this.players[this.myId].position.y)// + 1.5)
+            // let diffZ = this.lastPos.z - this.players[this.myId].position.z
+            // this.chaseCam.position.x = this.lastPos.x + ((this.players[this.myId].position.x - this.lastPos.x) / 5)
+            // this.chaseCam.position.y = this.lastPos.y + ((this.players[this.myId].position.y - this.lastPos.y) / 5) + .15
+            // this.chaseCam.position.z = this.lastPos.z + ((this.players[this.myId].position.z - this.lastPos.z) / 5)
+            // this.camera.lookAt(this.chaseCam.position)
+            // this.lastPos = this.chaseCam.position
+            //lastPos + (now - (lastPos /2))
         };
         //UI Input
         this.lockChangeAlert = () => {
@@ -55,6 +70,7 @@ export default class TheBallGame {
                 document.addEventListener("keydown", this.onDocumentKey, false);
                 document.addEventListener("keyup", this.onDocumentKey, false);
                 this.menuPanel.style.display = 'none';
+                this.recentWinnersTable.style.display = 'block';
                 this.menuActive = false;
             }
             else {
@@ -63,6 +79,7 @@ export default class TheBallGame {
                 document.removeEventListener("keydown", this.onDocumentKey, false);
                 document.removeEventListener("keyup", this.onDocumentKey, false);
                 this.menuPanel.style.display = 'block';
+                this.recentWinnersTable.style.display = 'none';
                 this.gameClosedAlert.style.display = 'none';
                 this.newGameAlert.style.display = 'none';
                 this.menuActive = true;
@@ -70,22 +87,22 @@ export default class TheBallGame {
         };
         this.onDocumentKey = (e) => {
             this.keyMap[e.keyCode] = e.type == 'keydown';
-            this.vec = [0, 0];
+            const tmpVec = [0, 0];
             if (this.keyMap[87]) { //w
-                this.vec[0] += Math.cos(this.cameraRotationXZOffset);
-                this.vec[1] -= Math.sin(this.cameraRotationXZOffset);
+                tmpVec[0] += Math.cos(this.cameraRotationXZOffset);
+                tmpVec[1] -= Math.sin(this.cameraRotationXZOffset);
             }
             if (this.keyMap[83]) { //s
-                this.vec[0] -= Math.cos(this.cameraRotationXZOffset);
-                this.vec[1] += Math.sin(this.cameraRotationXZOffset);
+                tmpVec[0] -= Math.cos(this.cameraRotationXZOffset);
+                tmpVec[1] += Math.sin(this.cameraRotationXZOffset);
             }
             if (this.keyMap[65]) { //a
-                this.vec[0] += Math.sin(this.cameraRotationXZOffset);
-                this.vec[1] += Math.cos(this.cameraRotationXZOffset);
+                tmpVec[0] += Math.sin(this.cameraRotationXZOffset);
+                tmpVec[1] += Math.cos(this.cameraRotationXZOffset);
             }
             if (this.keyMap[68]) { //d
-                this.vec[0] -= Math.sin(this.cameraRotationXZOffset);
-                this.vec[1] -= Math.cos(this.cameraRotationXZOffset);
+                tmpVec[0] -= Math.sin(this.cameraRotationXZOffset);
+                tmpVec[1] -= Math.cos(this.cameraRotationXZOffset);
             }
             if (this.keyMap[32]) { //space
                 this.spcKey = 1;
@@ -93,6 +110,7 @@ export default class TheBallGame {
             else {
                 this.spcKey = 0;
             }
+            this.vec = [tmpVec[0], tmpVec[1]];
         };
         this.onDocumentMouseWheel = (e) => {
             this.radius -= e.wheelDeltaY * 0.005;
@@ -100,8 +118,8 @@ export default class TheBallGame {
             return false;
         };
         this.onDocumentMouseMove = (e) => {
-            this.cameraRotationXZOffset += (e.movementX * this.sensitivity / 5);
-            this.cameraRotationYOffset += (e.movementY * this.sensitivity / 5);
+            this.cameraRotationXZOffset += (e.movementX * this.sensitivity);
+            this.cameraRotationYOffset += (e.movementY * this.sensitivity);
             this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
             return false;
         };
@@ -111,23 +129,24 @@ export default class TheBallGame {
             this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5);
         };
         this.onXYControllerMove = (value) => {
-            this.vec = [0, 0];
+            const tmpVec = [0, 0];
             if (value.y > 0) { //w
-                this.vec[0] += Math.cos(this.cameraRotationXZOffset) * .25;
-                this.vec[1] -= Math.sin(this.cameraRotationXZOffset) * .25;
+                tmpVec[0] += Math.cos(this.cameraRotationXZOffset) * .75;
+                tmpVec[1] -= Math.sin(this.cameraRotationXZOffset) * .75;
             }
             if (value.y < 0) { //s
-                this.vec[0] -= Math.cos(this.cameraRotationXZOffset) * .25;
-                this.vec[1] += Math.sin(this.cameraRotationXZOffset) * .25;
+                tmpVec[0] -= Math.cos(this.cameraRotationXZOffset) * .75;
+                tmpVec[1] += Math.sin(this.cameraRotationXZOffset) * .75;
             }
             if (value.x > 0) { //a
-                this.vec[0] += Math.sin(this.cameraRotationXZOffset) * .25;
-                this.vec[1] += Math.cos(this.cameraRotationXZOffset) * .25;
+                tmpVec[0] += Math.sin(this.cameraRotationXZOffset) * .75;
+                tmpVec[1] += Math.cos(this.cameraRotationXZOffset) * .75;
             }
             if (value.x < 0) { //d
-                this.vec[0] -= Math.sin(this.cameraRotationXZOffset) * .25;
-                this.vec[1] -= Math.cos(this.cameraRotationXZOffset) * .25;
+                tmpVec[0] -= Math.sin(this.cameraRotationXZOffset) * .75;
+                tmpVec[1] -= Math.cos(this.cameraRotationXZOffset) * .75;
             }
+            this.vec = [tmpVec[0], tmpVec[1]];
         };
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             this.isMobile = true;
@@ -136,8 +155,12 @@ export default class TheBallGame {
         this.scene = scene;
         this.renderer = renderer;
         this.camera = camera;
-        this.chaseCam = new THREE.Object3D();
-        scene.add(this.chaseCam);
+        // this.chaseCam = new THREE.Mesh(
+        //     new THREE.BoxBufferGeometry(),
+        //     new THREE.MeshBasicMaterial({ wireframe: true })
+        // ) 
+        //this.chaseCam = new THREE.Object3D()
+        //scene.add(this.chaseCam)
         this.ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(this.ambientLight);
         this.backGroundTexture = new THREE.CubeTextureLoader().load(["img/px_eso0932a.jpg", "img/nx_eso0932a.jpg", "img/py_eso0932a.jpg", "img/ny_eso0932a.jpg", "img/pz_eso0932a.jpg", "img/nz_eso0932a.jpg"]);
@@ -241,7 +264,14 @@ export default class TheBallGame {
         socket.on("removePlayer", (id) => {
             scene.remove(scene.getObjectByName(id));
         });
+        //let lastTime = Date.now()
         socket.on("gameData", (gameData) => {
+            // const now = Date.now()
+            // const dt = (now - lastTime) /// 2
+            // lastTime = now
+            // //if (dt > 55) {
+            // console.log(dt)
+            // //}
             if (gameData.gameClock >= 0) {
                 if (this.gamePhase != 1) {
                     console.log("new game");
@@ -286,29 +316,35 @@ export default class TheBallGame {
                 }
                 else {
                     if (gameData.players[p].p) {
-                        new TWEEN.Tween(this.players[p].position)
-                            .to({
-                            x: gameData.players[p].p.x,
-                            y: gameData.players[p].p.y,
-                            z: gameData.players[p].p.z
-                        }, 50)
-                            .start();
                         if (p === this.myId) {
-                            new TWEEN.Tween(this.camera.position)
+                            new TWEEN.Tween(this.players[p].position)
                                 .to({
-                                x: this.players[this.myId].position.x + this.radius * Math.cos(this.cameraRotationXZOffset),
-                                y: this.players[this.myId].position.y + this.radius * Math.atan(this.cameraRotationYOffset),
-                                z: this.players[this.myId].position.z + this.radius * Math.sin(this.cameraRotationXZOffset)
+                                x: gameData.players[p].p.x,
+                                y: gameData.players[p].p.y,
+                                z: gameData.players[p].p.z
+                            }, 50)
+                                .start()
+                                .onUpdate(() => {
+                                this.camera.position.set(this.players[p].position.x + this.radius * Math.cos(this.cameraRotationXZOffset), this.players[p].position.y + this.radius * Math.atan(this.cameraRotationYOffset), this.players[p].position.z + this.radius * Math.sin(this.cameraRotationXZOffset));
+                                this.camera.lookAt(this.players[this.myId].position.x, this.players[this.myId].position.y + 1.5, this.players[this.myId].position.z);
+                            });
+                            // new TWEEN.Tween(this.chaseCam.position)
+                            //     .to({
+                            //         x: this.players[p].position.x,
+                            //         y: this.players[p].position.y + 1.5,
+                            //         z: this.players[p].position.z
+                            //     }, 100)
+                            //     .start()
+                            //     .onUpdate(() => this.camera.lookAt(this.chaseCam.position))
+                        }
+                        else {
+                            new TWEEN.Tween(this.players[p].position)
+                                .to({
+                                x: gameData.players[p].p.x,
+                                y: gameData.players[p].p.y,
+                                z: gameData.players[p].p.z
                             }, 50)
                                 .start();
-                            new TWEEN.Tween(this.chaseCam.position)
-                                .to({
-                                x: this.players[this.myId].position.x,
-                                y: this.players[this.myId].position.y + 1.5,
-                                z: this.players[this.myId].position.z
-                            }, 75)
-                                .start()
-                                .onUpdate(() => this.camera.lookAt(this.chaseCam.position));
                         }
                     }
                     if (gameData.players[p].q) {
@@ -382,6 +418,7 @@ export default class TheBallGame {
                 this.xycontrollerLook = new XYController(document.getElementById("XYControllerLook"), this.onXYControllerLook);
                 this.xycontrollerMove = new XYController(document.getElementById("XYControllerMove"), this.onXYControllerMove);
                 this.menuPanel.style.display = 'none';
+                this.recentWinnersTable.style.display = 'block';
                 this.menuActive = false;
             }
             else {

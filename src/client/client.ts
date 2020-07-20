@@ -25,14 +25,14 @@ const stats = Stats()
 document.body.appendChild(stats.dom)
 
 const animate = function () {
+    requestAnimationFrame(animate)
 
-    theBallGame.update()   
-    
+    theBallGame.update()
+
     renderer.render(scene, camera)
 
     stats.update()
 
-    requestAnimationFrame(animate)
 
 };
 

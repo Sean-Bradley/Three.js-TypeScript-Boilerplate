@@ -42,13 +42,13 @@ export default class TheBallGame {
     private scene: THREE.Scene
     private renderer: THREE.WebGLRenderer
     public camera: THREE.PerspectiveCamera
-    private chaseCam: THREE.Object3D
+    //private chaseCam: THREE.Object3D
     private ambientLight: THREE.AmbientLight
     private backGroundTexture: THREE.CubeTexture
     private cameraRotationXZOffset: number = 0
     private cameraRotationYOffset: number = 0
     private radius: number = 4
-    private sensitivity: number = 0.02
+    private sensitivity: number = 0.004
     private jewel: THREE.Object3D
     private explosions: Explosion[]
     private sphereGeometry: THREE.SphereBufferGeometry = new THREE.SphereBufferGeometry(1, 24, 24)
@@ -72,8 +72,13 @@ export default class TheBallGame {
         this.scene = scene
         this.renderer = renderer
         this.camera = camera
-        this.chaseCam = new THREE.Object3D()
-        scene.add(this.chaseCam)
+
+        // this.chaseCam = new THREE.Mesh(
+        //     new THREE.BoxBufferGeometry(),
+        //     new THREE.MeshBasicMaterial({ wireframe: true })
+        // ) 
+        //this.chaseCam = new THREE.Object3D()
+        //scene.add(this.chaseCam)
 
         this.ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(this.ambientLight);
@@ -195,7 +200,14 @@ export default class TheBallGame {
             scene.remove(scene.getObjectByName(id));
         })
 
+        //let lastTime = Date.now()
         socket.on("gameData", (gameData: any) => {
+            // const now = Date.now()
+            // const dt = (now - lastTime) /// 2
+            // lastTime = now
+            // //if (dt > 55) {
+            // console.log(dt)
+            // //}
             if (gameData.gameClock >= 0) {
                 if (this.gamePhase != 1) {
                     console.log("new game")
@@ -239,33 +251,44 @@ export default class TheBallGame {
                 } else {
                     if (gameData.players[p].p) {
 
-                        new TWEEN.Tween(this.players[p].position)
-                            .to({
-                                x: gameData.players[p].p.x,
-                                y: gameData.players[p].p.y,
-                                z: gameData.players[p].p.z
-                            }, 50)
-                            .start()
-
                         if (p === this.myId) {
-
-                            new TWEEN.Tween(this.camera.position)
+                            new TWEEN.Tween(this.players[p].position)
                                 .to({
-                                    x: this.players[this.myId].position.x + this.radius * Math.cos(this.cameraRotationXZOffset),
-                                    y: this.players[this.myId].position.y + this.radius * Math.atan(this.cameraRotationYOffset),
-                                    z: this.players[this.myId].position.z + this.radius * Math.sin(this.cameraRotationXZOffset)
+                                    x: gameData.players[p].p.x,
+                                    y: gameData.players[p].p.y,
+                                    z: gameData.players[p].p.z
                                 }, 50)
                                 .start()
+                                .onUpdate(() => {
+                                    this.camera.position.set(
+                                        this.players[p].position.x + this.radius * Math.cos(this.cameraRotationXZOffset),
+                                        this.players[p].position.y + this.radius * Math.atan(this.cameraRotationYOffset),
+                                        this.players[p].position.z + this.radius * Math.sin(this.cameraRotationXZOffset)
+                                    )
+                                    this.camera.lookAt(
+                                        this.players[this.myId].position.x,
+                                        this.players[this.myId].position.y + 1.5,
+                                        this.players[this.myId].position.z)
+                                })
 
-                            new TWEEN.Tween(this.chaseCam.position)
+                            // new TWEEN.Tween(this.chaseCam.position)
+                            //     .to({
+                            //         x: this.players[p].position.x,
+                            //         y: this.players[p].position.y + 1.5,
+                            //         z: this.players[p].position.z
+                            //     }, 100)
+                            //     .start()
+                            //     .onUpdate(() => this.camera.lookAt(this.chaseCam.position))
+                        } else {
+                            new TWEEN.Tween(this.players[p].position)
                                 .to({
-                                    x: this.players[this.myId].position.x,
-                                    y: this.players[this.myId].position.y + 1.5,
-                                    z: this.players[this.myId].position.z
-                                }, 75)
+                                    x: gameData.players[p].p.x,
+                                    y: gameData.players[p].p.y,
+                                    z: gameData.players[p].p.z
+                                }, 50)
                                 .start()
-                                .onUpdate(() => this.camera.lookAt(this.chaseCam.position))
                         }
+
                     }
                     if (gameData.players[p].q) {
                         new TWEEN.Tween(this.players[p].quaternion)
@@ -339,6 +362,7 @@ export default class TheBallGame {
                 this.xycontrollerMove = new XYController(document.getElementById("XYControllerMove") as HTMLCanvasElement, this.onXYControllerMove)
 
                 this.menuPanel.style.display = 'none';
+                this.recentWinnersTable.style.display = 'block';
                 this.menuActive = false
 
             } else {
@@ -363,9 +387,10 @@ export default class TheBallGame {
         })
     }
 
+    //private lastPos:THREE.Vector3 = new THREE.Vector3()
+
     public update = () => {
 
-        TWEEN.update();
 
         if (this.jewel) {
             this.jewel.rotation.x += .01
@@ -384,6 +409,24 @@ export default class TheBallGame {
             this.groundMirror.visible = true
             this.players[this.myId].visible = true
         }
+
+        TWEEN.update();
+
+        // this.chaseCam.position.set(
+        //     this.players[this.myId].position.x,
+        //     this.players[this.myId].position.y + 1.5,
+        //     this.players[this.myId].position.z
+        // )
+        // let diffX = this.lastPos.x - this.players[this.myId].position.x
+        // let diffY = this.lastPos.y - (this.players[this.myId].position.y)// + 1.5)
+        // let diffZ = this.lastPos.z - this.players[this.myId].position.z
+        // this.chaseCam.position.x = this.lastPos.x + ((this.players[this.myId].position.x - this.lastPos.x) / 5)
+        // this.chaseCam.position.y = this.lastPos.y + ((this.players[this.myId].position.y - this.lastPos.y) / 5) + .15
+        // this.chaseCam.position.z = this.lastPos.z + ((this.players[this.myId].position.z - this.lastPos.z) / 5)
+        // this.camera.lookAt(this.chaseCam.position)
+        // this.lastPos = this.chaseCam.position
+
+        //lastPos + (now - (lastPos /2))
     }
 
     //for UI
@@ -413,6 +456,7 @@ export default class TheBallGame {
             document.addEventListener("keyup", this.onDocumentKey, false);
 
             this.menuPanel.style.display = 'none';
+            this.recentWinnersTable.style.display = 'block';
             this.menuActive = false
         } else {
             this.renderer.domElement.removeEventListener('mousemove', this.onDocumentMouseMove, false);
@@ -420,6 +464,7 @@ export default class TheBallGame {
             document.removeEventListener("keydown", this.onDocumentKey, false);
             document.removeEventListener("keyup", this.onDocumentKey, false);
             this.menuPanel.style.display = 'block';
+            this.recentWinnersTable.style.display = 'none';
             this.gameClosedAlert.style.display = 'none';
             this.newGameAlert.style.display = 'none'
             this.menuActive = true
@@ -428,28 +473,29 @@ export default class TheBallGame {
 
     public onDocumentKey = (e) => {
         this.keyMap[e.keyCode] = e.type == 'keydown';
-        this.vec = [0, 0]
+        const tmpVec = [0, 0]
         if (this.keyMap[87]) { //w
-            this.vec[0] += Math.cos(this.cameraRotationXZOffset)
-            this.vec[1] -= Math.sin(this.cameraRotationXZOffset)
+            tmpVec[0] += Math.cos(this.cameraRotationXZOffset)
+            tmpVec[1] -= Math.sin(this.cameraRotationXZOffset)
         }
         if (this.keyMap[83]) {//s
-            this.vec[0] -= Math.cos(this.cameraRotationXZOffset)
-            this.vec[1] += Math.sin(this.cameraRotationXZOffset)
+            tmpVec[0] -= Math.cos(this.cameraRotationXZOffset)
+            tmpVec[1] += Math.sin(this.cameraRotationXZOffset)
         }
         if (this.keyMap[65]) {//a
-            this.vec[0] += Math.sin(this.cameraRotationXZOffset)
-            this.vec[1] += Math.cos(this.cameraRotationXZOffset)
+            tmpVec[0] += Math.sin(this.cameraRotationXZOffset)
+            tmpVec[1] += Math.cos(this.cameraRotationXZOffset)
         }
         if (this.keyMap[68]) {//d
-            this.vec[0] -= Math.sin(this.cameraRotationXZOffset)
-            this.vec[1] -= Math.cos(this.cameraRotationXZOffset)
+            tmpVec[0] -= Math.sin(this.cameraRotationXZOffset)
+            tmpVec[1] -= Math.cos(this.cameraRotationXZOffset)
         }
         if (this.keyMap[32]) { //space
             this.spcKey = 1
         } else {
             this.spcKey = 0
         }
+        this.vec = [tmpVec[0], tmpVec[1]]
     };
 
 
@@ -459,8 +505,8 @@ export default class TheBallGame {
         return false;
     }
     public onDocumentMouseMove = (e) => {
-        this.cameraRotationXZOffset += (e.movementX * this.sensitivity / 5)
-        this.cameraRotationYOffset += (e.movementY * this.sensitivity / 5)
+        this.cameraRotationXZOffset += (e.movementX * this.sensitivity)
+        this.cameraRotationYOffset += (e.movementY * this.sensitivity)
         this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5)
         return false;
     }
@@ -470,25 +516,25 @@ export default class TheBallGame {
         this.cameraRotationYOffset += (value.y) * .1
         this.cameraRotationYOffset = Math.max(Math.min(this.cameraRotationYOffset, 2.5), -2.5)
     }
-    
+
     public onXYControllerMove = (value: vec2) => {
-        this.vec = [0, 0]
+        const tmpVec = [0, 0]
         if (value.y > 0) { //w
-            this.vec[0] += Math.cos(this.cameraRotationXZOffset) * .25
-            this.vec[1] -= Math.sin(this.cameraRotationXZOffset) * .25
+            tmpVec[0] += Math.cos(this.cameraRotationXZOffset) * .75
+            tmpVec[1] -= Math.sin(this.cameraRotationXZOffset) * .75
         }
         if (value.y < 0) {//s
-            this.vec[0] -= Math.cos(this.cameraRotationXZOffset) * .25
-            this.vec[1] += Math.sin(this.cameraRotationXZOffset) * .25
+            tmpVec[0] -= Math.cos(this.cameraRotationXZOffset) * .75
+            tmpVec[1] += Math.sin(this.cameraRotationXZOffset) * .75
         }
         if (value.x > 0) {//a
-            this.vec[0] += Math.sin(this.cameraRotationXZOffset) * .25
-            this.vec[1] += Math.cos(this.cameraRotationXZOffset) * .25
+            tmpVec[0] += Math.sin(this.cameraRotationXZOffset) * .75
+            tmpVec[1] += Math.cos(this.cameraRotationXZOffset) * .75
         }
         if (value.x < 0) {//d
-            this.vec[0] -= Math.sin(this.cameraRotationXZOffset) * .25
-            this.vec[1] -= Math.cos(this.cameraRotationXZOffset) * .25
+            tmpVec[0] -= Math.sin(this.cameraRotationXZOffset) * .75
+            tmpVec[1] -= Math.cos(this.cameraRotationXZOffset) * .75
         }
-
+        this.vec = [tmpVec[0], tmpVec[1]]
     }
 }

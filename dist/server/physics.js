@@ -53,7 +53,7 @@ class Physics {
     }
     createPlayerSphere(id) {
         const sphereShape = new cannon_1.default.Sphere(1);
-        const sphereBody = new cannon_1.default.Body({ mass: 1, material: this.slipperyMaterial, angularDamping: .9 });
+        const sphereBody = new cannon_1.default.Body({ mass: 1, material: this.slipperyMaterial }); //, angularDamping: .9 })
         sphereBody.addShape(sphereShape);
         sphereBody.addEventListener("collide", (e) => {
             if (e.contact.ni.dot(new cannon_1.default.Vec3(0, 1, 0)) < -0.5) {

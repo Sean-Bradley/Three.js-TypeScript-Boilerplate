@@ -51,11 +51,9 @@ class TheBallGame {
             socket.on("update", (message) => {
                 //console.log(message)
                 if (this.players[socket.id]) {
-                    const now = Date.now();
-                    const dt = (now - this.players[socket.id].t) / 20;
                     this.players[socket.id].t = message.t; //client timestamp   
-                    this.physics.bodies[socket.id].angularVelocity.z += message.vec[0] * dt;
-                    this.physics.bodies[socket.id].angularVelocity.x += message.vec[1] * dt;
+                    const aVel = new cannon_1.default.Vec3(message.vec[1], 0, message.vec[0]).scale(20);
+                    this.physics.bodies[socket.id].angularVelocity.copy(aVel);
                     if (message.spc) {
                         if (this.players[socket.id].canJump) {
                             this.players[socket.id].canJump = false;
