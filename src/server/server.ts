@@ -10,7 +10,7 @@ class App {
     private port: number
 
     private io: socketIO.Server
-    private peers: any = {}
+    private clients: any = {}
 
     constructor(port: number) {
         this.port = port
@@ -27,31 +27,31 @@ class App {
         this.io = socketIO(this.server);
 
         this.io.on('connection', (socket: socketIO.Socket) => {
-            this.peers[socket.id] = {}
-            console.log(this.peers)
+            this.clients[socket.id] = {}
+            console.log(this.clients)
             console.log('a user connected : ' + socket.id)
             socket.emit("id", socket.id);
 
             socket.on('disconnect', () => {
                 console.log('socket disconnected : ' + socket.id)
-                if (this.peers && this.peers[socket.id]) {
+                if (this.clients && this.clients[socket.id]) {
                     console.log("deleting " + socket.id)
-                    delete this.peers[socket.id]
-                    this.io.emit("removePeer", socket.id)
+                    delete this.clients[socket.id]
+                    this.io.emit("removeClient", socket.id)
                 }
             })
 
             socket.on("update", (message: any) => {
-                if (this.peers[socket.id]) {
-                    this.peers[socket.id].t = message.t //client timestamp
-                    this.peers[socket.id].p = message.p //position
-                    this.peers[socket.id].r = message.r //rotation
+                if (this.clients[socket.id]) {
+                    this.clients[socket.id].t = message.t //client timestamp
+                    this.clients[socket.id].p = message.p //position
+                    this.clients[socket.id].r = message.r //rotation
                 }
             });
         })
 
         setInterval(() => {
-            this.io.emit("peers", this.peers)
+            this.io.emit("clients", this.clients)
         }, 50)
     }
 

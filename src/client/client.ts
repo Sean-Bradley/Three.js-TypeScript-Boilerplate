@@ -37,7 +37,7 @@ function onWindowResize() {
 
 let myId: string = ""
 let timestamp = 0
-const peerCubes: { [id: string]: THREE.Mesh } = {}
+const clientCubes: { [id: string]: THREE.Mesh } = {}
 const socket: SocketIOClient.Socket = io()
 socket.on("connect", function () {
     console.log("connect")
@@ -51,31 +51,31 @@ socket.on("id", (id: any) => {
         socket.emit("update", { t: Date.now(), p: myObject3D.position, r: myObject3D.rotation })
     }, 50)
 })
-socket.on("peers", (peers: any) => {
+socket.on("clients", (clients: any) => {
     let pingStatsHtml = "Socket Ping Stats<br/><br/>"
-    Object.keys(peers).forEach((p) => {
+    Object.keys(clients).forEach((p) => {
         timestamp = Date.now()
-        pingStatsHtml += p + " " + (timestamp - peers[p].t) + "ms<br/>"
-        if (!peerCubes[p]) {
-            peerCubes[p] = new THREE.Mesh(geometry, material)
-            peerCubes[p].name = p
-            scene.add(peerCubes[p])
+        pingStatsHtml += p + " " + (timestamp - clients[p].t) + "ms<br/>"
+        if (!clientCubes[p]) {
+            clientCubes[p] = new THREE.Mesh(geometry, material)
+            clientCubes[p].name = p
+            scene.add(clientCubes[p])
         } else {
-            if (peers[p].p) {
-                new TWEEN.Tween(peerCubes[p].position)
+            if (clients[p].p) {
+                new TWEEN.Tween(clientCubes[p].position)
                     .to({
-                        x: peers[p].p.x,
-                        y: peers[p].p.y,
-                        z: peers[p].p.z
+                        x: clients[p].p.x,
+                        y: clients[p].p.y,
+                        z: clients[p].p.z
                     }, 50)
                     .start()
             }
-            if (peers[p].r) {
-                new TWEEN.Tween(peerCubes[p].rotation)
+            if (clients[p].r) {
+                new TWEEN.Tween(clientCubes[p].rotation)
                     .to({
-                        x: peers[p].r._x,
-                        y: peers[p].r._y,
-                        z: peers[p].r._z
+                        x: clients[p].r._x,
+                        y: clients[p].r._y,
+                        z: clients[p].r._z
                     }, 50)
                     .start()
             }
@@ -83,7 +83,7 @@ socket.on("peers", (peers: any) => {
     })
     document.getElementById("pingStats").innerHTML = pingStatsHtml
 })
-socket.on("removePeer", (id: string) => {
+socket.on("removeClient", (id: string) => {
     scene.remove(scene.getObjectByName(id));
 })
 
@@ -112,8 +112,8 @@ const animate = function () {
 
     TWEEN.update();
 
-    if (peerCubes[myId]) {
-        camera.lookAt(peerCubes[myId].position)
+    if (clientCubes[myId]) {
+        camera.lookAt(clientCubes[myId].position)
     }
 
     render()
