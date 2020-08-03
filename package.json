@@ -12,7 +12,7 @@
   "devDependencies": {
     "@types/node": "^13.9.1",
     "concurrently": "^5.1.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "@types/dat.gui": "^0.7.5",
@@ -22,7 +22,7 @@
     "cannon": "^0.6.2",
     "express": "^4.17.1",
     "socket.io": "^2.3.0",
-    "three": "^0.117.1",
+    "three": "^0.119.1",
     "typescript": "3.8.3"
   }
 }
