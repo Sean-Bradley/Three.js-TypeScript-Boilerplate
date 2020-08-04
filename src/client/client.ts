@@ -73,10 +73,10 @@ function fragmentShader() {
         uniform float similarity;
         uniform float smoothness;
         varying vec2 vUv;
-        uniform sampler2D texture;
+        uniform sampler2D map;
         void main() {
 
-            vec4 videoColor = texture2D(texture, vUv);
+            vec4 videoColor = texture2D(map, vUv);
      
             float Y1 = 0.299 * keyColor.r + 0.587 * keyColor.g + 0.114 * keyColor.b;
             float Cr1 = keyColor.r - Y1;
@@ -96,7 +96,7 @@ const material = new THREE.ShaderMaterial(
     {
         transparent: true,
         uniforms: {
-            texture: { value: webcamTexture },
+            map: { value: webcamTexture },
             keyColor: { value: [0.0, 1.0, 0.0] },
             similarity: { value: 0.8 },
             smoothness: { value: 0.0 }
