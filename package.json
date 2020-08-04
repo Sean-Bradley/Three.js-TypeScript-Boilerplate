@@ -15,11 +15,11 @@
     "@types/node": "^13.9.1",
     "@types/webrtc": "0.0.26",
     "concurrently": "^5.1.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "three": "^0.117.1",
+    "three": "^0.119.1",
     "typescript": "3.8.3"
   }
 }
