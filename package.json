@@ -22,7 +22,7 @@
     "cannon": "^0.6.2",
     "express": "^4.17.1",
     "socket.io": "^2.3.0",
-    "three": "^0.117.1",
+    "three": "^0.119.1",
     "typescript": "3.8.3"
   }
 }
