@@ -150,7 +150,6 @@ npm run dev
 
 ![The Ball Game](theballgame.jpg)
 
-
 ### Annotations
 
 To get a version of the boilerplate that demonstrates annotations
