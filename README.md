@@ -150,6 +150,21 @@ npm run dev
 
 ![The Ball Game](theballgame.jpg)
 
+
+### Annotations
+
+To get a version of the boilerplate that demonstrates annotations
+
+```bash
+git checkout annotations
+npm install
+npm run dev
+```
+
+![With Annotations](annotations.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/annotations/)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video

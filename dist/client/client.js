@@ -1,132 +1,179 @@
 import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
+import { OBJLoader } from '/jsm/loaders/OBJLoader';
+import { MTLLoader } from '/jsm/loaders/MTLLoader';
 import Stats from '/jsm/libs/stats.module';
-import { GUI } from '/jsm/libs/dat.gui.module';
+import { TWEEN } from '/jsm/libs/tween.module.min';
+import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer';
+let annotations = [];
+const annotationMarkers = [];
 const scene = new THREE.Scene();
+var light = new THREE.DirectionalLight();
+light.position.set(-30, 30, 30);
+scene.add(light);
+var light2 = new THREE.DirectionalLight();
+light2.position.set(30, 30, -30);
+scene.add(light2);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+camera.position.x = 10;
+camera.position.y = 5;
+camera.position.z = 8;
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
+labelRenderer.domElement.style.pointerEvents = 'none';
+document.body.appendChild(labelRenderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
-const gridHelper = new THREE.GridHelper(10, 10);
-gridHelper.position.y = -1.5;
-scene.add(gridHelper);
-camera.position.z = 5;
+controls.dampingFactor = .2;
+controls.enableDamping = true;
+controls.target.set(8, 3, 4);
+const raycaster = new THREE.Raycaster();
+const sceneMeshes = [];
+const mtlLoader = new MTLLoader();
+mtlLoader.load('models/house_water.mtl', (materials) => {
+    materials.preload();
+    const progressBar = document.getElementById('progressBar');
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/house_water.obj', (object) => {
+        object.scale.set(.01, .01, .01);
+        scene.add(object);
+        sceneMeshes.push(object);
+        const annotationsDownload = new XMLHttpRequest();
+        annotationsDownload.open('GET', '/data/annotations.json');
+        annotationsDownload.onreadystatechange = function () {
+            if (annotationsDownload.readyState === 4) {
+                annotations = JSON.parse(annotationsDownload.responseText);
+                const annotationsPanel = document.getElementById("annotationsPanel");
+                const ul = document.createElement("UL");
+                const ulElem = annotationsPanel.appendChild(ul);
+                Object.keys(annotations).forEach((a) => {
+                    const li = document.createElement("UL");
+                    const liElem = ulElem.appendChild(li);
+                    const button = document.createElement("BUTTON");
+                    button.innerHTML = a + " : " + annotations[a].label;
+                    button.className = "annotationButton";
+                    button.addEventListener("click", function () { gotoAnnotation(annotations[a]); });
+                    liElem.appendChild(button);
+                    const circleGeometry = new THREE.CircleGeometry(.02, 12);
+                    const circle = new THREE.Mesh(circleGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+                    circle.material.transparent = true;
+                    circle.material.opacity = 1;
+                    circle.material.depthTest = false;
+                    circle.material.depthWrite = false;
+                    circle.position.copy(annotations[a].lookAt);
+                    circle.userData.id = a;
+                    scene.add(circle);
+                    annotationMarkers.push(circle);
+                    const annotationDiv = document.createElement('div');
+                    annotationDiv.className = 'annotationLabel';
+                    annotationDiv.textContent = a;
+                    const annotationLabel = new CSS2DObject(annotationDiv);
+                    annotationLabel.position.copy(annotations[a].lookAt);
+                    scene.add(annotationLabel);
+                });
+                progressBar.style.display = "none";
+            }
+        };
+        annotationsDownload.send();
+    }, (xhr) => {
+        if (xhr.lengthComputable) {
+            let percentComplete = xhr.loaded / xhr.total * 100;
+            progressBar.value = percentComplete;
+            progressBar.style.display = "block";
+        }
+    }, (error) => {
+        console.log('An error happened');
+    });
+}, (xhr) => {
+    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+}, (error) => {
+    console.log('An error happened');
+});
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
     render();
 }
-const webcam = document.createElement("video");
-var constraints = { audio: false, video: { width: 640, height: 480 } };
-navigator.mediaDevices.getUserMedia(constraints)
-    .then(function (mediaStream) {
-    webcam.srcObject = mediaStream;
-    webcam.onloadedmetadata = function (e) {
-        webcam.setAttribute('autoplay', 'true');
-        webcam.setAttribute('playsinline', 'true');
-        webcam.play();
+renderer.domElement.addEventListener('click', onClick, false);
+function onClick(event) {
+    const mouse = {
+        x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+        y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
     };
-})
-    .catch(function (err) {
-    alert(err.name + ": " + err.message);
-});
-const webcamCanvas = document.createElement('canvas');
-webcamCanvas.width = 1024;
-webcamCanvas.height = 1024;
-const canvasCtx = webcamCanvas.getContext('2d');
-canvasCtx.fillStyle = '#000000';
-canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
-const webcamTexture = new THREE.Texture(webcamCanvas);
-webcamTexture.minFilter = THREE.LinearFilter;
-webcamTexture.magFilter = THREE.LinearFilter;
-const geometry = new THREE.BoxGeometry();
-//const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: webcamTexture})
-function vertexShader() {
-    return `
-        varying vec2 vUv;
-        void main( void ) {     
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
-    `;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(annotationMarkers, true);
+    if (intersects.length > 0) {
+        gotoAnnotation(annotations[intersects[0].object.userData.id]);
+    }
 }
-function fragmentShader() {
-    return `
-        uniform vec3 keyColor;
-        uniform float similarity;
-        uniform float smoothness;
-        varying vec2 vUv;
-        uniform sampler2D map;
-        void main() {
-
-            vec4 videoColor = texture2D(map, vUv);
-     
-            float Y1 = 0.299 * keyColor.r + 0.587 * keyColor.g + 0.114 * keyColor.b;
-            float Cr1 = keyColor.r - Y1;
-            float Cb1 = keyColor.b - Y1;
-            
-            float Y2 = 0.299 * videoColor.r + 0.587 * videoColor.g + 0.114 * videoColor.b;
-            float Cr2 = videoColor.r - Y2; 
-            float Cb2 = videoColor.b - Y2; 
-            
-            float blend = smoothstep(similarity, similarity + smoothness, distance(vec2(Cr2, Cb2), vec2(Cr1, Cb1)));
-            gl_FragColor = vec4(videoColor.rgb, videoColor.a * blend); 
-        }
-    `;
+renderer.domElement.addEventListener('dblclick', onDoubleClick, false);
+function onDoubleClick(event) {
+    const mouse = {
+        x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+        y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
+    };
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(sceneMeshes, true);
+    if (intersects.length > 0) {
+        const p = intersects[0].point;
+        new TWEEN.Tween(controls.target)
+            .to({
+            x: p.x,
+            y: p.y,
+            z: p.z
+        }, 500)
+            .easing(TWEEN.Easing.Cubic.Out)
+            .start()
+            .onComplete(() => {
+            console.log(camera.position);
+            console.log(controls.target);
+        });
+    }
 }
-const material = new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms: {
-        map: { value: webcamTexture },
-        keyColor: { value: [0.0, 1.0, 0.0] },
-        similarity: { value: 0.8 },
-        smoothness: { value: 0.0 }
-    },
-    vertexShader: vertexShader(),
-    fragmentShader: fragmentShader()
-});
-const cube = new THREE.Mesh(geometry, material);
-cube.add(new THREE.BoxHelper(cube, 0xff0000));
-cube.rotateY(.5);
-cube.scale.x = 4;
-cube.scale.y = 3;
-cube.scale.z = 4;
-scene.add(cube);
+function gotoAnnotation(a) {
+    new TWEEN.Tween(camera.position)
+        .to({
+        x: a.camPos.x,
+        y: a.camPos.y,
+        z: a.camPos.z
+    }, 500)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+    new TWEEN.Tween(controls.target)
+        .to({
+        x: a.lookAt.x,
+        y: a.lookAt.y,
+        z: a.lookAt.z
+    }, 500)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+}
 const stats = Stats();
 document.body.appendChild(stats.dom);
-var data = {
-    keyColor: [0, 255, 0],
-    similarity: 0.8,
-    smoothness: 0.0
-};
-const gui = new GUI();
-gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
-gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
-gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
-function updateKeyColor(v) {
-    material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255];
-}
-function updateSimilarity(v) {
-    material.uniforms.similarity.value = v;
-}
-function updateSmoothness(v) {
-    material.uniforms.smoothness.value = v;
-}
 var animate = function () {
     requestAnimationFrame(animate);
-    //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-    canvasCtx.drawImage(webcam, 0, 0, webcamCanvas.width, webcamCanvas.height);
-    if (webcamTexture)
-        webcamTexture.needsUpdate = true;
-    //}
     controls.update();
+    TWEEN.update();
+    annotationMarkers.forEach(a => {
+        a.quaternion.copy(camera.quaternion);
+        var scaleVector = new THREE.Vector3();
+        var scaleFactor = 1;
+        var scale = scaleVector.subVectors(a.position, camera.position).length() / scaleFactor;
+        a.scale.set(scale, scale, 1);
+    });
     render();
     stats.update();
 };
 function render() {
+    labelRenderer.render(scene, camera);
     renderer.render(scene, camera);
 }
 animate();

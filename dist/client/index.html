@@ -8,10 +8,53 @@
             overflow: hidden;
             margin: 0px;
         }
+
+        #progressBar {
+            width: 500px;
+            height: 24px;
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            margin-left: -250px;
+        }
+
+        #annotationsPanel {
+            position: absolute;
+            top: 60px;
+            left: 4px;
+            width: auto;
+            height: auto;
+            color: white;
+            font-family: monospace;
+        }
+
+        #annotationsPanel ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .annotationLabel {
+            color: #ffffff;
+            font-family: monospace;
+            pointer-events: none;
+            font-size: 14px;
+        }
+
+        .annotationButton {
+            width: 160px;
+            height: 70px;
+            font-family: monospace;
+            background-color: #444444;
+            color: white;
+            text-align: left;
+            padding-left: 20px;
+        }
     </style>
 </head>
 
 <body>
+    <progress value="0" max="100" id="progressBar"></progress>
+    <div id="annotationsPanel"></div>
     <script type="module" src="client.js"></script>
 </body>
 
