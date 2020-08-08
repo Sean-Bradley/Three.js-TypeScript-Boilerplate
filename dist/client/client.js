@@ -131,11 +131,11 @@ function onDoubleClick(event) {
             z: p.z
         }, 500)
             .easing(TWEEN.Easing.Cubic.Out)
-            .start()
-            .onComplete(() => {
-            console.log(camera.position);
-            console.log(controls.target);
-        });
+            .start();
+        // .onComplete(() => {
+        //     console.log(camera.position)
+        //     console.log(controls.target)
+        // })
     }
 }
 function gotoAnnotation(a) {

@@ -165,10 +165,10 @@ function onDoubleClick(event) {
             }, 500)
             .easing(TWEEN.Easing.Cubic.Out)
             .start()
-            .onComplete(() => {
-                console.log(camera.position)
-                console.log(controls.target)
-            })
+            // .onComplete(() => {
+            //     console.log(camera.position)
+            //     console.log(controls.target)
+            // })
     }
 }
 
