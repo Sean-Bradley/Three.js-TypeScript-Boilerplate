@@ -14,7 +14,7 @@ It contains server and client scripts both written in TypeScript.
 The client typescript and compiled javascript both use [ES6 import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
 
 
-![](screengrab1.jpg)
+![](docs/screengrab1.jpg)
 
 ## Installing
 
@@ -66,7 +66,7 @@ To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
 git checkout stats
 ```
-![With Stats.js](with-stats.jpg)
+![With Stats.js](docs/with-stats.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/stats/)
 
@@ -77,7 +77,7 @@ git checkout statsgui
 npm install
 npm run dev
 ```
-![With Stats.js and Dat.GUI](with-stats-gui.jpg)
+![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
 
@@ -90,7 +90,7 @@ npm install
 npm run dev
 ```
 
-![With SocketIO](with-socketio.jpg)
+![With SocketIO](docs/with-socketio.jpg)
 
 Open 2 or more browsers, and you can move the cube around and rotate it. You will see the cube mirror itself in the other browsers. Each browser controls there own cube.
 
@@ -105,7 +105,7 @@ npm install
 npm run dev
 ```
 
-![With Cannon.js](with-cannonjs.jpg)
+![With Cannon.js](docs/with-cannonjs.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
 
@@ -118,7 +118,7 @@ npm install
 npm run dev
 ```
 
-![With Webcam as Texture](with-webcam.jpg)
+![With Webcam as Texture](docs/with-webcam.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
 
@@ -132,7 +132,7 @@ npm install
 npm run dev
 ```
 
-![With BSC5 Bright Star Catalog](with-bsc5.jpg)
+![With BSC5 Bright Star Catalog](docs/with-bsc5.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/bsc5/)
 
@@ -148,7 +148,7 @@ npm install
 npm run dev
 ```
 
-![The Ball Game](theballgame.jpg)
+![The Ball Game](docs/theballgame.jpg)
 
 ### Annotations
 
@@ -160,9 +160,24 @@ npm install
 npm run dev
 ```
 
-![With Annotations](annotations.jpg)
+![With Annotations](docs/annotations.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/annotations/)
+
+### Constructive Solid Geometry
+
+To get a version of the boilerplate that demonstrates Constructive Solid Geometry (CSG)
+
+```bash
+git checkout csg
+npm install
+npm run dev
+```
+
+![With Annotations](docs/csg.jpg)
+
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/csg/)
+
 
 ---
 
@@ -170,5 +185,5 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 
 This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
 
-[![ThreeJS and TypeScript Course](threejs-course-image.png)](https://youtu.be/BcF3yuVqfwo)
+[![ThreeJS and TypeScript Course](docs/threejs-course-image.png)](https://youtu.be/BcF3yuVqfwo)
 
