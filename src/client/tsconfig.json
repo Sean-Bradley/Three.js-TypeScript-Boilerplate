@@ -9,7 +9,8 @@
             "/jsm/*": ["../../node_modules/three/examples/jsm/*"],
             "/jsm/libs/tween.module.min": ["../typings/tween.js"]
         },
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "strict": true
     },
     "include": [
         "**/*.ts"

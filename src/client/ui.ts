@@ -10,13 +10,13 @@ export default class UI {
     public newGameAlert: HTMLDivElement
     public gameClosedAlert: HTMLDivElement
 
-    public xycontrollerLook: XYController
-    public xycontrollerMove: XYController
+    public xycontrollerLook?: XYController
+    public xycontrollerMove?: XYController
 
     private rendererDomElement: HTMLCanvasElement
     private theBallGame: TheBallGame
 
-    private keyMap: { [id: number]: boolean } = {}
+    private keyMap: { [id: string]: boolean } = {}
 
     constructor(theBallGame: TheBallGame, rendererDomElement: HTMLCanvasElement) {
 
@@ -46,11 +46,11 @@ export default class UI {
         document.addEventListener('pointerlockchange', this.lockChangeAlert, false);
 
 
-        document.getElementById('screenNameInput').addEventListener('keyup', (e) => {
+        (document.getElementById('screenNameInput') as HTMLInputElement).addEventListener('keyup', (e) => {
             if (e.which === 13) blur();
-        })
+        });
 
-        document.getElementById('screenNameInput').addEventListener("change", (e) => {
+        (document.getElementById('screenNameInput') as HTMLInputElement).addEventListener("change", (e) => {
             var letterNumber = /^[0-9a-zA-Z]+$/;
             var value = (e.target as HTMLFormElement).value
             if (value.match(letterNumber) && value.length <= 12) {
@@ -101,7 +101,7 @@ export default class UI {
         }
     }
 
-    public onDocumentMouseMove = (e) => {
+    public onDocumentMouseMove = (e: MouseEvent) => {
         this.theBallGame.cameraRotationXZOffset += (e.movementX * this.theBallGame.sensitivity)
         this.theBallGame.cameraRotationYOffset += (e.movementY * this.theBallGame.sensitivity)
         this.theBallGame.cameraRotationYOffset = Math.max(Math.min(this.theBallGame.cameraRotationYOffset, 2.5), -2.5)
@@ -109,15 +109,15 @@ export default class UI {
     }
 
 
-    public onDocumentMouseWheel = (e) => {
-        this.theBallGame.radius -= e.wheelDeltaY * 0.005;
+    public onDocumentMouseWheel = (e: THREE.Event) => {
+        this.theBallGame.radius -= e.deltaY * 0.005;
         this.theBallGame.radius = Math.max(Math.min(this.theBallGame.radius, 20), 2);
         return false;
     }
 
 
-    public onDocumentKey = (e) => {
-        this.keyMap[e.keyCode] = e.type == 'keydown';
+    public onDocumentKey = (e: KeyboardEvent) => {
+        this.keyMap[e.key] = e.type === 'keydown';
         const tmpVec = [0, 0]
         if (this.keyMap[87]) { //w
             tmpVec[0] += Math.cos(this.theBallGame.cameraRotationXZOffset)

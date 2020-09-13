@@ -45,12 +45,12 @@ export default class UI {
             return false;
         };
         this.onDocumentMouseWheel = (e) => {
-            this.theBallGame.radius -= e.wheelDeltaY * 0.005;
+            this.theBallGame.radius -= e.deltaY * 0.005;
             this.theBallGame.radius = Math.max(Math.min(this.theBallGame.radius, 20), 2);
             return false;
         };
         this.onDocumentKey = (e) => {
-            this.keyMap[e.keyCode] = e.type == 'keydown';
+            this.keyMap[e.key] = e.type === 'keydown';
             const tmpVec = [0, 0];
             if (this.keyMap[87]) { //w
                 tmpVec[0] += Math.cos(this.theBallGame.cameraRotationXZOffset);
