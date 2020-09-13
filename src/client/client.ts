@@ -6,7 +6,7 @@ import Stats from '/jsm/libs/stats.module'
 import { TWEEN } from '/jsm/libs/tween.module.min'
 import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer';
 
-let annotations: Annotation[] = []
+let annotations: { [key: string]: Annotation }
 const annotationMarkers: THREE.Mesh[] = []
 
 const scene: THREE.Scene = new THREE.Scene()
@@ -42,7 +42,7 @@ controls.enableDamping = true
 controls.target.set(8, 3, 4)
 
 const raycaster: THREE.Raycaster = new THREE.Raycaster();
-const sceneMeshes = []
+const sceneMeshes = new Array()
 
 const mtlLoader = new MTLLoader();
 mtlLoader.load('models/house_water.mtl',
@@ -130,7 +130,7 @@ function onWindowResize() {
 }
 
 renderer.domElement.addEventListener('click', onClick, false);
-function onClick(event) {
+function onClick(event: MouseEvent) {
     const mouse = {
         x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
         y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
@@ -144,7 +144,7 @@ function onClick(event) {
 }
 
 renderer.domElement.addEventListener('dblclick', onDoubleClick, false);
-function onDoubleClick(event) {
+function onDoubleClick(event: MouseEvent) {
     const mouse = {
         x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
         y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
@@ -165,10 +165,10 @@ function onDoubleClick(event) {
             }, 500)
             .easing(TWEEN.Easing.Cubic.Out)
             .start()
-            // .onComplete(() => {
-            //     console.log(camera.position)
-            //     console.log(controls.target)
-            // })
+        // .onComplete(() => {
+        //     console.log(camera.position)
+        //     console.log(controls.target)
+        // })
     }
 }
 
