@@ -97,7 +97,7 @@ export default class CannonDebugRenderer {
             (geo.id === shape.geometryId && shape instanceof CANNON.Heightfield));
     }
     _createMesh(shape) {
-        let mesh;
+        let mesh = new THREE.Mesh();
         let geometry;
         let v0;
         let v1;

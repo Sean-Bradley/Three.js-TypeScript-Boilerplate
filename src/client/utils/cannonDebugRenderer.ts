@@ -133,11 +133,11 @@ export default class CannonDebugRenderer {
   }
 
   private _createMesh(shape: CANNON.Shape): THREE.Mesh | THREE.Points {
-    let mesh: THREE.Mesh | THREE.Points;
-    let geometry: THREE.Geometry;
-    let v0: CANNON.Vec3;
-    let v1: CANNON.Vec3;
-    let v2: CANNON.Vec3;
+    let mesh: THREE.Mesh | THREE.Points = new THREE.Mesh()
+    let geometry: THREE.Geometry
+    let v0: CANNON.Vec3
+    let v1: CANNON.Vec3
+    let v2: CANNON.Vec3
     const material: THREE.MeshBasicMaterial = this._material;
 
     switch (shape.type) {

@@ -10,7 +10,8 @@
             "/jsm/libs/dat.gui.module": ["../../node_modules/@types/dat.gui"],
             "/cannon/cannon.min": ["../typings/cannon"]
         },
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "strict": true
     },
     "include": [
         "**/*.ts"
