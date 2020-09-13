@@ -8,7 +8,8 @@
             "/build/three.module.js": ["../../node_modules/three/src/Three"],
             "/jsm/*": ["../../node_modules/three/examples/jsm/*"],
         },
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "strict": true
     },
     "include": [
         "**/*.ts"
