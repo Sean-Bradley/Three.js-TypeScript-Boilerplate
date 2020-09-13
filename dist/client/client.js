@@ -33,10 +33,10 @@ bsc5dat.open('GET', '/data/bsc5.dat');
 bsc5dat.onreadystatechange = function () {
     if (bsc5dat.readyState === 4) {
         const starData = bsc5dat.responseText.split("\n");
-        const positions = [];
-        const colors = [];
+        const positions = new Array();
+        const colors = new Array();
         const color = new THREE.Color();
-        const sizes = [];
+        const sizes = new Array();
         starData.forEach(row => {
             let star = {
                 id: Number(row.slice(0, 4)),
