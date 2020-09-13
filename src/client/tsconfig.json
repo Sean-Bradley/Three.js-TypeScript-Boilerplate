@@ -10,7 +10,8 @@
             "/jsm/libs/dat.gui.module": ["../../node_modules/@types/dat.gui"],
             "/jsm/libs/tween.module.min": ["../typings/tween.js"]
         },
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "strict": true
     },
     "include": [
         "**/*.ts"

@@ -80,11 +80,11 @@ socket.on("clients", (clients: any) => {
                     .start()
             }
         }
-    })
-    document.getElementById("pingStats").innerHTML = pingStatsHtml
+    });
+    (document.getElementById("pingStats") as HTMLDivElement).innerHTML = pingStatsHtml
 })
 socket.on("removeClient", (id: string) => {
-    scene.remove(scene.getObjectByName(id));
+    scene.remove(scene.getObjectByName(id) as THREE.Object3D);
 })
 
 
