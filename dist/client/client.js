@@ -5,7 +5,7 @@ import { MTLLoader } from '/jsm/loaders/MTLLoader';
 import Stats from '/jsm/libs/stats.module';
 import { TWEEN } from '/jsm/libs/tween.module.min';
 import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer';
-let annotations = [];
+let annotations;
 const annotationMarkers = [];
 const scene = new THREE.Scene();
 var light = new THREE.DirectionalLight();
@@ -32,7 +32,7 @@ controls.dampingFactor = .2;
 controls.enableDamping = true;
 controls.target.set(8, 3, 4);
 const raycaster = new THREE.Raycaster();
-const sceneMeshes = [];
+const sceneMeshes = new Array();
 const mtlLoader = new MTLLoader();
 mtlLoader.load('models/house_water.mtl', (materials) => {
     materials.preload();
