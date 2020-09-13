@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "three": "^0.119.1",
+    "three": "^0.120.1",
     "typescript": "3.8.3"
   }
 }

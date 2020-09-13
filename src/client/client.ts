@@ -48,7 +48,7 @@ const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTML
 webcamCanvas.width = 1024
 webcamCanvas.height = 1024
 
-const canvasCtx: CanvasRenderingContext2D = webcamCanvas.getContext('2d');
+const canvasCtx = webcamCanvas.getContext('2d') as CanvasRenderingContext2D
 canvasCtx.fillStyle = '#000000';
 canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
 const webcamTexture: THREE.Texture = new THREE.Texture(webcamCanvas);
@@ -129,13 +129,13 @@ gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
 gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
 gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
 
-function updateKeyColor(v) {
+function updateKeyColor(v: number[]) {
     material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255]
 }
-function updateSimilarity(v) {
+function updateSimilarity(v: number) {
     material.uniforms.similarity.value = v
 }
-function updateSmoothness(v) {
+function updateSmoothness(v: number) {
     material.uniforms.smoothness.value = v
 }
 
