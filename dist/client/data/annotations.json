@@ -1,6 +1,7 @@
 [
     {
-      "label": "Bathroom Sink",
+      "title": "Bathroom Sink",
+      "description": "<p>Bathroom Sink is good for washing your hands</p>",
       "camPos": {
         "x": 6.61,
         "y": 3.89,
@@ -13,7 +14,7 @@
       }
     },
     {
-      "label": "Bath",
+      "title": "Bath",
       "camPos": {
         "x": 7.13,
         "y": 4.33,
@@ -26,7 +27,8 @@
       }
     },
     {
-      "label": "Radiator",
+      "title": "Radiator",
+      "description": "Keeps you warm in winter.",
       "camPos": {
         "x": 7.13,
         "y": 1.15,
@@ -39,7 +41,7 @@
       }
     },
     {
-      "label": "Sky Light",
+      "title": "Sky Light",
       "camPos": {
         "x": 13.05,
         "y": 4.35,

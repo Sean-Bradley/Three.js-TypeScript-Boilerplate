@@ -7,9 +7,9 @@ import { TWEEN } from '/jsm/libs/tween.module.min'
 import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer';
 
 let annotations: { [key: string]: Annotation }
-const annotationMarkers: THREE.Mesh[] = []
+const annotationMarkers: THREE.Sprite[] = []
 
-const scene: THREE.Scene = new THREE.Scene()
+const scene = new THREE.Scene()
 
 var light = new THREE.DirectionalLight();
 light.position.set(-30, 30, 30)
@@ -29,7 +29,7 @@ const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ antialias: true 
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const labelRenderer: CSS2DRenderer = new CSS2DRenderer()
+const labelRenderer = new CSS2DRenderer()
 labelRenderer.setSize(window.innerWidth, window.innerHeight)
 labelRenderer.domElement.style.position = 'absolute'
 labelRenderer.domElement.style.top = '0px'
@@ -41,8 +41,10 @@ controls.dampingFactor = .2
 controls.enableDamping = true
 controls.target.set(8, 3, 4)
 
-const raycaster: THREE.Raycaster = new THREE.Raycaster();
+const raycaster = new THREE.Raycaster();
 const sceneMeshes = new Array()
+
+const circleTexture = new THREE.TextureLoader().load("img/circle.png")
 
 const mtlLoader = new MTLLoader();
 mtlLoader.load('models/house_water.mtl',
@@ -68,32 +70,42 @@ mtlLoader.load('models/house_water.mtl',
                         const annotationsPanel: HTMLDivElement = document.getElementById("annotationsPanel") as HTMLDivElement
                         const ul: HTMLUListElement = document.createElement("UL") as HTMLUListElement
                         const ulElem = annotationsPanel.appendChild(ul)
-                        Object.keys(annotations).forEach((a) => {
+                        Object.keys(annotations).forEach(a => {
                             const li: HTMLLIElement = document.createElement("UL") as HTMLLIElement
                             const liElem = ulElem.appendChild(li)
                             const button: HTMLButtonElement = document.createElement("BUTTON") as HTMLButtonElement
-                            button.innerHTML = a + " : " + annotations[a].label;
+                            button.innerHTML = a + " : " + annotations[a].title;
                             button.className = "annotationButton"
                             button.addEventListener("click", function () { gotoAnnotation(annotations[a]) })
                             liElem.appendChild(button)
 
-                            const circleGeometry = new THREE.CircleGeometry(.02, 12);
-                            const circle = new THREE.Mesh(circleGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-                            circle.material.transparent = true
-                            circle.material.opacity = 1
-                            circle.material.depthTest = false
-                            circle.material.depthWrite = false
-                            circle.position.copy(annotations[a].lookAt)
-                            circle.userData.id = a
-                            scene.add(circle);
-                            annotationMarkers.push(circle)
+                            const annotationSpriteMaterial = new THREE.SpriteMaterial({
+                                map: circleTexture,
+                                depthTest: false,
+                                depthWrite: false,
+                                sizeAttenuation: false
+                            });
+                            const annotationSprite = new THREE.Sprite(annotationSpriteMaterial);
+                            annotationSprite.scale.set(.066, .066, .066);
+                            annotationSprite.position.copy(annotations[a].lookAt)
+                            annotationSprite.userData.id = a
+                            scene.add(annotationSprite);
+                            annotationMarkers.push(annotationSprite)
 
                             const annotationDiv = document.createElement('div')
                             annotationDiv.className = 'annotationLabel'
-                            annotationDiv.textContent = a
+                            annotationDiv.innerHTML = a
                             const annotationLabel = new CSS2DObject(annotationDiv)
                             annotationLabel.position.copy(annotations[a].lookAt)
                             scene.add(annotationLabel)
+
+                            if (annotations[a].description) {
+                                const annotationDescriptionDiv = document.createElement('div')
+                                annotationDescriptionDiv.className = 'annotationDescription'
+                                annotationDescriptionDiv.innerHTML = annotations[a].description
+                                annotationDiv.appendChild(annotationDescriptionDiv)
+                                annotations[a].descriptionDomElement = annotationDescriptionDiv
+                            }
                         })
                         progressBar.style.display = "none";
                     }
@@ -131,25 +143,25 @@ function onWindowResize() {
 
 renderer.domElement.addEventListener('click', onClick, false);
 function onClick(event: MouseEvent) {
-    const mouse = {
+    raycaster.setFromCamera({
         x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
         y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
-    }
-    raycaster.setFromCamera(mouse, camera);
+    }, camera);
 
     const intersects = raycaster.intersectObjects(annotationMarkers, true);
     if (intersects.length > 0) {
-        gotoAnnotation(annotations[intersects[0].object.userData.id])
+        if (intersects[0].object.userData && intersects[0].object.userData.id) {
+            gotoAnnotation(annotations[intersects[0].object.userData.id])
+        }
     }
 }
 
 renderer.domElement.addEventListener('dblclick', onDoubleClick, false);
 function onDoubleClick(event: MouseEvent) {
-    const mouse = {
+    raycaster.setFromCamera({
         x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
         y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
-    }
-    raycaster.setFromCamera(mouse, camera);
+    }, camera);
 
     const intersects = raycaster.intersectObjects(sceneMeshes, true);
 
@@ -165,10 +177,6 @@ function onDoubleClick(event: MouseEvent) {
             }, 500)
             .easing(TWEEN.Easing.Cubic.Out)
             .start()
-        // .onComplete(() => {
-        //     console.log(camera.position)
-        //     console.log(controls.target)
-        // })
     }
 }
 
@@ -190,6 +198,16 @@ function gotoAnnotation(a: any): void {
         }, 500)
         .easing(TWEEN.Easing.Cubic.Out)
         .start()
+
+    Object.keys(annotations).forEach(annotation => {
+        if (annotations[annotation].descriptionDomElement) {
+            (annotations[annotation].descriptionDomElement as HTMLElement).style.display = "none"
+        }
+    });
+    if (a.descriptionDomElement) {
+        console.log(a.descriptionDomElement.style.display)
+        a.descriptionDomElement.style.display = "block"
+    }
 }
 
 const stats = Stats()
@@ -201,15 +219,6 @@ var animate = function () {
     controls.update()
 
     TWEEN.update();
-
-    annotationMarkers.forEach(a => {
-        a.quaternion.copy(camera.quaternion)
-
-        var scaleVector = new THREE.Vector3();
-        var scaleFactor = 1;
-        var scale = scaleVector.subVectors(a.position, camera.position).length() / scaleFactor;
-        a.scale.set(scale, scale, 1);
-    })
 
     render()
 
