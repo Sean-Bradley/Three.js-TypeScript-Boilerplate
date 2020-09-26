@@ -18,7 +18,7 @@ export default class XYController {
                 touchesId = 0;
             }
             else {
-                touchesId = 1; //assume that there is a mx of 2 possible fingers on the screen
+                touchesId = 1; //assume that there is a max of 2 possible fingers on the screen
             }
             this.coords.x = e.touches[touchesId].screenX - this.canvas.offsetLeft;
             this.coords.y = e.touches[touchesId].screenY - this.canvas.offsetTop;
@@ -29,13 +29,13 @@ export default class XYController {
             this.coords.y = this.canvas.height / 2;
         });
         this.canvas.addEventListener('mousemove', (e) => {
-            if (e.which === 1) {
+            if (e.button === 1) {
                 this.coords.x = e.pageX - this.canvas.offsetLeft;
                 this.coords.y = e.pageY - this.canvas.offsetTop;
             }
         });
         this.canvas.addEventListener('mouseup', (e) => {
-            if (e.which === 1) {
+            if (e.button === 1) {
                 this.coords.x = this.canvas.clientWidth / 2;
                 this.coords.y = this.canvas.clientHeight / 2;
             }

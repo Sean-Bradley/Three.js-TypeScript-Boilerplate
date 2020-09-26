@@ -13,7 +13,8 @@ export default class TheBallGame {
     public players: { [id: string]: THREE.Mesh } = {}
     public obstacles: { [id: string]: THREE.Mesh } = {}
 
-    private updateInterval
+    private updateInterval: any
+
     public myId: string = ""
 
     public isMobile: boolean = false
@@ -23,7 +24,7 @@ export default class TheBallGame {
     //UI Input    
     public vec = [0, 0]
     public spcKey: number = 0
-   
+
     //scene
     private scene: THREE.Scene
     private renderer: THREE.WebGLRenderer
@@ -37,8 +38,8 @@ export default class TheBallGame {
 
     //private chaseCam: THREE.Object3D
     private ambientLight: THREE.AmbientLight
-    private backGroundTexture: THREE.CubeTexture    
-    private jewel: THREE.Object3D
+    private backGroundTexture: THREE.CubeTexture
+    private jewel = new THREE.Object3D
     private explosions: Explosion[]
     private sphereGeometry: THREE.SphereBufferGeometry = new THREE.SphereBufferGeometry(1, 24, 24)
     private cubeGeometry: THREE.BoxBufferGeometry = new THREE.BoxBufferGeometry(2, 2, 2)
@@ -48,7 +49,7 @@ export default class TheBallGame {
     private cubeCamera1: THREE.CubeCamera
     private myMaterial: THREE.MeshPhongMaterial
     private objLoader: OBJLoader
-    private jewelMaterial: THREE.MeshMatcapMaterial
+    private jewelMaterial = new THREE.MeshMatcapMaterial()
     private groundMirror: Reflector
 
     constructor(socket: SocketIOClient.Socket, scene: THREE.Scene, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
@@ -62,7 +63,7 @@ export default class TheBallGame {
         this.renderer = renderer
         this.camera = camera
         this.socket = socket
-        
+
         this.ui = new UI(this, renderer.domElement)
         // this.chaseCam = new THREE.Mesh(
         //     new THREE.BoxBufferGeometry(),
@@ -168,9 +169,9 @@ export default class TheBallGame {
             this.jewel.visible = false
             this.explosions.forEach(e => {
                 e.explode(position)
-            })
-            document.getElementById("winnerLabel").style.display = "block"
-            document.getElementById("winnerScreenName").innerHTML = screenName
+            });
+            (document.getElementById("winnerLabel") as HTMLDivElement).style.display = "block";
+            (document.getElementById("winnerScreenName") as HTMLDivElement).innerHTML = screenName
             this.ui.updateScoreBoard(recentWinners)
         })
 
@@ -188,27 +189,27 @@ export default class TheBallGame {
         })
 
         socket.on("removePlayer", (id: string) => {
-            scene.remove(scene.getObjectByName(id));
+            scene.remove(scene.getObjectByName(id) as THREE.Object3D);
         })
 
         socket.on("gameData", (gameData: any) => {
             if (gameData.gameClock >= 0) {
                 if (this.gamePhase != 1) {
                     console.log("new game")
-                    this.gamePhase = 1
-                    document.getElementById("gameClock").style.display = "block"
+                    this.gamePhase = 1;
+                    (document.getElementById("gameClock") as HTMLDivElement).style.display = "block"
                     if (this.jewel) {
                         this.jewel.visible = true
                     }
-                    document.getElementById("winnerLabel").style.display = "none"
-                    document.getElementById("winnerScreenName").innerHTML = ""
+                    (document.getElementById("winnerLabel") as HTMLDivElement).style.display = "none";
+                    (document.getElementById("winnerScreenName") as HTMLDivElement).innerHTML = ""
                 }
-                document.getElementById("gameClock").innerText = Math.floor(gameData.gameClock).toString()
+                (document.getElementById("gameClock") as HTMLDivElement).innerText = Math.floor(gameData.gameClock).toString()
             } else {
                 if (this.jewel) {
                     this.jewel.visible = false
                 }
-                document.getElementById("gameClock").style.display = "none"
+                (document.getElementById("gameClock") as HTMLDivElement).style.display = "none"
                 if (!this.ui.menuActive && gameData.gameClock >= -3 && this.gamePhase === 1) {
                     console.log("game closed")
                     this.ui.gameClosedAlert.style.display = "block"
@@ -337,8 +338,8 @@ export default class TheBallGame {
                         .start()
                 }
             }
-            document.getElementById("pingStats").innerHTML = pingStatsHtml
-        })              
+            (document.getElementById("pingStats") as HTMLDivElement).innerHTML = pingStatsHtml
+        })
     }
 
     public update = () => {
@@ -379,5 +380,5 @@ export default class TheBallGame {
 
         //lastPos + (now - (lastPos /2))
     }
-    
+
 }

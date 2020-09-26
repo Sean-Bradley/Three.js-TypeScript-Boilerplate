@@ -19,8 +19,10 @@ export default class TheBallGame {
         this.cameraRotationYOffset = 0;
         this.radius = 4;
         this.sensitivity = 0.004;
+        this.jewel = new THREE.Object3D;
         this.sphereGeometry = new THREE.SphereBufferGeometry(1, 24, 24);
         this.cubeGeometry = new THREE.BoxBufferGeometry(2, 2, 2);
+        this.jewelMaterial = new THREE.MeshMatcapMaterial();
         this.update = () => {
             if (this.jewel) {
                 this.jewel.rotation.x += .01;
