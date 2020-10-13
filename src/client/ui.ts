@@ -119,23 +119,24 @@ export default class UI {
     public onDocumentKey = (e: KeyboardEvent) => {
         this.keyMap[e.key] = e.type === 'keydown';
         const tmpVec = [0, 0]
-        if (this.keyMap[87]) { //w
+
+        if (this.keyMap['w']) {
             tmpVec[0] += Math.cos(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] -= Math.sin(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap[83]) {//s
+        if (this.keyMap['s']) {
             tmpVec[0] -= Math.cos(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] += Math.sin(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap[65]) {//a
+        if (this.keyMap['a']) {
             tmpVec[0] += Math.sin(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] += Math.cos(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap[68]) {//d
+        if (this.keyMap['d']) {
             tmpVec[0] -= Math.sin(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] -= Math.cos(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap[32]) { //space
+        if (this.keyMap[' ']) { //space
             this.theBallGame.spcKey = 1
         } else {
             this.theBallGame.spcKey = 0
