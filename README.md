@@ -190,6 +190,8 @@ npm run dev
 
 ![With WebXR](docs/with-webxr.jpg)
 
+View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webxr/)
+
 ---
 
 ## ThreeJS and TypeScript Course Introduction Video
