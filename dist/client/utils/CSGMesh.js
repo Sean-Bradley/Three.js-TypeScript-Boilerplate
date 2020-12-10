@@ -139,7 +139,8 @@ CSG.toMesh = function (csg, toMatrix) {
             geom.faces.push(fc);
         }
     }
-    const inv = new THREE.Matrix4().getInverse(toMatrix);
+    //const inv = new THREE.Matrix4().getInverse(toMatrix);
+    const inv = new THREE.Matrix4().copy(toMatrix).invert();
     geom.applyMatrix4(inv);
     geom.verticesNeedUpdate = geom.elementsNeedUpdate = geom.normalsNeedUpdate = true;
     geom.computeBoundingSphere();
