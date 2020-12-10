@@ -178,6 +178,17 @@ npm run dev
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/csg/)
 
+### WebXR
+
+To get a version of the boilerplate that demonstrates WebXR
+
+```bash
+git checkout webxr
+npm install
+npm run dev
+```
+
+![With WebXR](docs/with-webxr.jpg)
 
 ---
 
