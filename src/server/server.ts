@@ -32,8 +32,6 @@ class App {
 
         const app = express()
         app.use(express.static(path.join(__dirname, '../client')))
-        //app.use('/build/three.module.js', express.static(path.join(__dirname, '../../node_modules/three/build/three.module.js')))
-        //app.use('/jsm/controls/OrbitControls', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/controls/OrbitControls.js')))
 
         this.server = new http.Server(app);
 
@@ -56,17 +54,18 @@ class App {
         })
 
         this.renderer.setSize(this.width, this.height)
+        this.renderer.outputEncoding = THREE.sRGBEncoding
 
         var light1 = new THREE.PointLight();
-        light1.position.set(2.5, 2.5, 2.5)
+        light1.position.set(50, 50, 50)
         this.scene.add(light1);
 
         var light2 = new THREE.PointLight();
-        light2.position.set(-2.5, 2.5, 2.5)
+        light2.position.set(-50, 50, 50)
         this.scene.add(light2);
 
         const material = new THREE.MeshPhysicalMaterial({
-            color: 0x44ccff,
+            color: 0x66ffff,
             metalness: 0.5,
             roughness: 0.1,
             transparent: true,
@@ -77,7 +76,7 @@ class App {
         });
 
         const loader: any = new OBJLoader()
-        const data = fs.readFileSync(path.resolve(__dirname, "models/monkey.obj"), { encoding: 'utf8', flag: 'r' });
+        const data = fs.readFileSync(path.resolve(__dirname, "models/seanwasere.obj"), { encoding: 'utf8', flag: 'r' });
 
         const obj = loader.parse(data)
         obj.traverse((child: THREE.Mesh) => {
@@ -90,14 +89,14 @@ class App {
         this.mesh.rotateZ(Math.PI)
         this.scene.add(this.mesh)
 
-        this.camera.position.z = 2
+        this.camera.position.z = 30
 
         setInterval(() => {
             this.delta = this.clock.getDelta()
 
             if (this.mesh) {
-                this.mesh.rotation.x += 0.25 * this.delta
                 this.mesh.rotation.y += 0.5 * this.delta
+                this.mesh.rotation.z += 0.25 * this.delta
             }
 
             if (Object.keys(this.clients).length > 0) {
@@ -107,15 +106,19 @@ class App {
                 this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData)
 
                 new Jimp(this.width, this.height, (err: object, image: any) => {
-
                     image.bitmap.data = bitmapData
 
-                    image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
-                        this.io.emit('image', Buffer.from(buffer));
-                    });
+                    Jimp.loadFont(Jimp.FONT_SANS_32_WHITE).then(font => {
+                        image.fillStyle = "red";
+                        image.print(font, 100, 340, new Date().toISOString())
+                    }).then(() => {
+                        image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
+                            this.io.emit('image', Buffer.from(buffer));
+                        });
+                    })
                 })
             }
-        }, 50)
+        }, 100)
 
     }
 

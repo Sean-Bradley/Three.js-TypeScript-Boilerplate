@@ -6,7 +6,7 @@
         "baseUrl": ".",
         "sourceMap": true,
         "paths": {
-            "./OBJLoader.js": ["../../node_modules/three/examples/jsm/loaders/OBJLoader.d.ts"]
+            "./OBJLoader.js": ["../../node_modules/three/examples/jsm/loaders/"]
         },
         "moduleResolution": "node",
         "esModuleInterop": true,
