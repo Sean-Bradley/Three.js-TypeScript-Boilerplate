@@ -1,36 +1,31 @@
 "use strict";
-// let myId: string = ""
-// const socket: SocketIOClient.Socket = io()
-// socket.on("connect", function () {
-//     console.log("connect")
-// })
-// socket.on("disconnect", function (message: any) {
-//     console.log("disconnect " + message)
-// })
-// socket.on("id", (id: any) => {
-//     myId = id
-// })
-//function b64(e: any) { var t = ""; var n = new Uint8Array(e); var r = n.byteLength; for (var i = 0; i < r; i++) { t += String.fromCharCode(n[i]) } return window.btoa(t) }
-// var ctx = (document.getElementById('canvas') as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D 
+let myId = "";
+const socket = io();
+socket.on("connect", function () {
+    console.log("connect");
+});
+socket.on("disconnect", function (message) {
+    console.log("disconnect " + message);
+});
+socket.on("id", (id) => {
+    myId = id;
+});
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+socket.on("image", function (data) {
+    if (data.byteLength > 0) {
+        var blob = new Blob([data], { type: 'image/png' });
+        var url = URL.createObjectURL(blob);
+        var img = new Image;
+        img.onload = function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+        };
+        img.src = url;
+    }
+});
 // const image = document.getElementById("image")
-// socket.on("image", function (info) {
-//     if (info.image) {
-//         console.log(info)
-//         var img = new Image();
-//         img.src = 'data:image/jpeg;base64,' + info.buffer;
-//         ctx.drawImage(img, 0, 0);
-//     }
-// });
-// socket.on('imageConversionByClient', function (data: any) {
-//     (image as HTMLImageElement).setAttribute("src", "data:image/png;base64," + b64(data.buffer));
-// });
-// socket.on('image', async image => {
-//     // image is an array of bytes
-//     const buffer = Buffer.from(image);
-//     (image as HTMLImageElement).setAttribute("src", "data:image/png;base64," + image);
-//     //await fs.writeFile('/tmp/image', buffer).catch(console.error); // fs.promises
-// });
-const image = document.getElementById("image");
-setInterval(() => {
-    image.src = "render?" + Math.random();
-}, 100);
+// setInterval(() => {
+//     (image as HTMLImageElement).src = "render?" + Math.random()
+// }, 100)
