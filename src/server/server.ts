@@ -1,7 +1,7 @@
 import express from "express"
 import path from "path"
 import http from "http"
-import * as THREE from "THREE"
+import * as THREE from "three"
 import socketIO from "socket.io"
 import Jimp from "jimp"
 import { JSDOM } from "jsdom"
