@@ -3,13 +3,11 @@ import path from "path"
 import http from "http"
 import * as THREE from "THREE"
 import socketIO from "socket.io"
-var Jimp = require("jimp")
-const jsdom = require('jsdom' ).jsdom
+import Jimp from "jimp"
+const jsdom = require('jsdom').jsdom
 
 global.document = jsdom();
 global.THREE = THREE
-
-const gl = require('gl')(400, 400, { preserveDrawingBuffer: true }); //headless-gl
 
 const port: number = 3000
 
@@ -22,7 +20,8 @@ class App {
     private height = 400
     private scene = new THREE.Scene()
     private camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 1000)
-    private renderer = new THREE.WebGLRenderer({ context: gl });
+    private gl = require('gl')(this.width, this.height, { preserveDrawingBuffer: true }); //headless-gl
+    private renderer = new THREE.WebGLRenderer({ context: this.gl });
     private cube: THREE.Mesh
     private clock: THREE.Clock = new THREE.Clock()
     private delta = 0;
@@ -64,23 +63,8 @@ class App {
 
         this.camera.position.z = 2
 
-        // app.get('/render', (req, res) => {
-
-        //     this.renderer.render(this.scene, this.camera);
-
-        //     var bitmapData = new Uint8Array(this.width * this.height * 4)
-        //     gl.readPixels(0, 0, this.width, this.height, gl.RGBA, gl.UNSIGNED_BYTE, bitmapData)
-
-        //     new Jimp(this.width, this.height, function (err, image) {
-
-        //         image.bitmap.data = bitmapData
-
-        //         image.getBuffer("image/png", (err, buffer) => {
-        //             res.end(Buffer.from(buffer))
-        //         });
-        //     })
-        // });
-
+        const J = new Jimp(this.width, this.height, (err, image: any) => {})
+        
         setInterval(() => {
             this.delta = this.clock.getDelta()
             this.cube.rotation.x += 0.1 * this.delta
@@ -89,18 +73,20 @@ class App {
             this.renderer.render(this.scene, this.camera);
 
             var bitmapData = new Uint8Array(this.width * this.height * 4)
-            gl.readPixels(0, 0, this.width, this.height, gl.RGBA, gl.UNSIGNED_BYTE, bitmapData)
+            this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData)
 
-            new Jimp(this.width, this.height, (err, image) => {
+            new Jimp(this.width, this.height, (err, image: any) => {
+                if (!err) {
+                    image.bitmap.data = bitmapData
 
-                image.bitmap.data = bitmapData
-
-                image.getBuffer("image/png", (err, buffer) => {
-                    this.io.emit('image', Buffer.from(buffer));
-                });
+                    image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
+                        if (!err) {
+                            this.io.emit('image', Buffer.from(buffer));
+                        }
+                    });
+                }
             })
         }, 50)
-
     }
 
     public Start() {
