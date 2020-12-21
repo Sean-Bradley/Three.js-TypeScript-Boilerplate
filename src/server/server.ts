@@ -3,10 +3,10 @@ import path from "path"
 import http from "http"
 import * as THREE from "THREE"
 import socketIO from "socket.io"
-const Jimp = require("jimp")
+import Jimp from "jimp"
 import { JSDOM } from "jsdom"
 import { OBJLoader } from "./OBJLoader.js"
-const fs = require('fs');
+import fs from 'fs'
 
 const { window } = new JSDOM();
 global.document = window.document;
@@ -66,7 +66,7 @@ class App {
         this.scene.add(light2);
 
         const material = new THREE.MeshPhysicalMaterial({
-            color: 0xb2ffc8,
+            color: 0x44ccff,
             metalness: 0.5,
             roughness: 0.1,
             transparent: true,
@@ -76,17 +76,18 @@ class App {
             clearcoatRoughness: .25
         });
 
-        const loader = new OBJLoader()
+        const loader: any = new OBJLoader()
         const data = fs.readFileSync(path.resolve(__dirname, "models/monkey.obj"), { encoding: 'utf8', flag: 'r' });
 
         const obj = loader.parse(data)
         obj.traverse((child: THREE.Mesh) => {
             if (child.type === "Mesh") {
                 child.material = material
-                this.mesh = new THREE.Mesh(child.geometry, material)                
+                this.mesh = new THREE.Mesh(child.geometry, material)
             }
         })
         this.mesh = obj
+        this.mesh.rotateZ(Math.PI)
         this.scene.add(this.mesh)
 
         this.camera.position.z = 2
@@ -95,8 +96,8 @@ class App {
             this.delta = this.clock.getDelta()
 
             if (this.mesh) {
-                this.mesh.rotation.x += 0.1 * this.delta
-                this.mesh.rotation.y += 0.1 * this.delta
+                this.mesh.rotation.x += 0.25 * this.delta
+                this.mesh.rotation.y += 0.5 * this.delta
             }
 
             if (Object.keys(this.clients).length > 0) {

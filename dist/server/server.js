@@ -15,10 +15,10 @@ const path_1 = __importDefault(require("path"));
 const http_1 = __importDefault(require("http"));
 const THREE = __importStar(require("THREE"));
 const socket_io_1 = __importDefault(require("socket.io"));
-const Jimp = require("jimp");
+const jimp_1 = __importDefault(require("jimp"));
 const jsdom_1 = require("jsdom");
 const OBJLoader_js_1 = require("./OBJLoader.js");
-const fs = require('fs');
+const fs_1 = __importDefault(require("fs"));
 const { window } = new jsdom_1.JSDOM();
 global.document = window.document;
 const port = 3000;
@@ -63,7 +63,7 @@ class App {
         light2.position.set(-2.5, 2.5, 2.5);
         this.scene.add(light2);
         const material = new THREE.MeshPhysicalMaterial({
-            color: 0xb2ffc8,
+            color: 0x44ccff,
             metalness: 0.5,
             roughness: 0.1,
             transparent: true,
@@ -73,7 +73,7 @@ class App {
             clearcoatRoughness: .25
         });
         const loader = new OBJLoader_js_1.OBJLoader();
-        const data = fs.readFileSync(path_1.default.resolve(__dirname, "models/monkey.obj"), { encoding: 'utf8', flag: 'r' });
+        const data = fs_1.default.readFileSync(path_1.default.resolve(__dirname, "models/monkey.obj"), { encoding: 'utf8', flag: 'r' });
         const obj = loader.parse(data);
         obj.traverse((child) => {
             if (child.type === "Mesh") {
@@ -82,19 +82,20 @@ class App {
             }
         });
         this.mesh = obj;
+        this.mesh.rotateZ(Math.PI);
         this.scene.add(this.mesh);
         this.camera.position.z = 2;
         setInterval(() => {
             this.delta = this.clock.getDelta();
             if (this.mesh) {
-                this.mesh.rotation.x += 0.1 * this.delta;
-                this.mesh.rotation.y += 0.1 * this.delta;
+                this.mesh.rotation.x += 0.25 * this.delta;
+                this.mesh.rotation.y += 0.5 * this.delta;
             }
             if (Object.keys(this.clients).length > 0) {
                 this.renderer.render(this.scene, this.camera);
                 var bitmapData = new Uint8Array(this.width * this.height * 4);
                 this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData);
-                new Jimp(this.width, this.height, (err, image) => {
+                new jimp_1.default(this.width, this.height, (err, image) => {
                     image.bitmap.data = bitmapData;
                     image.getBuffer("image/png", (err, buffer) => {
                         this.io.emit('image', Buffer.from(buffer));
