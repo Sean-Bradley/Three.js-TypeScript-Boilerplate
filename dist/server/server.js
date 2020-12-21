@@ -16,8 +16,9 @@ const http_1 = __importDefault(require("http"));
 const THREE = __importStar(require("THREE"));
 const socket_io_1 = __importDefault(require("socket.io"));
 const jimp_1 = __importDefault(require("jimp"));
-const jsdom = require('jsdom').jsdom;
-global.document = jsdom();
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+global.document = (new JSDOM()).window;
 global.THREE = THREE;
 const port = 3000;
 class App {
@@ -58,7 +59,6 @@ class App {
         this.cube = new THREE.Mesh(geometry, material);
         this.scene.add(this.cube);
         this.camera.position.z = 2;
-        const J = new jimp_1.default(this.width, this.height, (err, image) => { });
         setInterval(() => {
             this.delta = this.clock.getDelta();
             this.cube.rotation.x += 0.1 * this.delta;

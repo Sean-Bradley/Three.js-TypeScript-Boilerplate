@@ -4,9 +4,10 @@ import http from "http"
 import * as THREE from "THREE"
 import socketIO from "socket.io"
 import Jimp from "jimp"
-const jsdom = require('jsdom').jsdom
+const jsdom = require('jsdom')
+const { JSDOM } = jsdom;
 
-global.document = jsdom();
+global.document = (new JSDOM()).window;
 global.THREE = THREE
 
 const port: number = 3000
@@ -63,8 +64,6 @@ class App {
 
         this.camera.position.z = 2
 
-        const J = new Jimp(this.width, this.height, (err, image: any) => {})
-        
         setInterval(() => {
             this.delta = this.clock.getDelta()
             this.cube.rotation.x += 0.1 * this.delta
