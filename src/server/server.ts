@@ -4,13 +4,15 @@ import http from "http"
 import * as THREE from "THREE"
 import socketIO from "socket.io"
 var Jimp = require("jimp")
-const jsdom = require('jsdom').jsdom
+import { JSDOM } from 'jsdom'
 
-global.document = jsdom();
+const { window } = new JSDOM('<!doctype html><html><body></body></html>');
+global.document = window.document;
 
 const gl = require('gl')(400, 400, { preserveDrawingBuffer: true }); //headless-gl
 
 const port: number = 3000
+
 
 class App {
     private server: http.Server
