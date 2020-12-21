@@ -6,7 +6,7 @@ import socketIO from "socket.io"
 var Jimp = require("jimp")
 import { JSDOM } from 'jsdom'
 
-const { window } = new JSDOM('<!doctype html><html><body></body></html>');
+const { window } = new JSDOM();
 global.document = window.document;
 
 const gl = require('gl')(400, 400, { preserveDrawingBuffer: true }); //headless-gl
