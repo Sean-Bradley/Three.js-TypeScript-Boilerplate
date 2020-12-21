@@ -15,20 +15,23 @@ const path_1 = __importDefault(require("path"));
 const http_1 = __importDefault(require("http"));
 const THREE = __importStar(require("THREE"));
 const socket_io_1 = __importDefault(require("socket.io"));
-var Jimp = require("jimp");
+const Jimp = require("jimp");
 const jsdom_1 = require("jsdom");
-const { window } = new jsdom_1.JSDOM('<!doctype html><html><body></body></html>');
+const OBJLoader_js_1 = require("./OBJLoader.js");
+const fs = require('fs');
+const { window } = new jsdom_1.JSDOM();
 global.document = window.document;
-const gl = require('gl')(400, 400, { preserveDrawingBuffer: true }); //headless-gl
 const port = 3000;
 class App {
     constructor(port) {
         this.clients = {};
-        this.width = 400;
+        this.width = 600;
         this.height = 400;
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer({ context: gl });
+        this.gl = require('gl')(this.width, this.height, { preserveDrawingBuffer: true }); //headless-gl
+        this.renderer = new THREE.WebGLRenderer({ context: this.gl });
+        this.mesh = new THREE.Mesh();
         this.clock = new THREE.Clock();
         this.delta = 0;
         this.port = port;
@@ -53,19 +56,44 @@ class App {
             });
         });
         this.renderer.setSize(this.width, this.height);
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-        this.cube = new THREE.Mesh(geometry, material);
-        this.scene.add(this.cube);
+        var light1 = new THREE.PointLight();
+        light1.position.set(2.5, 2.5, 2.5);
+        this.scene.add(light1);
+        var light2 = new THREE.PointLight();
+        light2.position.set(-2.5, 2.5, 2.5);
+        this.scene.add(light2);
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0xb2ffc8,
+            metalness: 0.5,
+            roughness: 0.1,
+            transparent: true,
+            transmission: 1.0,
+            side: THREE.DoubleSide,
+            clearcoat: 1.0,
+            clearcoatRoughness: .25
+        });
+        const loader = new OBJLoader_js_1.OBJLoader();
+        const data = fs.readFileSync(path_1.default.resolve(__dirname, "models/monkey.obj"), { encoding: 'utf8', flag: 'r' });
+        const obj = loader.parse(data);
+        obj.traverse((child) => {
+            if (child.type === "Mesh") {
+                child.material = material;
+                this.mesh = new THREE.Mesh(child.geometry, material);
+            }
+        });
+        this.mesh = obj;
+        this.scene.add(this.mesh);
         this.camera.position.z = 2;
         setInterval(() => {
             this.delta = this.clock.getDelta();
-            this.cube.rotation.x += 0.1 * this.delta;
-            this.cube.rotation.y += 0.1 * this.delta;
+            if (this.mesh) {
+                this.mesh.rotation.x += 0.1 * this.delta;
+                this.mesh.rotation.y += 0.1 * this.delta;
+            }
             if (Object.keys(this.clients).length > 0) {
                 this.renderer.render(this.scene, this.camera);
                 var bitmapData = new Uint8Array(this.width * this.height * 4);
-                gl.readPixels(0, 0, this.width, this.height, gl.RGBA, gl.UNSIGNED_BYTE, bitmapData);
+                this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData);
                 new Jimp(this.width, this.height, (err, image) => {
                     image.bitmap.data = bitmapData;
                     image.getBuffer("image/png", (err, buffer) => {

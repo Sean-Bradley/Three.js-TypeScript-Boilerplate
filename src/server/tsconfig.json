@@ -3,8 +3,16 @@
         "target": "ES2019",
         "module": "commonjs",
         "outDir": "../../dist/server",
+        "baseUrl": ".",
         "sourceMap": true,
-        "esModuleInterop": true
+        "paths": {
+            "./PLYLoader.js": ["../../node_modules/three/examples/jsm/loaders/PLYLoader.d.ts"]
+        },
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "strict": true,
+        "allowJs": true,
+        "checkJs": true
     },
     "include": [
         "**/*.ts"

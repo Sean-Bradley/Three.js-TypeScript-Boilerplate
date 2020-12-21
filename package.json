@@ -20,6 +20,7 @@
     "@types/jsdom": "^16.2.5",
     "@types/socket.io": "^2.1.12",
     "@types/socket.io-client": "^1.4.34",
+    "cross-blob": "^2.0.0",
     "express": "^4.17.1",
     "gl": "^4.9.0",
     "jimp": "^0.16.1",
