@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const http_1 = __importDefault(require("http"));
-const socket_io_1 = __importDefault(require("socket.io"));
+const socket_io_1 = require("socket.io");
 const theBallGame_1 = __importDefault(require("./theBallGame"));
 const port = 3000;
 class App {
@@ -20,7 +20,7 @@ class App {
         app.use('/jsm/objects/Reflector', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/objects/Reflector.js')));
         app.use('/jsm/loaders/OBJLoader', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/loaders/OBJLoader.js')));
         this.server = new http_1.default.Server(app);
-        this.io = socket_io_1.default(this.server);
+        this.io = new socket_io_1.Server(this.server);
         new theBallGame_1.default(this.io);
     }
     Start() {

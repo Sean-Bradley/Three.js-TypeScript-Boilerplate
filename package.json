@@ -21,7 +21,7 @@
     "@types/socket.io-client": "^1.4.33",
     "cannon": "^0.6.2",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^3.0.4",
     "three": "^0.123.0",
     "typescript": "3.8.3"
   }
