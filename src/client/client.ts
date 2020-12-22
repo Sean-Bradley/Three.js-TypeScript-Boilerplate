@@ -32,4 +32,4 @@ setInterval(() => {
 
         img.src = url;
     }
-}, 50)
+}, 100)
