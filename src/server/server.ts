@@ -7,7 +7,6 @@ import Jimp from "jimp"
 import { JSDOM } from "jsdom"
 import { OBJLoader } from "./OBJLoader.js"
 import fs from 'fs'
-import { Font } from "three"
 
 const { window } = new JSDOM();
 global.document = window.document;
@@ -43,8 +42,6 @@ class App {
 
         this.io.on('connection', (socket: socketIO.Socket) => {
             this.clients[socket.id] = {}
-            //console.log(this.clients)
-            //console.log('a user connected : ' + socket.id)
             socket.emit("id", socket.id);
 
             socket.on('disconnect', () => {
@@ -52,24 +49,14 @@ class App {
                 if (this.clients && this.clients[socket.id]) {
                     console.log("deleting " + socket.id)
                     delete this.clients[socket.id]
-                    //this.io.emit("removeClient", socket.id)
                 }
             })
 
             socket.on("clientTimestamp", (t: number) => {
-                //console.log(message)
                 if (this.clients[socket.id]) {
                     socket.emit("timestampResponse", t);
                 }
             })
-
-            // socket.on("ping", (t: number) => {
-            //     console.log(t)
-            //     if (this.clients[socket.id]) {
-            //         this.clients[socket.id].t = t //clientside timestamp
-            //         socket.emit("pong", t);
-            //     }
-            // });
         })
 
         this.renderer.setSize(this.width, this.height)
@@ -130,7 +117,6 @@ class App {
 
         this.delta = this.clock.getDelta()
 
-        //console.log("this.delta = " + this.delta)
         if (this.mesh) {
             this.mesh.rotation.y += 0.5 * this.delta
             this.mesh.rotation.z += 0.25 * this.delta
@@ -145,16 +131,12 @@ class App {
             new Jimp(this.width, this.height, (err: object, image: any) => {
                 image.bitmap.data = bitmapData
                 this.serverDateTime = new Date()
-                // Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
-                //     
                 image.print(this.font, 40, 330, "Server ISO Date : " + this.serverDateTime.toISOString())
                 image.print(this.font, 40, 350, "Render Delta ms: " + (new Date().getTime() - this.renderStart.getTime()))
                 image.print(this.font, 40, 370, "Client Count: " + Object.keys(this.clients).length)
-                // }).then(() => {
                 image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
                     this.io.emit('image', Buffer.from(buffer));
                 });
-                //})
             })
         }
     }

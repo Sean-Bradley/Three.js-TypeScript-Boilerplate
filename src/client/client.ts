@@ -36,7 +36,3 @@ socket.on("image", function (buffer: ArrayBuffer) {
 socket.on("timestampResponse", function (t: number) {
     pingPongMs.innerText = (Date.now() - t).toString()
 })
-
-
-
-//setTimeout(() => { socket.emit("ping") }, 1000)
