@@ -53,8 +53,9 @@ class App {
                     this.serverDateTime = new Date();
                     // Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
                     //     
-                    image.print(this.font, 40, 340, "Server ISO Date : " + this.serverDateTime.toISOString());
-                    image.print(this.font, 40, 360, "Render Delta ms: " + (new Date().getTime() - this.renderStart.getTime()));
+                    image.print(this.font, 40, 330, "Server ISO Date : " + this.serverDateTime.toISOString());
+                    image.print(this.font, 40, 350, "Render Delta ms: " + (new Date().getTime() - this.renderStart.getTime()));
+                    image.print(this.font, 40, 370, "Client Count: " + Object.keys(this.clients).length);
                     // }).then(() => {
                     image.getBuffer("image/png", (err, buffer) => {
                         this.io.emit('image', Buffer.from(buffer));
@@ -70,17 +71,30 @@ class App {
         this.io = socket_io_1.default(this.server);
         this.io.on('connection', (socket) => {
             this.clients[socket.id] = {};
-            console.log(this.clients);
-            console.log('a user connected : ' + socket.id);
+            //console.log(this.clients)
+            //console.log('a user connected : ' + socket.id)
             socket.emit("id", socket.id);
             socket.on('disconnect', () => {
                 console.log('socket disconnected : ' + socket.id);
                 if (this.clients && this.clients[socket.id]) {
                     console.log("deleting " + socket.id);
                     delete this.clients[socket.id];
-                    this.io.emit("removeClient", socket.id);
+                    //this.io.emit("removeClient", socket.id)
                 }
             });
+            socket.on("clientTimestamp", (t) => {
+                //console.log(message)
+                if (this.clients[socket.id]) {
+                    socket.emit("timestampResponse", t);
+                }
+            });
+            // socket.on("ping", (t: number) => {
+            //     console.log(t)
+            //     if (this.clients[socket.id]) {
+            //         this.clients[socket.id].t = t //clientside timestamp
+            //         socket.emit("pong", t);
+            //     }
+            // });
         });
         this.renderer.setSize(this.width, this.height);
         this.renderer.outputEncoding = THREE.sRGBEncoding;

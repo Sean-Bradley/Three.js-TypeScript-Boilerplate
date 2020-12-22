@@ -1,20 +1,23 @@
 const canvas = (document.getElementById('canvas') as HTMLCanvasElement)
 const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
 
+let myId: string = ""
 const socket: SocketIOClient.Socket = io()
+socket.on("id", (id: any) => {
+    (document.getElementById("socketID") as HTMLSpanElement).innerText = id
+    setInterval(() => {
+        socket.emit("clientTimestamp", Date.now())
+    }, 1000)
+})
 
-//const queue = new Array()
 let blob: Blob
 let url: string
 const img = new Image();
-//const serverISODateTime = document.getElementById("serverISODateTime") as HTMLSpanElement
 const clientISODateTime = document.getElementById("clientISODateTime") as HTMLSpanElement
-//const latency = document.getElementById("latency") as HTMLSpanElement
-//const serverRenderDelta = document.getElementById("serverRenderDelta") as HTMLSpanElement
+const pingPongMs = document.getElementById("pingPongMs") as HTMLSpanElement
 
 socket.on("image", function (buffer: ArrayBuffer) {
     if (buffer.byteLength) {
-        //queue.push(data)
         blob = new Blob([buffer], { type: 'image/png' });
         url = URL.createObjectURL(blob);
 
@@ -22,14 +25,18 @@ socket.on("image", function (buffer: ArrayBuffer) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0);
             URL.revokeObjectURL(url);
-            //serverISODateTime.innerText = new Date(data.serverTimeStamp).toISOString()
             const clientDate = new Date()
             clientISODateTime.innerText = clientDate.toISOString()
-            // latency.innerText = (clientDate.getTime() - data.serverTimeStamp).toString()
-            // serverRenderDelta.innerText = data.serverRenderDelta.toString()
         }
 
         img.src = url;
     }
 });
 
+socket.on("timestampResponse", function (t: number) {
+    pingPongMs.innerText = (Date.now() - t).toString()
+})
+
+
+
+//setTimeout(() => { socket.emit("ping") }, 1000)
