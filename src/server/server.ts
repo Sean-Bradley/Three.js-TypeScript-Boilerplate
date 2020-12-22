@@ -1,7 +1,7 @@
 import express from "express"
 import path from "path"
 import http from "http"
-import socketIO from "socket.io"
+import {Server} from "socket.io"
 
 const port: number = 3000
 
@@ -9,7 +9,7 @@ class App {
     private server: http.Server
     private port: number
 
-    private io: socketIO.Server
+    private io: Server
     private clients: any = {}
 
     constructor(port: number) {
@@ -24,9 +24,10 @@ class App {
 
         this.server = new http.Server(app);
 
-        this.io = socketIO(this.server);
+        this.io = new Server(this.server);
 
-        this.io.on('connection', (socket: socketIO.Socket) => {
+        this.io.on('connection', (socket: SocketIO.Socket) => {
+            console.log(socket.constructor.name)
             this.clients[socket.id] = {}
             console.log(this.clients)
             console.log('a user connected : ' + socket.id)

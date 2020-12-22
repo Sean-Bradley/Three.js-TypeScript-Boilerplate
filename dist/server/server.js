@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const http_1 = __importDefault(require("http"));
-const socket_io_1 = __importDefault(require("socket.io"));
+const socket_io_1 = require("socket.io");
 const port = 3000;
 class App {
     constructor(port) {
@@ -20,8 +20,9 @@ class App {
         app.use('/jsm/libs/dat.gui.module', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/libs/dat.gui.module.js')));
         app.use('/jsm/libs/tween.module.min', express_1.default.static(path_1.default.join(__dirname, '../../node_modules/three/examples/jsm/libs/tween.module.min.js')));
         this.server = new http_1.default.Server(app);
-        this.io = socket_io_1.default(this.server);
+        this.io = new socket_io_1.Server(this.server);
         this.io.on('connection', (socket) => {
+            console.log(socket.constructor.name);
             this.clients[socket.id] = {};
             console.log(this.clients);
             console.log('a user connected : ' + socket.id);
