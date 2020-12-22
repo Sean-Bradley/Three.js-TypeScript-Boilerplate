@@ -2,7 +2,7 @@ import express from "express"
 import path from "path"
 import http from "http"
 import * as THREE from "three"
-import socketIO from "socket.io"
+import {Server} from "socket.io"
 import Jimp from "jimp"
 import { JSDOM } from "jsdom"
 import { OBJLoader } from "./OBJLoader.js"
@@ -16,7 +16,7 @@ const port: number = 3000
 class App {
     private server: http.Server
     private port: number
-    private io: socketIO.Server
+    private io: Server
     private clients: any = {}
     private width = 600
     private height = 400
@@ -38,9 +38,9 @@ class App {
 
         this.server = new http.Server(app);
 
-        this.io = socketIO(this.server);
+        this.io = new Server(this.server);
 
-        this.io.on('connection', (socket: socketIO.Socket) => {
+        this.io.on('connection', (socket: SocketIO.Socket) => {
             this.clients[socket.id] = {}
             socket.emit("id", socket.id);
 
