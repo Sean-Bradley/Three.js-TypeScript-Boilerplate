@@ -9,11 +9,33 @@
             margin: 0px;
             background-color: black;
         }
+
+        #canvas {
+            border: 1px solid green;
+        }
+
+        #clientISODateTime {
+            font-size: 16px;
+            color: white;
+            display: block;
+            font-family: monospace;
+            padding-left: 20px;
+        }
+
+        #latency {
+            font-size: 16px;
+            color: white;
+            display: block;
+            font-family: monospace;
+            padding-left: 20px;
+        }
     </style>
 </head>
 
 <body>
     <canvas id="canvas" width="600" height="400"></canvas>
+    <span id="clientISODateTime"></span>
+    <span id="latency"></span>
     <script src="socket.io/socket.io.js"></script>
     <script type="module" src="client.js"></script>
 </body>

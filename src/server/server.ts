@@ -27,6 +27,8 @@ class App {
     private mesh = new THREE.Mesh()
     private clock: THREE.Clock = new THREE.Clock()
     private delta = 0;
+    private serverDateTime = new Date()
+    private renderStart =  new Date()
     constructor(port: number) {
         this.port = port
 
@@ -91,6 +93,8 @@ class App {
 
         this.camera.position.z = 30
 
+
+
         setInterval(() => {
             this.delta = this.clock.getDelta()
 
@@ -107,18 +111,19 @@ class App {
 
                 new Jimp(this.width, this.height, (err: object, image: any) => {
                     image.bitmap.data = bitmapData
-
-                    Jimp.loadFont(Jimp.FONT_SANS_32_WHITE).then(font => {
+                    this.serverDateTime = new Date()
+                    Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
                         image.fillStyle = "red";
-                        image.print(font, 100, 340, new Date().toISOString())
+                        image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString())
+                        image.print(font, 40, 370, "Clock Delta : " + this.delta)
                     }).then(() => {
                         image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
-                            this.io.emit('image', Buffer.from(buffer));
+                            this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime() });
                         });
                     })
                 })
             }
-        }, 100)
+        }, 50)
 
     }
 

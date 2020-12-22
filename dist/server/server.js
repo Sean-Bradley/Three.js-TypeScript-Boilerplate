@@ -34,6 +34,8 @@ class App {
         this.mesh = new THREE.Mesh();
         this.clock = new THREE.Clock();
         this.delta = 0;
+        this.serverDateTime = new Date();
+        this.renderStart = new Date();
         this.port = port;
         const app = express_1.default();
         app.use(express_1.default.static(path_1.default.join(__dirname, '../client')));
@@ -96,17 +98,19 @@ class App {
                 this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData);
                 new jimp_1.default(this.width, this.height, (err, image) => {
                     image.bitmap.data = bitmapData;
-                    jimp_1.default.loadFont(jimp_1.default.FONT_SANS_32_WHITE).then(font => {
+                    this.serverDateTime = new Date();
+                    jimp_1.default.loadFont(jimp_1.default.FONT_SANS_16_WHITE).then(font => {
                         image.fillStyle = "red";
-                        image.print(font, 100, 340, new Date().toISOString());
+                        image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString());
+                        image.print(font, 40, 370, "Clock Delta : " + this.delta);
                     }).then(() => {
                         image.getBuffer("image/png", (err, buffer) => {
-                            this.io.emit('image', Buffer.from(buffer));
+                            this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime() });
                         });
                     });
                 });
             }
-        }, 100);
+        }, 50);
     }
     Start() {
         this.server.listen(this.port, () => {
