@@ -7,6 +7,7 @@ import Jimp from "jimp"
 import { JSDOM } from "jsdom"
 import { OBJLoader } from "./OBJLoader.js"
 import fs from 'fs'
+import { Font } from "three"
 
 const { window } = new JSDOM();
 global.document = window.document;
@@ -28,6 +29,8 @@ class App {
     private clock: THREE.Clock = new THREE.Clock()
     private delta = 0;
     private serverDateTime = new Date()
+    private font: any
+    private renderStart = new Date()
     constructor(port: number) {
         this.port = port
 
@@ -92,6 +95,10 @@ class App {
 
         this.camera.position.z = 30
 
+        Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
+            this.font = font
+        })
+
         setInterval(() => {
             this.render()
         }, 100)
@@ -104,7 +111,8 @@ class App {
     }
 
     private render = () => {
-        const started = new Date()
+        this.renderStart = new Date()
+
         this.delta = this.clock.getDelta()
 
         //console.log("this.delta = " + this.delta)
@@ -123,12 +131,12 @@ class App {
                 image.bitmap.data = bitmapData
                 this.serverDateTime = new Date()
                 // Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
-                //     image.fillStyle = "red";
-                //     // image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString())
-                //     // image.print(font, 40, 370, "Clock Delta : " + this.delta)
+                //     
+                image.print(this.font, 40, 340, "Server ISO Date : " + this.serverDateTime.toISOString())
+                image.print(this.font, 40, 360, "Render Delta ms: " + (new Date().getTime() - this.renderStart.getTime()))
                 // }).then(() => {
                 image.getBuffer("image/png", (err: object, buffer: Uint8Array) => {
-                    this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime(), serverRenderDelta: (new Date().getTime() - started.getTime() ) });
+                    this.io.emit('image', Buffer.from(buffer));
                 });
                 //})
             })

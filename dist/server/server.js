@@ -35,8 +35,9 @@ class App {
         this.clock = new THREE.Clock();
         this.delta = 0;
         this.serverDateTime = new Date();
+        this.renderStart = new Date();
         this.render = () => {
-            const started = new Date();
+            this.renderStart = new Date();
             this.delta = this.clock.getDelta();
             //console.log("this.delta = " + this.delta)
             if (this.mesh) {
@@ -51,12 +52,12 @@ class App {
                     image.bitmap.data = bitmapData;
                     this.serverDateTime = new Date();
                     // Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
-                    //     image.fillStyle = "red";
-                    //     // image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString())
-                    //     // image.print(font, 40, 370, "Clock Delta : " + this.delta)
+                    //     
+                    image.print(this.font, 40, 340, "Server ISO Date : " + this.serverDateTime.toISOString());
+                    image.print(this.font, 40, 360, "Render Delta ms: " + (new Date().getTime() - this.renderStart.getTime()));
                     // }).then(() => {
                     image.getBuffer("image/png", (err, buffer) => {
-                        this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime(), serverRenderDelta: (new Date().getTime() - started.getTime()) });
+                        this.io.emit('image', Buffer.from(buffer));
                     });
                     //})
                 });
@@ -112,6 +113,9 @@ class App {
         this.mesh.rotateZ(Math.PI);
         this.scene.add(this.mesh);
         this.camera.position.z = 30;
+        jimp_1.default.loadFont(jimp_1.default.FONT_SANS_16_WHITE).then(font => {
+            this.font = font;
+        });
         setInterval(() => {
             this.render();
         }, 100);
