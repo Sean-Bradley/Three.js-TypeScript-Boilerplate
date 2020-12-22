@@ -35,7 +35,33 @@ class App {
         this.clock = new THREE.Clock();
         this.delta = 0;
         this.serverDateTime = new Date();
-        this.renderStart = new Date();
+        this.render = () => {
+            const started = new Date();
+            this.delta = this.clock.getDelta();
+            //console.log("this.delta = " + this.delta)
+            if (this.mesh) {
+                this.mesh.rotation.y += 0.5 * this.delta;
+                this.mesh.rotation.z += 0.25 * this.delta;
+            }
+            if (Object.keys(this.clients).length > 0) {
+                this.renderer.render(this.scene, this.camera);
+                var bitmapData = new Uint8Array(this.width * this.height * 4);
+                this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData);
+                new jimp_1.default(this.width, this.height, (err, image) => {
+                    image.bitmap.data = bitmapData;
+                    this.serverDateTime = new Date();
+                    // Jimp.loadFont(Jimp.FONT_SANS_16_WHITE).then(font => {
+                    //     image.fillStyle = "red";
+                    //     // image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString())
+                    //     // image.print(font, 40, 370, "Clock Delta : " + this.delta)
+                    // }).then(() => {
+                    image.getBuffer("image/png", (err, buffer) => {
+                        this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime(), serverRenderDelta: (new Date().getTime() - started.getTime()) });
+                    });
+                    //})
+                });
+            }
+        };
         this.port = port;
         const app = express_1.default();
         app.use(express_1.default.static(path_1.default.join(__dirname, '../client')));
@@ -87,30 +113,8 @@ class App {
         this.scene.add(this.mesh);
         this.camera.position.z = 30;
         setInterval(() => {
-            this.delta = this.clock.getDelta();
-            if (this.mesh) {
-                this.mesh.rotation.y += 0.5 * this.delta;
-                this.mesh.rotation.z += 0.25 * this.delta;
-            }
-            if (Object.keys(this.clients).length > 0) {
-                this.renderer.render(this.scene, this.camera);
-                var bitmapData = new Uint8Array(this.width * this.height * 4);
-                this.gl.readPixels(0, 0, this.width, this.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, bitmapData);
-                new jimp_1.default(this.width, this.height, (err, image) => {
-                    image.bitmap.data = bitmapData;
-                    this.serverDateTime = new Date();
-                    jimp_1.default.loadFont(jimp_1.default.FONT_SANS_16_WHITE).then(font => {
-                        image.fillStyle = "red";
-                        image.print(font, 40, 350, "Server Datetime : " + this.serverDateTime.toISOString());
-                        image.print(font, 40, 370, "Clock Delta : " + this.delta);
-                    }).then(() => {
-                        image.getBuffer("image/png", (err, buffer) => {
-                            this.io.emit('image', { buffer: Buffer.from(buffer), serverTimeStamp: this.serverDateTime.getTime() });
-                        });
-                    });
-                });
-            }
-        }, 50);
+            this.render();
+        }, 100);
     }
     Start() {
         this.server.listen(this.port, () => {

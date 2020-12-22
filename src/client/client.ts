@@ -3,21 +3,18 @@ const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
 
 const socket: SocketIOClient.Socket = io()
 
-const queue = new Array()
-socket.on("image", function (data: { buffer: ArrayBuffer, serverTimeStamp: number }) {
-    if (data.buffer.byteLength) {
-        queue.push(data)
-    }
-});
-
+//const queue = new Array()
 let blob: Blob
 let url: string
 const img = new Image();
+const serverISODateTime = document.getElementById("serverISODateTime") as HTMLSpanElement
 const clientISODateTime = document.getElementById("clientISODateTime") as HTMLSpanElement
 const latency = document.getElementById("latency") as HTMLSpanElement
-setInterval(() => {
-    if (queue.length) {
-        const data = queue.shift()
+const serverRenderDelta = document.getElementById("serverRenderDelta") as HTMLSpanElement
+
+socket.on("image", function (data: { buffer: ArrayBuffer, serverTimeStamp: number, serverRenderDelta: number }) {
+    if (data.buffer.byteLength) {
+        //queue.push(data)
         blob = new Blob([data.buffer], { type: 'image/png' });
         url = URL.createObjectURL(blob);
 
@@ -25,11 +22,21 @@ setInterval(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0);
             URL.revokeObjectURL(url);
+            serverISODateTime.innerText = new Date(data.serverTimeStamp).toISOString()
             const clientDate = new Date()
-            clientISODateTime.innerText = "Client Datetime : " + clientDate.toISOString()
-            latency.innerText = "Latency : " + (clientDate.getTime() - data.serverTimeStamp)
+            clientISODateTime.innerText = clientDate.toISOString()
+            latency.innerText = (clientDate.getTime() - data.serverTimeStamp).toString()
+            serverRenderDelta.innerText = data.serverRenderDelta.toString()
         }
 
         img.src = url;
     }
-}, 100)
+});
+
+
+// const redraw = setInterval(() => {
+//     if (queue.length) {
+//         const data = queue.shift()
+        
+//     }
+// }, 100)
