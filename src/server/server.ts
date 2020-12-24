@@ -1,7 +1,7 @@
 import express from "express"
 import path from "path"
 import http from "http"
-import { Server } from "socket.io"
+import socketIO from "socket.io"
 import theBallGame from "./theBallGame"
 
 const port: number = 3000
@@ -10,7 +10,7 @@ class App {
     private server: http.Server
     private port: number
 
-    private io: Server
+    private io: socketIO.Server
 
     constructor(port: number) {
         this.port = port
@@ -23,7 +23,7 @@ class App {
         app.use('/jsm/loaders/OBJLoader', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/loaders/OBJLoader.js')))
         this.server = new http.Server(app);
 
-        this.io = new Server(this.server);
+        this.io = new socketIO.Server(this.server);
 
         new theBallGame(this.io)
     }
