@@ -22,7 +22,7 @@
     "grabvr": "^2.1.0",
     "statsvr": "^2.0.2",
     "teleportvr": "^2.1.0",
-    "three": "^0.123.0",
+    "three": "^0.124.0",
     "typescript": "3.8.3"
   }
 }
