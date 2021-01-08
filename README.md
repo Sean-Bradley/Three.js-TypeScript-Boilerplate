@@ -58,14 +58,21 @@ code .
 
 ## Branches
 
-The default **master** branch does not include **Stats.js**, **Dat.GUI** or **Socket.IO**
+The default **master** branch does not include **Stats.js**, **Dat.GUI**, **Socket.IO** or many of the other libraries demonstrated throughout the course.
+
+So I have created many extra branches that demonstrate many other concepts.
 
 ### stats.js
 
 To get a version of the boilerplate that includes the **Stats.js** panel then,
 ```bash
 git checkout stats
+npm install
+npm run dev
 ```
+
+Visit http://127.0.0.1:3000
+
 ![With Stats.js](docs/with-stats.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/stats/)
@@ -77,6 +84,9 @@ git checkout statsgui
 npm install
 npm run dev
 ```
+
+Visit http://127.0.0.1:3000
+
 ![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
@@ -89,6 +99,8 @@ git checkout socketio
 npm install
 npm run dev
 ```
+
+Visit http://127.0.0.1:3000
 
 ![With SocketIO](docs/with-socketio.jpg)
 
@@ -105,6 +117,8 @@ npm install
 npm run dev
 ```
 
+Visit http://127.0.0.1:3000
+
 ![With Cannon.js](docs/with-cannonjs.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
@@ -117,6 +131,8 @@ git checkout webcam
 npm install
 npm run dev
 ```
+
+Visit http://127.0.0.1:3000
 
 ![With Webcam as Texture](docs/with-webcam.jpg)
 
@@ -131,6 +147,8 @@ git checkout bsc5
 npm install
 npm run dev
 ```
+
+Visit http://127.0.0.1:3000
 
 ![With BSC5 Bright Star Catalog](docs/with-bsc5.jpg)
 
@@ -148,6 +166,8 @@ npm install
 npm run dev
 ```
 
+Visit http://127.0.0.1:3000
+
 ![The Ball Game](docs/theballgame.jpg)
 
 ### Annotations
@@ -159,6 +179,8 @@ git checkout annotations
 npm install
 npm run dev
 ```
+
+Visit http://127.0.0.1:3000
 
 ![With Annotations](docs/annotations.jpg)
 
@@ -174,6 +196,8 @@ npm install
 npm run dev
 ```
 
+Visit http://127.0.0.1:3000
+
 ![With CSG](docs/with-csg.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/csg/)
@@ -188,9 +212,25 @@ npm install
 npm run dev
 ```
 
+Visit http://127.0.0.1:3000
+
 ![With WebXR](docs/with-webxr.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webxr/)
+
+### Webpack
+
+To get a version of the boilerplate that demonstrates using **Module Specifiers** in the client javascript, the webpack dev server and Hot Module Replacement (HMR) then,
+
+```bash
+git checkout statsguiwebpack
+npm install
+npm run dev
+```
+
+Visit http://127.0.0.1:8080
+
+![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
 
 ---
 
