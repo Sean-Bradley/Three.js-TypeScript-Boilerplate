@@ -117,7 +117,7 @@ torusKnotMesh.position.x = 4
 torusKnotMesh.position.y = 3
 torusKnotMesh.castShadow = true
 scene.add(torusKnotMesh)
-const torusKnotShape = CannonUtils.CreateTrimesh(<THREE.Geometry>torusKnotMesh.geometry)
+const torusKnotShape = CannonUtils.CreateTrimesh(torusKnotMesh.geometry)
 const torusKnotBody = new CANNON.Body({ mass: 1 })
 torusKnotBody.addShape(torusKnotShape)
 torusKnotBody.position.x = torusKnotMesh.position.x
