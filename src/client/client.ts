@@ -315,7 +315,7 @@ const curveMaterial = new THREE.ShaderMaterial({
 teleportVR.curve.material = curveMaterial;
 
 
-const statsVR = new StatsVR(camera)
+const statsVR = new StatsVR(scene, camera)
 statsVR.setX(0)
 statsVR.setY(0)
 statsVR.setZ(-2)

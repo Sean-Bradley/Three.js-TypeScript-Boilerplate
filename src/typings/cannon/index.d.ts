@@ -1,8 +1,10 @@
-// Type definitions for cannon 0.6.2
+// Type definitions for cannon 0.1
 // Project: https://github.com/clark-stevenson/cannon.d.ts
 // Definitions by: Clark Stevenson <https://github.com/clark-stevenson>
 //                 Grzegorz Rozdzialik <https://github.com/Gelio>
-// Additions 2020: Sean Bradley <https://sbcode.net/threejs/>
+//                 Sean Bradley <https://sbcode.net/threejs/>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
 
 declare module CANNON {
 
@@ -180,11 +182,14 @@ declare module CANNON {
         motorMinForce: number;
         motorMaxForce: number;
         motorEquation: RotationalMotorEquation;
-
+        axisA: Vec3;
+        axisB: Vec3;
+        
         constructor(bodyA: Body, bodyB: Body, options?: IHingeConstraintOptions);
 
         enableMotor(): void;
         disableMotor(): void;
+        setMotorSpeed(speed: number): void;
 
     }
 
@@ -213,6 +218,8 @@ declare module CANNON {
     export class ConeTwistConstraint extends Constraint {
         constructor(bodyA: Body, bodyB: Body, options?: IConeTwistConstraintOptions);
     }
+
+
 
     export class Equation {
 
@@ -842,10 +849,12 @@ declare module CANNON {
 
     export class Trimesh extends Shape {
 
+        vertices: number[]
+        indices: number[]
+        scale: Vec3
+
         constructor(vertices: number[], indices: number[]);
 
-        indices: number[];
-        scale: Vec3;
         updateTree(): void;
         getTrianglesInAABB(aabb: AABB, result: []): [];
         setScale(scale: Vec3): void
@@ -907,6 +916,7 @@ declare module CANNON {
         tolerance: number;
 
         solve(dy: number, world: World): number;
+
 
     }
 
@@ -1053,6 +1063,7 @@ declare module CANNON {
     }
 
 }
+
 
 declare module "cannon" {
     export = CANNON;
