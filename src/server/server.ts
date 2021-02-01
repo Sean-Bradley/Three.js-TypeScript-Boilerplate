@@ -15,7 +15,7 @@ class App {
         app.use('/build/three.module.js', express.static(path.join(__dirname, '../../node_modules/three/build/three.module.js')))
         app.use('/jsm/controls/OrbitControls', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/controls/OrbitControls.js')))
         app.use('/jsm/libs/stats.module', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/libs/stats.module.js')))
-
+        app.use('/jsm/deprecated/Geometry', express.static(path.join(__dirname, '../../node_modules/three/examples/jsm/deprecated/Geometry.js')))
         this.server = new http.Server(app);
     }
 

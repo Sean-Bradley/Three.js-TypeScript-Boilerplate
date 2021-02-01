@@ -7,14 +7,16 @@
 // Holds a binary space partition tree representing a 3D solid. Two solids can
 // be combined using the `union()`, `subtract()`, and `intersect()` methods.
 //
-// Differences Copyright 2020 Sean Bradley : https://sbcode.net/threejs/
+// Differences Copyright 2020-2021 Sean Bradley : https://sbcode.net/threejs/
 // - Started with CSGMesh.js from https://github.com/manthrax/THREE-CSGMesh/blob/master/CSGMesh.js
 // - Converted to TypeScript by adding type annotations to all variables
 // - Converted var to const and let
 // - More THREEJS integration (THREE r119)
 // - Some Refactoring
+// - support for three r125
 
 import * as THREE from '/build/three.module.js'
+import { Geometry } from '/jsm/deprecated/Geometry'
 
 class CSG {
     polygons: Polygon[]
@@ -90,11 +92,11 @@ class CSG {
         return csg;
     }
 
-    static fromGeometry = function (geom: THREE.Geometry | THREE.BufferGeometry) {
+    static fromGeometry = function (geom: Geometry | THREE.BufferGeometry) {
         if ((geom as THREE.BufferGeometry).isBufferGeometry)
-            geom = new THREE.Geometry().fromBufferGeometry(geom as THREE.BufferGeometry)
-        const fs = (geom as THREE.Geometry).faces;
-        const vs = (geom as THREE.Geometry).vertices;
+            geom = new Geometry().fromBufferGeometry(geom as THREE.BufferGeometry)
+        const fs = (geom as Geometry).faces;
+        const vs = (geom as Geometry).vertices;
         const polys = []
         const fm = ['a', 'b', 'c']
         for (let i = 0; i < fs.length; i++) {
@@ -128,7 +130,7 @@ class CSG {
     }
 
     static toMesh = function (csg: CSG, toMatrix: THREE.Matrix4) {
-        const geom = new THREE.Geometry();
+        const geom = new Geometry();
         const ps = csg.polygons;
         const vs = geom.vertices;
         const fvuv = geom.faceVertexUvs[0]
@@ -142,7 +144,7 @@ class CSG {
                 vs.push(new THREE.Vector3().copy(pvs[j].pos))
 
             for (let j = 3; j <= pvlen; j++) {
-                const fc = new THREE.Face3(0, 0, 0);
+                const fc = new Geometry.Face3(0, 0, 0);
                 const fuv = []
                 fvuv.push(fuv)
                 const fnml = fc.vertexNormals;
@@ -167,7 +169,7 @@ class CSG {
         geom.verticesNeedUpdate = geom.elementsNeedUpdate = geom.normalsNeedUpdate = true;
         geom.computeBoundingSphere();
         geom.computeBoundingBox();
-        const m = new THREE.Mesh(geom);
+        const m = new THREE.Mesh(geom.toBufferGeometry());
         m.matrix.copy(toMatrix);
         m.matrix.decompose(m.position, m.quaternion, m.scale)
         m.updateMatrixWorld();
