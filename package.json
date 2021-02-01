@@ -20,7 +20,7 @@
   "dependencies": {
     "@types/dat.gui": "^0.7.5",
     "@types/express": "^4.17.7",
-    "three": "^0.124.0",
+    "three": "^0.125.2",
     "typescript": "3.8.3"
   }
 }
