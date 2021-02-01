@@ -4,30 +4,27 @@ class CannonUtils {
 
     constructor() { }
 
-    public static CreateTrimesh(geometry: THREE.Geometry | THREE.BufferGeometry): CANNON.Trimesh {
-        if (!(geometry as THREE.BufferGeometry).attributes) {
-            geometry = new THREE.BufferGeometry().fromGeometry(geometry as THREE.Geometry)
-        }
-        const vertices: number[] = <number[]>(geometry as THREE.BufferGeometry).attributes.position.array
+    public static CreateTrimesh(geometry: THREE.BufferGeometry): CANNON.Trimesh {
+        const vertices: number[] = <number[]>geometry.attributes.position.array
         const indices: number[] = Object.keys(vertices).map(Number)
         return new CANNON.Trimesh(vertices, indices)
     }
 
-    public static CreateConvexPolyhedron(geometry: THREE.Geometry | THREE.BufferGeometry): CANNON.ConvexPolyhedron {
-        if (!(geometry as THREE.Geometry).vertices) {
-            geometry = new THREE.Geometry().fromBufferGeometry(geometry as THREE.BufferGeometry)
-            geometry.mergeVertices()
-            geometry.computeBoundingSphere()
-            geometry.computeFaceNormals()
-        }
-        const points: CANNON.Vec3[] = (<THREE.Geometry>geometry).vertices.map(function (v) {
-            return new CANNON.Vec3(v.x, v.y, v.z)
-        })
-        const faces: number[][] = (<THREE.Geometry>geometry).faces.map(function (f) {
-            return [f.a, f.b, f.c]
-        })
 
-        return new CANNON.ConvexPolyhedron(points, faces)
+    public static CreateConvexPolyhedron(geometry: THREE.BufferGeometry): CANNON.ConvexPolyhedron {
+        const position = geometry.attributes.position.array
+        const points: CANNON.Vec3[] = []
+        for (let i = 0; i < position.length; i += 3) {
+            const x = position[i]
+            const y = position[i + 1]
+            const z = position[i + 2]
+            points.push(new CANNON.Vec3(x, y, z));
+        }
+        const faces: number[][] = []
+        for (let i = 0; i < position.length / 3; i += 3) {
+            faces.push([i, i + 1, i + 2])
+        }
+        return new CANNON.ConvexPolyhedron(points, faces);
     }
 }
 

@@ -1,27 +1,23 @@
-import * as THREE from '/build/three.module.js';
 class CannonUtils {
     constructor() { }
     static CreateTrimesh(geometry) {
-        if (!geometry.attributes) {
-            geometry = new THREE.BufferGeometry().fromGeometry(geometry);
-        }
         const vertices = geometry.attributes.position.array;
         const indices = Object.keys(vertices).map(Number);
         return new CANNON.Trimesh(vertices, indices);
     }
     static CreateConvexPolyhedron(geometry) {
-        if (!geometry.vertices) {
-            geometry = new THREE.Geometry().fromBufferGeometry(geometry);
-            geometry.mergeVertices();
-            geometry.computeBoundingSphere();
-            geometry.computeFaceNormals();
+        const position = geometry.attributes.position.array;
+        const points = [];
+        for (let i = 0; i < position.length; i += 3) {
+            const x = position[i];
+            const y = position[i + 1];
+            const z = position[i + 2];
+            points.push(new CANNON.Vec3(x, y, z));
         }
-        const points = geometry.vertices.map(function (v) {
-            return new CANNON.Vec3(v.x, v.y, v.z);
-        });
-        const faces = geometry.faces.map(function (f) {
-            return [f.a, f.b, f.c];
-        });
+        const faces = [];
+        for (let i = 0; i < position.length / 3; i += 3) {
+            faces.push([i, i + 1, i + 2]);
+        }
         return new CANNON.ConvexPolyhedron(points, faces);
     }
 }
