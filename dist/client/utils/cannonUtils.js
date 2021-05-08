@@ -1,4 +1,4 @@
-import * as THREE from '/build/three.module.js';
+import * as THREE from "/build/three.module.js";
 class CannonUtils {
     constructor() { }
     static CreateTrimesh(geometry) {
@@ -15,12 +15,19 @@ class CannonUtils {
         }
         const faces = [];
         for (let i = 0; i < position.count; i += 3) {
-            const vertexNormals = (normal === undefined) ? [] : [
-                new THREE.Vector3().fromBufferAttribute(normal, i),
-                new THREE.Vector3().fromBufferAttribute(normal, i + 1),
-                new THREE.Vector3().fromBufferAttribute(normal, i + 2)
-            ];
-            const face = new THREE.Face3(i, i + 1, i + 2, vertexNormals, []);
+            const vertexNormals = normal === undefined
+                ? []
+                : [
+                    new THREE.Vector3().fromBufferAttribute(normal, i),
+                    new THREE.Vector3().fromBufferAttribute(normal, i + 1),
+                    new THREE.Vector3().fromBufferAttribute(normal, i + 2),
+                ];
+            const face = {
+                a: i,
+                b: i + 1,
+                c: i + 2,
+                normals: vertexNormals,
+            };
             faces.push(face);
         }
         const verticesMap = {};
@@ -28,7 +35,11 @@ class CannonUtils {
         const changes = [];
         for (let i = 0, il = vertices.length; i < il; i++) {
             const v = vertices[i];
-            const key = Math.round(v.x * 100) + '_' + Math.round(v.y * 100) + '_' + Math.round(v.z * 100);
+            const key = Math.round(v.x * 100) +
+                "_" +
+                Math.round(v.y * 100) +
+                "_" +
+                Math.round(v.z * 100);
             if (verticesMap[key] === undefined) {
                 verticesMap[key] = i;
                 points.push(new CANNON.Vec3(vertices[i].x, vertices[i].y, vertices[i].z));
