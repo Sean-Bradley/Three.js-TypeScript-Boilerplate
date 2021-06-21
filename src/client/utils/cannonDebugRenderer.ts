@@ -7,8 +7,8 @@
 // - Changed references of Three.Geometry to THREE.BufferGeometry
 // - Highlight faces that the CONVEXPOLYHEDRON thinks are pointing into the shape. 
 
-import * as THREE from '/build/three.module.js'
-
+import * as THREE from 'three'
+import * as CANNON from 'cannon'
 export default class CannonDebugRenderer {
 
     public scene: THREE.Scene

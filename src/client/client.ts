@@ -1,11 +1,11 @@
-import * as THREE from '/build/three.module.js'
-import StatsVR from '/statsvr'
-import { VRButton } from '/jsm/webxr/VRButton'
-import TeleportVR from '/teleportvr'
-import GrabVR from '/grabvr'
-import Explosion from './explosion.js'
-import '/cannon/cannon.min'
-//import CannonDebugRenderer from './utils/cannonDebugRenderer.js'
+import * as THREE from 'three'
+import StatsVR from './utils/statsvr'
+import { VRButton } from 'three/examples/jsm/webxr/VRButton'
+import TeleportVR from 'teleportvr'
+import GrabVR from 'grabvr'
+import Explosion from './explosion'
+import * as CANNON from 'cannon'
+//import CannonDebugRenderer from './utils/cannonDebugRenderer'
 
 
 let bulletCounter = 0

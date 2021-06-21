@@ -188,6 +188,8 @@ npm install
 npm run dev
 ```
 
+6. Visit [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+
 ![With WebXR](docs/with-webxr.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webxr/)

@@ -5,12 +5,9 @@
         "outDir": "../../dist/client",
         "baseUrl": ".",
         "paths": {
-            "/build/three.module.js": ["../../node_modules/three/src/Three"],
-            "/jsm/*": ["../../node_modules/three/examples/jsm/*"],
-            "/statsvr": ["../../node_modules/statsvr/dist/client/statsvr.d.ts"],
-            "/teleportvr": ["../../node_modules/teleportvr/dist/client/teleportvr.d.ts"],
-            "/grabvr": ["../../node_modules/grabvr/dist/client/grabvr.d.ts"],
-            "/cannon/cannon.min": ["../typings/cannon"]
+            "cannon": [
+                "../typings/cannon"
+            ]
         },
         "moduleResolution": "node",
         "strict": true
