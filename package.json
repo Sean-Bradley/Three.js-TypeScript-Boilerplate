@@ -3,22 +3,27 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "concurrently -k \"tsc -p ./src/server -w\" \"tsc -p ./src/client -w\" \"nodemon ./dist/server/server.js\"",
+    "build": "webpack --config ./src/client/webpack.prod.js",
+    "dev": "webpack serve --config ./src/client/webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/server/server.js"
   },
   "author": "Sean Bradley",
   "license": "ISC",
   "devDependencies": {
+    "@types/dat.gui": "^0.7.6",
+    "@types/express": "^4.17.12",
     "@types/node": "^13.13.15",
-    "concurrently": "^5.3.0",
-    "nodemon": "^2.0.4"
+    "@types/three": "^0.129.1",
+    "three": "^0.129.0",
+    "ts-loader": "^9.2.3",
+    "typescript": "^3.8.3",
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@types/dat.gui": "^0.7.5",
-    "@types/express": "^4.17.7",
-    "express": "^4.17.1",
-    "three": "^0.125.2",
-    "typescript": "3.8.3"
+    "express": "^4.17.1"
   }
 }
