@@ -1,10 +1,10 @@
-import * as THREE from '/build/three.module.js'
-import { OrbitControls } from '/jsm/controls/OrbitControls'
-import { OBJLoader } from '/jsm/loaders/OBJLoader'
-import { MTLLoader } from '/jsm/loaders/MTLLoader'
-import Stats from '/jsm/libs/stats.module'
-import { TWEEN } from '/jsm/libs/tween.module.min'
-import { CSS2DRenderer, CSS2DObject } from '/jsm/renderers/CSS2DRenderer';
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'
+import Stats from 'three/examples/jsm/libs/stats.module'
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 let annotations: { [key: string]: Annotation }
 const annotationMarkers: THREE.Sprite[] = []
