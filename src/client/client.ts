@@ -1,11 +1,11 @@
-import * as THREE from '/build/three.module.js'
-import { OrbitControls } from '/jsm/controls/OrbitControls'
-import Stats from '/jsm/libs/stats.module'
-import { GUI } from '/jsm/libs/dat.gui.module'
-import '/cannon/cannon.min'
-import CannonDebugRenderer from './utils/cannonDebugRenderer.js'
-import CannonUtils from './utils/cannonUtils.js'
-import { OBJLoader } from '/jsm/loaders/OBJLoader'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import Stats from 'three/examples/jsm/libs/stats.module'
+import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
+import * as CANNON from 'cannon'
+import CannonDebugRenderer from './utils/cannonDebugRenderer'
+import CannonUtils from './utils/cannonUtils'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 
 const scene: THREE.Scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(5)
