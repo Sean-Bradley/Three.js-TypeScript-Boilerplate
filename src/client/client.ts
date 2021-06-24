@@ -1,7 +1,7 @@
-import * as THREE from '/build/three.module.js'
-import { OrbitControls } from '/jsm/controls/OrbitControls'
-import Stats from '/jsm/libs/stats.module'
-import { GUI } from '/jsm/libs/dat.gui.module'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import Stats from 'three/examples/jsm/libs/stats.module'
+import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 
 const scene: THREE.Scene = new THREE.Scene()
 
