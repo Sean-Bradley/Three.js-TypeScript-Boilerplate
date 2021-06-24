@@ -11,7 +11,7 @@
 import express from "express"
 import path from "path"
 import http from "http"
-import {Server} from "socket.io"
+import { Server } from "socket.io"
 
 const port: number = 3000
 
@@ -25,7 +25,7 @@ class App {
     constructor(port: number) {
         this.port = port
         const app = express()
-        app.use(express.static(path.join(__dirname, '../client')))        
+        app.use(express.static(path.join(__dirname, '../client')))
 
         this.server = new http.Server(app);
 
