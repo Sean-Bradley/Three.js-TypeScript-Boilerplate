@@ -11,7 +11,7 @@ const scene: THREE.Scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(5)
 scene.add(axesHelper)
 
-var light1 = new THREE.SpotLight()
+const light1 = new THREE.SpotLight()
 light1.position.set(2.5, 5, 5)
 light1.angle = Math.PI / 4
 light1.penumbra = 0.5
@@ -22,7 +22,7 @@ light1.shadow.camera.near = 0.5
 light1.shadow.camera.far = 20
 scene.add(light1)
 
-var light2 = new THREE.SpotLight()
+const light2 = new THREE.SpotLight()
 light2.position.set(-2.5, 5, 5)
 light2.angle = Math.PI / 4
 light2.penumbra = 0.5
@@ -34,6 +34,8 @@ light2.shadow.camera.far = 20
 scene.add(light2)
 
 const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera.position.y = 4
+camera.position.z = 4
 
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -43,6 +45,7 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.screenSpacePanning = true
+controls.target.y = 2
 
 const world = new CANNON.World()
 world.gravity.set(0, -9.82, 0)
@@ -152,7 +155,7 @@ objLoader.load(
     (error) => {
         console.log('An error happened')
     }
-);
+)
 
 
 const planeGeometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(25, 25)
@@ -166,9 +169,6 @@ planeBody.addShape(planeShape)
 planeBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
 world.addBody(planeBody)
 
-camera.position.y = 4
-camera.position.z = 4
-controls.target.y = 2
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -192,7 +192,7 @@ const clock: THREE.Clock = new THREE.Clock()
 
 const cannonDebugRenderer = new CannonDebugRenderer(scene, world)
 
-var animate = function () {
+function animate() {
     requestAnimationFrame(animate)
 
     controls.update()
@@ -226,4 +226,5 @@ var animate = function () {
 function render() {
     renderer.render(scene, camera)
 }
+
 animate()

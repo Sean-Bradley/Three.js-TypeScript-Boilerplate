@@ -16,7 +16,7 @@
     "@types/node": "^13.13.15",
     "@types/three": "^0.129.1",
     "cannon": "^0.6.2",
-    "three": "^0.129.0",
+    "three": "^0.130.0",
     "ts-loader": "^8.0.14",
     "typescript": "^4.3.4",
     "webpack": "^5.37.0",
