@@ -1,38 +1,38 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
-import {CSG} from './utils/CSGMesh'
+import { CSG } from './utils/CSGMesh'
 
-const scene: THREE.Scene = new THREE.Scene()
+const scene = new THREE.Scene()
 
-var light1 = new THREE.SpotLight();
+var light1 = new THREE.SpotLight()
 light1.position.set(2.5, 5, 5)
 light1.angle = Math.PI / 4
 light1.penumbra = 0.5
-light1.castShadow = true;
-light1.shadow.mapSize.width = 1024;
-light1.shadow.mapSize.height = 1024;
-light1.shadow.camera.near = 0.5;
+light1.castShadow = true
+light1.shadow.mapSize.width = 1024
+light1.shadow.mapSize.height = 1024
+light1.shadow.camera.near = 0.5
 light1.shadow.camera.far = 20
-scene.add(light1);
+scene.add(light1)
 
-var light2 = new THREE.SpotLight();
+var light2 = new THREE.SpotLight()
 light2.position.set(-2.5, 5, 5)
 light2.angle = Math.PI / 4
 light2.penumbra = 0.5
-light2.castShadow = true;
-light2.shadow.mapSize.width = 1024;
-light2.shadow.mapSize.height = 1024;
-light2.shadow.camera.near = 0.5;
+light2.castShadow = true
+light2.shadow.mapSize.width = 1024
+light2.shadow.mapSize.height = 1024
+light2.shadow.camera.near = 0.5
 light2.shadow.camera.far = 20
-scene.add(light2);
+scene.add(light2)
 
-const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.x = .5
 camera.position.y = 2
 camera.position.z = 2.5
 
-const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
@@ -53,15 +53,15 @@ const material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().lo
     sphereMesh.position.set(-2, 0, -6)
     scene.add(sphereMesh)
 
-    const cubeCSG = CSG.fromMesh(cubeMesh);
-    const sphereCSG = CSG.fromMesh(sphereMesh);
+    const cubeCSG = CSG.fromMesh(cubeMesh)
+    const sphereCSG = CSG.fromMesh(sphereMesh)
 
-    const cubeSphereIntersectCSG = cubeCSG.intersect(sphereCSG);
-    const cubeSphereIntersectMesh = CSG.toMesh(cubeSphereIntersectCSG, new THREE.Matrix4());
+    const cubeSphereIntersectCSG = cubeCSG.intersect(sphereCSG)
+    const cubeSphereIntersectMesh = CSG.toMesh(cubeSphereIntersectCSG, new THREE.Matrix4())
 
-    cubeSphereIntersectMesh.material = new THREE.MeshPhongMaterial({ color: 0xff00ff });
+    cubeSphereIntersectMesh.material = new THREE.MeshPhongMaterial({ color: 0xff00ff })
     cubeSphereIntersectMesh.position.set(-2.5, 0, -3)
-    scene.add(cubeSphereIntersectMesh);
+    scene.add(cubeSphereIntersectMesh)
 
 
 
@@ -75,24 +75,24 @@ const material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().lo
     cylinderMesh3.geometry.rotateZ(Math.PI / 2)
     scene.add(cylinderMesh3)
 
-    const cylinderCSG1 = CSG.fromMesh(cylinderMesh1);
-    const cylinderCSG2 = CSG.fromMesh(cylinderMesh2);
-    const cylinderCSG3 = CSG.fromMesh(cylinderMesh3);
+    const cylinderCSG1 = CSG.fromMesh(cylinderMesh1)
+    const cylinderCSG2 = CSG.fromMesh(cylinderMesh2)
+    const cylinderCSG3 = CSG.fromMesh(cylinderMesh3)
 
-    const cylindersUnionCSG = cylinderCSG1.union(cylinderCSG2.union(cylinderCSG3));
-    const cylindersUnionMesh = CSG.toMesh(cylindersUnionCSG, new THREE.Matrix4());
+    const cylindersUnionCSG = cylinderCSG1.union(cylinderCSG2.union(cylinderCSG3))
+    const cylindersUnionMesh = CSG.toMesh(cylindersUnionCSG, new THREE.Matrix4())
 
-    cylindersUnionMesh.material = new THREE.MeshPhongMaterial({ color: 0xffa500 });
+    cylindersUnionMesh.material = new THREE.MeshPhongMaterial({ color: 0xffa500 })
     cylindersUnionMesh.position.set(2.5, 0, -3)
-    scene.add(cylindersUnionMesh);
+    scene.add(cylindersUnionMesh)
 
 
 
     //subtract the cylindersUnionCSG from the cubeSphereIntersectCSG
     const finalCSG = cubeSphereIntersectCSG.subtract(cylindersUnionCSG)
-    const finalMesh = CSG.toMesh(finalCSG, new THREE.Matrix4());
-    finalMesh.material = material;
-    scene.add(finalMesh);
+    const finalMesh = CSG.toMesh(finalCSG, new THREE.Matrix4())
+    finalMesh.material = material
+    scene.add(finalMesh)
 
 }
 
@@ -107,7 +107,7 @@ function onWindowResize() {
 const stats = Stats()
 document.body.appendChild(stats.dom)
 
-var animate = function () {
+function animate() {
     requestAnimationFrame(animate)
 
     controls.update()
@@ -115,9 +115,10 @@ var animate = function () {
     render()
 
     stats.update()
-};
+}
 
 function render() {
     renderer.render(scene, camera)
 }
-animate();
+
+animate()
