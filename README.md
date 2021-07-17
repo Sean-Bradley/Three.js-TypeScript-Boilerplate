@@ -7,12 +7,9 @@ When run, the boilerplate shows a green wireframe rotating cube, with OrbitContr
 
 [Example](https://sbcode.net/threejs/threejs-typescript-boilerplate/)
 
-It is hosted using NodeJS and Express.
+It uses webpack-dev-server for the development build, and NodeJS with Express for production build.
 
-It contains server and client scripts both written in TypeScript.
-
-The client typescript and compiled javascript both use [ES6 import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-
+Both server and client projects are written in TypeScript.
 
 ![](docs/screengrab1.jpg)
 
