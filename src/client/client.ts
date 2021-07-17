@@ -28,7 +28,7 @@ light2.shadow.camera.far = 20
 scene.add(light2)
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-camera.position.x = .5
+camera.position.x = 0.5
 camera.position.y = 2
 camera.position.z = 2.5
 
@@ -38,15 +38,32 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-const material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load('img/grid.png') })
+const material = new THREE.MeshPhongMaterial({
+    map: new THREE.TextureLoader().load('img/grid.png'),
+})
 
 {
     //create a cube and sphere and intersect them
-    const cubeMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-    const sphereMesh = new THREE.Mesh(new THREE.SphereGeometry(1.45, 8, 8), new THREE.MeshPhongMaterial({ color: 0x0000ff }));
-    const cylinderMesh1 = new THREE.Mesh(new THREE.CylinderGeometry(.85, .85, 2, 8, 1, false), new THREE.MeshPhongMaterial({ color: 0x00ff00 }));
-    const cylinderMesh2 = new THREE.Mesh(new THREE.CylinderGeometry(.85, .85, 2, 8, 1, false), new THREE.MeshPhongMaterial({ color: 0x00ff00 }));
-    const cylinderMesh3 = new THREE.Mesh(new THREE.CylinderGeometry(.85, .85, 2, 8, 1, false), new THREE.MeshPhongMaterial({ color: 0x00ff00 }));
+    const cubeMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 2),
+        new THREE.MeshPhongMaterial({ color: 0xff0000 })
+    )
+    const sphereMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(1.45, 8, 8),
+        new THREE.MeshPhongMaterial({ color: 0x0000ff })
+    )
+    const cylinderMesh1 = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.MeshPhongMaterial({ color: 0x00ff00 })
+    )
+    const cylinderMesh2 = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.MeshPhongMaterial({ color: 0x00ff00 })
+    )
+    const cylinderMesh3 = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.MeshPhongMaterial({ color: 0x00ff00 })
+    )
 
     cubeMesh.position.set(-5, 0, -6)
     scene.add(cubeMesh)
@@ -59,11 +76,11 @@ const material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().lo
     const cubeSphereIntersectCSG = cubeCSG.intersect(sphereCSG)
     const cubeSphereIntersectMesh = CSG.toMesh(cubeSphereIntersectCSG, new THREE.Matrix4())
 
-    cubeSphereIntersectMesh.material = new THREE.MeshPhongMaterial({ color: 0xff00ff })
+    cubeSphereIntersectMesh.material = new THREE.MeshPhongMaterial({
+        color: 0xff00ff,
+    })
     cubeSphereIntersectMesh.position.set(-2.5, 0, -3)
     scene.add(cubeSphereIntersectMesh)
-
-
 
     //create 3 cylinders at different rotations and union them
     cylinderMesh1.position.set(1, 0, -6)
@@ -82,18 +99,17 @@ const material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().lo
     const cylindersUnionCSG = cylinderCSG1.union(cylinderCSG2.union(cylinderCSG3))
     const cylindersUnionMesh = CSG.toMesh(cylindersUnionCSG, new THREE.Matrix4())
 
-    cylindersUnionMesh.material = new THREE.MeshPhongMaterial({ color: 0xffa500 })
+    cylindersUnionMesh.material = new THREE.MeshPhongMaterial({
+        color: 0xffa500,
+    })
     cylindersUnionMesh.position.set(2.5, 0, -3)
     scene.add(cylindersUnionMesh)
-
-
 
     //subtract the cylindersUnionCSG from the cubeSphereIntersectCSG
     const finalCSG = cubeSphereIntersectCSG.subtract(cylindersUnionCSG)
     const finalMesh = CSG.toMesh(finalCSG, new THREE.Matrix4())
     finalMesh.material = material
     scene.add(finalMesh)
-
 }
 
 window.addEventListener('resize', onWindowResize, false)
