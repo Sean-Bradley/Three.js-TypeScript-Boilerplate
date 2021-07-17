@@ -3,19 +3,19 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 
-const scene: THREE.Scene = new THREE.Scene()
+const scene = new THREE.Scene()
 
-const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
-const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-const gridHelper = new THREE.GridHelper(10, 10);
+const gridHelper = new THREE.GridHelper(10, 10)
 gridHelper.position.y = -1.5
-scene.add(gridHelper);
+scene.add(gridHelper)
 
 camera.position.z = 5
 
@@ -27,35 +27,36 @@ function onWindowResize() {
     render()
 }
 
-const webcam: HTMLMediaElement = document.createElement("video") as HTMLMediaElement
+const webcam = document.createElement('video') as HTMLMediaElement
 
-var constraints = { audio: false, video: { width: 640, height: 480 } };
+var constraints = { audio: false, video: { width: 640, height: 480 } }
 
-navigator.mediaDevices.getUserMedia(constraints)
+navigator.mediaDevices
+    .getUserMedia(constraints)
     .then(function (mediaStream) {
-        webcam.srcObject = mediaStream;
+        webcam.srcObject = mediaStream
         webcam.onloadedmetadata = function (e) {
-            webcam.setAttribute('autoplay', 'true');
-            webcam.setAttribute('playsinline', 'true');
-            webcam.play();
-        };
+            webcam.setAttribute('autoplay', 'true')
+            webcam.setAttribute('playsinline', 'true')
+            webcam.play()
+        }
     })
     .catch(function (err) {
-        alert(err.name + ": " + err.message);
-    });
+        alert(err.name + ': ' + err.message)
+    })
 
-const webcamCanvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement
+const webcamCanvas = document.createElement('canvas') as HTMLCanvasElement
 webcamCanvas.width = 1024
 webcamCanvas.height = 1024
 
 const canvasCtx = webcamCanvas.getContext('2d') as CanvasRenderingContext2D
-canvasCtx.fillStyle = '#000000';
-canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height);
-const webcamTexture: THREE.Texture = new THREE.Texture(webcamCanvas);
-webcamTexture.minFilter = THREE.LinearFilter;
-webcamTexture.magFilter = THREE.LinearFilter;
+canvasCtx.fillStyle = '#000000'
+canvasCtx.fillRect(0, 0, webcamCanvas.width, webcamCanvas.height)
+const webcamTexture: THREE.Texture = new THREE.Texture(webcamCanvas)
+webcamTexture.minFilter = THREE.LinearFilter
+webcamTexture.magFilter = THREE.LinearFilter
 
-const geometry: THREE.BoxGeometry = new THREE.BoxGeometry()
+const geometry = new THREE.BoxGeometry()
 //const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: webcamTexture})
 
 function vertexShader() {
@@ -92,24 +93,22 @@ function fragmentShader() {
     `
 }
 
-const material = new THREE.ShaderMaterial(
-    {
-        transparent: true,
-        uniforms: {
-            map: { value: webcamTexture },
-            keyColor: { value: [0.0, 1.0, 0.0] },
-            similarity: { value: 0.8 },
-            smoothness: { value: 0.0 }
-        },
-        vertexShader: vertexShader(),
-        fragmentShader: fragmentShader()
-    });
+const material = new THREE.ShaderMaterial({
+    transparent: true,
+    uniforms: {
+        map: { value: webcamTexture },
+        keyColor: { value: [0.0, 1.0, 0.0] },
+        similarity: { value: 0.8 },
+        smoothness: { value: 0.0 },
+    },
+    vertexShader: vertexShader(),
+    fragmentShader: fragmentShader(),
+})
 
-
-const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
+const cube = new THREE.Mesh(geometry, material)
 cube.add(new THREE.BoxHelper(cube, 0xff0000))
 
-cube.rotateY(.5)
+cube.rotateY(0.5)
 cube.scale.x = 4
 cube.scale.y = 3
 cube.scale.z = 4
@@ -121,13 +120,13 @@ document.body.appendChild(stats.dom)
 var data = {
     keyColor: [0, 255, 0],
     similarity: 0.8,
-    smoothness: 0.0
-};
+    smoothness: 0.0,
+}
 
 const gui = new GUI()
-gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor));
-gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity));
-gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness));
+gui.addColor(data, 'keyColor').onChange(() => updateKeyColor(data.keyColor))
+gui.add(data, 'similarity', 0.0, 1.0).onChange(() => updateSimilarity(data.similarity))
+gui.add(data, 'smoothness', 0.0, 1.0).onChange(() => updateSmoothness(data.smoothness))
 
 function updateKeyColor(v: number[]) {
     material.uniforms.keyColor.value = [v[0] / 255, v[1] / 255, v[2] / 255]
@@ -139,13 +138,12 @@ function updateSmoothness(v: number) {
     material.uniforms.smoothness.value = v
 }
 
-var animate = function () {
+function animate() {
     requestAnimationFrame(animate)
 
     //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
-    canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height);
-    if (webcamTexture)
-        webcamTexture.needsUpdate = true;
+    canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height)
+    if (webcamTexture) webcamTexture.needsUpdate = true
     //}
 
     controls.update()
@@ -153,9 +151,9 @@ var animate = function () {
     render()
 
     stats.update()
-};
+}
 
 function render() {
     renderer.render(scene, camera)
 }
-animate();
+animate()
