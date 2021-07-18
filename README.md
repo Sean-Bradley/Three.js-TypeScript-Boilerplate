@@ -7,12 +7,9 @@ When run, the boilerplate shows a green wireframe rotating cube, with OrbitContr
 
 [Example](https://sbcode.net/threejs/threejs-typescript-boilerplate/)
 
-It is hosted using NodeJS and Express.
+It uses webpack-dev-server for the development build, and NodeJS with Express for production build.
 
-It contains server and client scripts both written in TypeScript.
-
-The client typescript and compiled javascript both use [ES6 import syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-
+Both server and client projects are written in TypeScript.
 
 ![](docs/screengrab1.jpg)
 
@@ -47,7 +44,7 @@ npm install
 npm run dev
 ```
 
-6. Visit [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
+6. Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 You should see a rotating green wireframe cube, and be able to rotate it further with your mouse.
 
@@ -58,9 +55,7 @@ code .
 
 ## Branches
 
-The default **master** branch does not include **Stats.js**, **Dat.GUI**, **Socket.IO** or many of the other libraries demonstrated throughout the course.
-
-So I have created many extra branches that demonstrate many other concepts.
+The default **master** branch does not include **Stats.js**, **Dat.GUI** or **Socket.IO**
 
 ### stats.js
 
@@ -71,7 +66,7 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:3000
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Stats.js](docs/with-stats.jpg)
 
@@ -79,19 +74,20 @@ View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Th
 
 ### DAT.gui
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
+
 ```bash
 git checkout statsgui
 npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:3000
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
 
-### Socket.IO (three r129 with WebPack)
+### Socket.IO
 
 To get a version of the boilerplate that includes **Socket.IO** then,
 ```bash
@@ -100,7 +96,7 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With SocketIO](docs/with-socketio.jpg)
 
@@ -108,7 +104,7 @@ Open 2 or more browsers, and you can move the cube around and rotate it. You wil
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
 
-### Cannon.js (three r129 with WebPack)
+### Cannon.js
 To get a version of the boilerplate that includes **Cannon.js** then
 
 ```bash
@@ -117,13 +113,13 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Cannon.js](docs/with-cannonjs.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
 
-### Webcam as Texture (three r129 with WebPack)
+### Webcam as Texture
 To get a version of the boilerplate that uses your webcam as a texture then
 
 ```bash
@@ -132,13 +128,13 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Webcam as Texture](docs/with-webcam.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
 
-### BSC5 Bright Star Catalog (three r129 with WebPack)
+### BSC5 Bright Star Catalog
 
 To get a version of the boilerplate that shows the BSC5 Bright Star Catalog Data with Constellations
 
@@ -148,7 +144,7 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With BSC5 Bright Star Catalog](docs/with-bsc5.jpg)
 
@@ -166,11 +162,11 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:3000
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![The Ball Game](docs/theballgame.jpg)
 
-### Annotations (three r129 with WebPack)
+### Annotations
 
 To get a version of the boilerplate that demonstrates annotations
 
@@ -180,13 +176,13 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Annotations](docs/annotations.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/annotations/)
 
-### Constructive Solid Geometry (three r129 with WebPack)
+### Constructive Solid Geometry
 
 To get a version of the boilerplate that demonstrates Constructive Solid Geometry (CSG)
 
@@ -196,13 +192,13 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With CSG](docs/with-csg.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/csg/)
 
-### WebXR (three r129 with WebPack)
+### WebXR
 
 To get a version of the boilerplate that demonstrates WebXR
 
@@ -212,25 +208,12 @@ npm install
 npm run dev
 ```
 
-Visit http://127.0.0.1:8080
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With WebXR](docs/with-webxr.jpg)
 
 View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webxr/)
 
-### Webpack
-
-To get a version of the boilerplate that demonstrates using **Module Specifiers** in the client javascript, the webpack dev server and Hot Module Replacement (HMR) then,
-
-```bash
-git checkout statsguiwebpack
-npm install
-npm run dev
-```
-
-Visit http://127.0.0.1:8080
-
-![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
 
 ---
 
@@ -239,3 +222,22 @@ Visit http://127.0.0.1:8080
 This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
 
 [![ThreeJS and TypeScript Course](docs/threejs-course-image.png)](https://youtu.be/fS4H7gm7gK4)
+
+## Design Patterns In TypeScript
+
+To help support my TypeScript projects, please check out my book titled **Design Patterns in TypeScript**.
+
+<img style="float:left; min-width:150px;" src="/docs/dp-in-typescript.jpg">
+
+&nbsp;<a href="https://www.amazon.com/dp/B0948BCH24"><img src="/docs/flag_us.gif">&nbsp; https://www.amazon.com/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.co.uk/dp/B0948BCH24"><img src="/docs/flag_uk.gif">&nbsp; https://www.amazon.co.uk/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.in/dp/B094716FD6"><img src="/docs/flag_in.gif">&nbsp; https://www.amazon.in/dp/B094716FD6</a><br/>
+&nbsp;<a href="https://www.amazon.de/dp/B0948BCH24"><img src="/docs/flag_de.gif">&nbsp; https://www.amazon.de/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.fr/dp/B0948BCH24"><img src="/docs/flag_fr.gif">&nbsp; https://www.amazon.fr/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.es/dp/B0948BCH24"><img src="/docs/flag_es.gif">&nbsp; https://www.amazon.es/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.it/dp/B0948BCH24"><img src="/docs/flag_it.gif">&nbsp; https://www.amazon.it/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.co.jp/dp/B0948BCH24"><img src="/docs/flag_jp.gif">&nbsp; https://www.amazon.co.jp/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.ca/dp/B0948BCH24"><img src="/docs/flag_ca.gif">&nbsp; https://www.amazon.ca/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.com.au/dp/B094716FD6"><img src="/docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B094716FD6</a>
+
+(ASIN : B0948BCH24 / B094716FD6)
