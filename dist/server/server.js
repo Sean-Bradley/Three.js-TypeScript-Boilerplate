@@ -29,16 +29,16 @@ class App {
             this.clients[socket.id] = {};
             console.log(this.clients);
             console.log('a user connected : ' + socket.id);
-            socket.emit("id", socket.id);
+            socket.emit('id', socket.id);
             socket.on('disconnect', () => {
                 console.log('socket disconnected : ' + socket.id);
                 if (this.clients && this.clients[socket.id]) {
-                    console.log("deleting " + socket.id);
+                    console.log('deleting ' + socket.id);
                     delete this.clients[socket.id];
-                    this.io.emit("removeClient", socket.id);
+                    this.io.emit('removeClient', socket.id);
                 }
             });
-            socket.on("update", (message) => {
+            socket.on('update', (message) => {
                 if (this.clients[socket.id]) {
                     this.clients[socket.id].t = message.t; //client timestamp
                     this.clients[socket.id].p = message.p; //position
@@ -47,7 +47,7 @@ class App {
             });
         });
         setInterval(() => {
-            this.io.emit("clients", this.clients);
+            this.io.emit('clients', this.clients);
         }, 50);
     }
     Start() {
