@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
+import { io } from 'socket.io-client'
 
 const scene = new THREE.Scene()
 
@@ -41,7 +42,7 @@ function onWindowResize() {
 let myId = ''
 let timestamp = 0
 const clientCubes: { [id: string]: THREE.Mesh } = {}
-const socket: SocketIOClient.Socket = io()
+const socket = io()
 socket.on('connect', function () {
     console.log('connect')
 })
