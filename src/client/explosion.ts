@@ -1,7 +1,6 @@
-import * as THREE from '/build/three.module.js'
+import * as THREE from 'three'
 
 export default class Explosion {
-
     private particleCount = 100
     private particles: THREE.Points
 
@@ -15,9 +14,9 @@ export default class Explosion {
         particleGeometry.setFromPoints(vertices)
         const pMaterial = new THREE.PointsMaterial({
             color: color,
-            size: 1
-        });
-        this.particles = new THREE.Points(particleGeometry, pMaterial);
+            size: 1,
+        })
+        this.particles = new THREE.Points(particleGeometry, pMaterial)
         scene.add(this.particles)
         this.particles.visible = false
     }
@@ -27,18 +26,21 @@ export default class Explosion {
         this.particles.position.y = position.y
         this.particles.position.z = position.z
 
-        const positions = (this.particles.geometry as THREE.BufferGeometry).attributes.position.array as Array<number>
+        const positions = (this.particles.geometry as THREE.BufferGeometry)
+            .attributes.position.array as Array<number>
         for (let j = 0; j < this.particleCount * 3; j = j + 3) {
             let v = new THREE.Vector3(
-                (Math.random() * 0.5) - 0.25,
+                Math.random() * 0.5 - 0.25,
                 Math.random() * 0.25,
-                (Math.random() * 0.5) - 0.25);
-            positions[j] = v.x;
-            positions[j + 1] = v.y;
-            positions[j + 2] = v.z;
+                Math.random() * 0.5 - 0.25
+            )
+            positions[j] = v.x
+            positions[j + 1] = v.y
+            positions[j + 2] = v.z
         }
-        (this.particles.geometry as THREE.BufferGeometry).attributes.position.needsUpdate = true
-
+        ;(
+            this.particles.geometry as THREE.BufferGeometry
+        ).attributes.position.needsUpdate = true
 
         this.particles.userData.explosionPower = 1.2
         this.particles.visible = true
@@ -46,18 +48,25 @@ export default class Explosion {
 
     public update() {
         if (!this.particles.visible) return
-        const positions = (this.particles.geometry as THREE.BufferGeometry).attributes.position.array as Array<number>
+        const positions = (this.particles.geometry as THREE.BufferGeometry)
+            .attributes.position.array as Array<number>
         for (let j = 0; j < this.particleCount * 3; j = j + 3) {
-            const v = new THREE.Vector3(positions[j], positions[j + 1], positions[j + 2]).multiplyScalar(this.particles.userData.explosionPower);
-            positions[j] = v.x;
-            positions[j + 1] = v.y;
-            positions[j + 2] = v.z;
+            const v = new THREE.Vector3(
+                positions[j],
+                positions[j + 1],
+                positions[j + 2]
+            ).multiplyScalar(this.particles.userData.explosionPower)
+            positions[j] = v.x
+            positions[j + 1] = v.y
+            positions[j + 2] = v.z
         }
         if (this.particles.userData.explosionPower > 1.15) {
             this.particles.userData.explosionPower -= 0.001
         } else {
             this.particles.visible = false
         }
-        (this.particles.geometry as THREE.BufferGeometry).attributes.position.needsUpdate = true
+        ;(
+            this.particles.geometry as THREE.BufferGeometry
+        ).attributes.position.needsUpdate = true
     }
 }
