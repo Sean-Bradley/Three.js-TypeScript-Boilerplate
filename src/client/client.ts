@@ -92,9 +92,9 @@ cylinderMesh.castShadow = true
 scene.add(cylinderMesh)
 const cylinderShape = new CANNON.Cylinder(1, 1, 2, 8)
 const cylinderBody = new CANNON.Body({ mass: 1 })
-const cylinderQuaternion = new CANNON.Quaternion()
-cylinderQuaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
-cylinderBody.addShape(cylinderShape, new CANNON.Vec3(), cylinderQuaternion)
+//const cylinderQuaternion = new CANNON.Quaternion()
+//cylinderQuaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
+cylinderBody.addShape(cylinderShape) //, new CANNON.Vec3(), cylinderQuaternion)
 cylinderBody.position.x = cylinderMesh.position.x
 cylinderBody.position.y = cylinderMesh.position.y
 cylinderBody.position.z = cylinderMesh.position.z
