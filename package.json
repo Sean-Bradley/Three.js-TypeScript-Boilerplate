@@ -20,11 +20,11 @@
     "statsvr": "^3.1.0",
     "teleportvr": "^3.0.0",
     "three": "^0.130.1",
-    "ts-loader": "^9.2.3",
+    "ts-loader": "^9.2.5",
     "typescript": "^3.8.3",
-    "webpack": "^5.39.1",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
