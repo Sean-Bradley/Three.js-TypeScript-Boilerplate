@@ -5,7 +5,9 @@ module.exports = {
     entry: './src/client/client.ts',
     devtool: 'eval-source-map',
     devServer: {
-        contentBase: './dist/client',
+        static: {
+            directory: path.join(__dirname, '../../dist/client'),
+        },
         hot: true,
     },
     module: {
