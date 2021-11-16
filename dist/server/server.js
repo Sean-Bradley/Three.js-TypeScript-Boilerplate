@@ -20,7 +20,7 @@ class App {
     constructor(port) {
         this.clients = {};
         this.port = port;
-        const app = express_1.default();
+        const app = (0, express_1.default)();
         app.use(express_1.default.static(path_1.default.join(__dirname, '../client')));
         this.server = new http_1.default.Server(app);
         this.io = new socket_io_1.Server(this.server);
