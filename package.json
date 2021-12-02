@@ -6,7 +6,8 @@
     "build": "webpack --config ./src/client/webpack.prod.js",
     "dev": "webpack serve --config ./src/client/webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/server/server.js"
+    "start": "node ./dist/server/server.js",
+    "deploy": "gh-pages -d ./dist/client"
   },
   "author": "Sean Bradley",
   "license": "ISC",
@@ -16,7 +17,9 @@
     "@types/node": "^13.13.15",
     "@types/three": "^0.134.0",
     "cannon-es": "^0.18.0",
-    "three": "^0.134.0",
+    "dat.gui": "^0.7.7",
+    "gh-pages": "^3.2.3",
+    "three": "^0.135.0",
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.3",
     "webpack": "^5.64.1",
