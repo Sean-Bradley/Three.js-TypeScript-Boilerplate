@@ -1,314 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Three.js TypeScript Tutorials by Sean Bradley</title>
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            font-family: monospace;
-            background-color: black;
-        }
-
-        h1 {
-            font-size: 64px;
-        }
-
-        h2 {
-            font-size: 32px;
-        }
-
-        #pingStats {
-            position: absolute;
-            top: 60px;
-            left: 4px;
-            width: 400px;
-            height: 400px;
-            pointer-events: none;
-            color: white;
-        }
-
-        #gameClock {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            margin-left: -42px;
-            width: 84px;
-            height: 78px;
-            font-size: 72px;
-            text-align: center;
-            color: white;
-            pointer-events: none;
-        }
-
-        #newGameAlert {
-            position: absolute;
-            height: 400px;
-            width: 500px;
-            margin-top: -200px;
-            margin-left: -250px;
-            top: 50%;
-            left: 50%;
-            color: white;
-            /* border: 1px solid red; */
-            text-align: center;
-            pointer-events: none;
-            display: none;
-        }
-
-        #gameClosedAlert {
-            position: absolute;
-            height: 400px;
-            width: 500px;
-            margin-top: -200px;
-            margin-left: -250px;
-            top: 50%;
-            left: 50%;
-            color: white;
-            /* border: 1px solid red; */
-            text-align: center;
-            pointer-events: none;
-            display: none;
-        }
-
-        #winnerLabel {
-            display: none;
-        }
-
-        #winnerScreenName {
-            font-size: 64px;
-        }
-
-        #menuPanel {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.5);
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            /* display: none; */
-        }
-
-        #menuPanel a {
-            pointer-events: auto;
-        }
-
-        #instructions {
-            height: 540px;
-            width: 600px;
-            margin-top: -270px;
-            margin-left: -300px;
-            position: relative;
-            top: 50%;
-            left: 50%;
-            font-size: 21px;
-            border: 1px solid black;
-            text-align: center;
-            pointer-events: none;
-        }
-
-        #startButton {
-            height: 50px;
-            width: 230px;
-            font-size: 24px;
-            margin: 10px;
-            pointer-events: auto;
-        }
-
-        #screenNameInput {
-            font-size: 24px;
-            width: 140px;
-            pointer-events: auto;
-        }
-
-        #recentWinnersTable {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border: 1px solid black;
-            right: 20px;
-            top: 20px;
-            color: white;
-            font-size: 17px;
-            display: none;
-        }
-
-        #recentWinnersTable th {
-            text-align: left;
-        }
-
-        #XYControllerMove {
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            left: 0px;
-            bottom: 0px;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: none;
-        }
-
-        #XYControllerLook {
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            right: 0px;
-            bottom: 0px;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: none;
-        }
-
-        @media only screen and (max-width: 812px) {
-
-            #pingStats {
-                position: absolute;
-                top: 50px;
-                left: 4px;
-                width: 100px;
-                height: 100px;
-                pointer-events: none;
-                color: white;
-                font-size: 12px;
-            }
-
-            #instructions {
-                height: 260px;
-                width: 600px;
-                margin-top: -130px;
-                margin-left: -300px;
-                position: relative;
-                top: 50%;
-                left: 50%;
-                font-size: 13px;
-                border: 1px solid black;
-                text-align: center;
-                pointer-events: none;
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>Three.js TypeScript Tutorials by Sean Bradley</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                height: 100%;
+                font-family: monospace;
+                background-color: black;
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 64px;
             }
 
             h2 {
-                font-size: 17px;
+                font-size: 32px;
             }
 
-            #startButton {
-                height: 25px;
-                width: 120px;
-                font-size: 17px;
-                margin: 4px;
-                pointer-events: auto;
-            }
-
-            #screenNameInput {
-                font-size: 14px;
-                width: 100px;
-                pointer-events: auto;
-            }
-
-        }
-
-        @media only screen and (max-width: 375px) {
             #pingStats {
                 position: absolute;
-                top: 50px;
+                top: 60px;
                 left: 4px;
-                width: 100px;
-                height: 100px;
+                width: 400px;
+                height: 400px;
                 pointer-events: none;
                 color: white;
-                font-size: 10px;
             }
 
-            #recentWinnersTable {
+            #gameClock {
                 position: absolute;
-                width: 100px;
-                height: 100px;
-                border: 1px solid black;
-                right: 4px;
-                top: 4px;
+                top: 10px;
+                left: 50%;
+                margin-left: -42px;
+                width: 84px;
+                height: 78px;
+                font-size: 72px;
+                text-align: center;
                 color: white;
-                font-size: 10px;
+                pointer-events: none;
+            }
+
+            #newGameAlert {
+                position: absolute;
+                height: 400px;
+                width: 500px;
+                margin-top: -200px;
+                margin-left: -250px;
+                top: 50%;
+                left: 50%;
+                color: white;
+                /* border: 1px solid red; */
+                text-align: center;
+                pointer-events: none;
+                display: none;
+            }
+
+            #gameClosedAlert {
+                position: absolute;
+                height: 400px;
+                width: 500px;
+                margin-top: -200px;
+                margin-left: -250px;
+                top: 50%;
+                left: 50%;
+                color: white;
+                /* border: 1px solid red; */
+                text-align: center;
+                pointer-events: none;
+                display: none;
+            }
+
+            #winnerLabel {
+                display: none;
+            }
+
+            #winnerScreenName {
+                font-size: 64px;
+            }
+
+            #menuPanel {
+                position: absolute;
+                background-color: rgba(255, 255, 255, 0.5);
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                /* display: none; */
+            }
+
+            #menuPanel a {
+                pointer-events: auto;
             }
 
             #instructions {
                 height: 540px;
-                width: 300px;
+                width: 600px;
                 margin-top: -270px;
-                margin-left: -150px;
+                margin-left: -300px;
                 position: relative;
                 top: 50%;
                 left: 50%;
-                font-size: 17px;
+                font-size: 21px;
                 border: 1px solid black;
                 text-align: center;
                 pointer-events: none;
             }
 
-            h1 {
-                font-size: 42px;
-            }
-
-            h2 {
+            #startButton {
+                height: 50px;
+                width: 230px;
                 font-size: 24px;
-            }
-
-            #screenNameInput {
-                font-size: 17px;
-                width: 100px;
+                margin: 10px;
                 pointer-events: auto;
             }
 
+            #screenNameInput {
+                font-size: 24px;
+                width: 140px;
+                pointer-events: auto;
+            }
 
-        }
-    </style>
-</head>
+            #recentWinnersTable {
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                border: 1px solid black;
+                right: 20px;
+                top: 20px;
+                color: white;
+                font-size: 17px;
+                display: none;
+            }
 
-<body>
-    <div id="gameClock"></div>
-    <div id="menuPanel">
-        <div id="instructions">
-            <h1>The Ball Game</h1>
-            <h2>Get the jewel to win</h2>
-            <button id="startButton">Click to Start</button><br />
-            Move: WASD<br />
-            Jump: SPACE<br />
-            Look: MOUSE
-            <div>
-                <label for="email">ScreenName:</label>
-                <input type="text" id="screenNameInput" maxlength="12" onClick="this.select();">
+            #recentWinnersTable th {
+                text-align: left;
+            }
+
+            #XYControllerMove {
+                position: absolute;
+                width: 180px;
+                height: 180px;
+                left: 0px;
+                bottom: 0px;
+                background-color: rgba(255, 255, 255, 0.1);
+                display: none;
+            }
+
+            #XYControllerLook {
+                position: absolute;
+                width: 180px;
+                height: 180px;
+                right: 0px;
+                bottom: 0px;
+                background-color: rgba(255, 255, 255, 0.1);
+                display: none;
+            }
+
+            @media only screen and (max-width: 812px) {
+                #pingStats {
+                    position: absolute;
+                    top: 50px;
+                    left: 4px;
+                    width: 100px;
+                    height: 100px;
+                    pointer-events: none;
+                    color: white;
+                    font-size: 12px;
+                }
+
+                #instructions {
+                    height: 260px;
+                    width: 600px;
+                    margin-top: -130px;
+                    margin-left: -300px;
+                    position: relative;
+                    top: 50%;
+                    left: 50%;
+                    font-size: 13px;
+                    border: 1px solid black;
+                    text-align: center;
+                    pointer-events: none;
+                }
+
+                h1 {
+                    font-size: 24px;
+                }
+
+                h2 {
+                    font-size: 17px;
+                }
+
+                #startButton {
+                    height: 25px;
+                    width: 120px;
+                    font-size: 17px;
+                    margin: 4px;
+                    pointer-events: auto;
+                }
+
+                #screenNameInput {
+                    font-size: 14px;
+                    width: 100px;
+                    pointer-events: auto;
+                }
+            }
+
+            @media only screen and (max-width: 375px) {
+                #pingStats {
+                    position: absolute;
+                    top: 50px;
+                    left: 4px;
+                    width: 100px;
+                    height: 100px;
+                    pointer-events: none;
+                    color: white;
+                    font-size: 10px;
+                }
+
+                #recentWinnersTable {
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid black;
+                    right: 4px;
+                    top: 4px;
+                    color: white;
+                    font-size: 10px;
+                }
+
+                #instructions {
+                    height: 540px;
+                    width: 300px;
+                    margin-top: -270px;
+                    margin-left: -150px;
+                    position: relative;
+                    top: 50%;
+                    left: 50%;
+                    font-size: 17px;
+                    border: 1px solid black;
+                    text-align: center;
+                    pointer-events: none;
+                }
+
+                h1 {
+                    font-size: 42px;
+                }
+
+                h2 {
+                    font-size: 24px;
+                }
+
+                #screenNameInput {
+                    font-size: 17px;
+                    width: 100px;
+                    pointer-events: auto;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="gameClock"></div>
+        <div id="menuPanel">
+            <div id="instructions">
+                <h1>The Ball Game</h1>
+                <h2>Get the jewel to win</h2>
+                Move: WASD<br />
+                Jump: SPACE<br />
+                Look: MOUSE<br />
+                <div>
+                    <label for="email">ScreenName:</label>
+                    <input
+                        type="text"
+                        id="screenNameInput"
+                        maxlength="12"
+                        onClick="this.select();"
+                    />
+                </div>
+                <button id="startButton">Click to Start</button><br />
+                <p>
+                    This is a multiplayer game constructed using Threejs, SocketIO
+                    and server side Cannonjs. It is from my Threejs and TypeScript
+                    tutorials at
+                    <a href="https://sbcode.net/threejs/" target="_blank"
+                        >https://sbcode.net/threejs/</a
+                    >
+                </p>
             </div>
-            <p>
-                This is a multiplayer game constructed using Threejs, SocketIO and server side Cannonjs. It is from my
-                Threejs and TypeScript tutorials at <a href="https://sbcode.net/threejs/"
-                    target="_blank">https://sbcode.net/threejs/</a>
-            </p>
         </div>
-    </div>
-    <div id="newGameAlert">
-        <h1>New Game</h1>
-    </div>
-    <div id="gameClosedAlert">
-        <h1>Game Closed</h1>
-        <h2 id="winnerLabel">Winner</h2><span id="winnerScreenName"></span>
-    </div>
-    <div id="pingStats"></div>
-    <table id="recentWinnersTable">
-        <tr>
-            <th>Screen Name</th>
-            <th>Time</th>
-        </tr>
-    </table>
-    <canvas id="XYControllerLook"></canvas>
-    <canvas id="XYControllerMove"></canvas>
+        <div id="newGameAlert">
+            <h1>New Game</h1>
+        </div>
+        <div id="gameClosedAlert">
+            <h1>Game Closed</h1>
+            <h2 id="winnerLabel">Winner</h2>
+            <span id="winnerScreenName"></span>
+        </div>
+        <div id="pingStats"></div>
+        <table id="recentWinnersTable">
+            <tr>
+                <th>Screen Name</th>
+                <th>Time</th>
+            </tr>
+        </table>
+        <canvas id="XYControllerLook"></canvas>
+        <canvas id="XYControllerMove"></canvas>
 
-    <script type="module" src="bundle.js"></script>
-</body>
-
+        <script type="module" src="bundle.js"></script>
+    </body>
 </html>
