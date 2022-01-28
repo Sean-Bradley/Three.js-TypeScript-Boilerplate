@@ -1,5 +1,5 @@
 //MIT License
-//Copyright (c) 2020-2021 Sean Bradley
+//Copyright (c) 2020-2022 Sean Bradley
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
 
@@ -11,17 +11,13 @@ interface Face3 {
 }
 
 class CannonUtils {
-    public static CreateTrimesh(
-        geometry: THREE.BufferGeometry
-    ): CANNON.Trimesh {
-        const vertices = geometry.attributes.position.array as number[]
+    public static CreateTrimesh(geometry: THREE.BufferGeometry): CANNON.Trimesh {
+        const vertices = geometry.clone().toNonIndexed().attributes.position.array as number[]
         const indices = Object.keys(vertices).map(Number)
         return new CANNON.Trimesh(vertices, indices)
     }
 
-    public static CreateConvexPolyhedron(
-        geometry: THREE.BufferGeometry
-    ): CANNON.ConvexPolyhedron {
+    public static CreateConvexPolyhedron(geometry: THREE.BufferGeometry): CANNON.ConvexPolyhedron {
         const position = geometry.attributes.position
         const normal = geometry.attributes.normal
         const vertices: THREE.Vector3[] = []
@@ -35,14 +31,8 @@ class CannonUtils {
                     ? []
                     : [
                           new THREE.Vector3().fromBufferAttribute(normal, i),
-                          new THREE.Vector3().fromBufferAttribute(
-                              normal,
-                              i + 1
-                          ),
-                          new THREE.Vector3().fromBufferAttribute(
-                              normal,
-                              i + 2
-                          ),
+                          new THREE.Vector3().fromBufferAttribute(normal, i + 1),
+                          new THREE.Vector3().fromBufferAttribute(normal, i + 2),
                       ]
             const face: Face3 = {
                 a: i,
@@ -59,16 +49,10 @@ class CannonUtils {
         for (let i = 0, il = vertices.length; i < il; i++) {
             const v = vertices[i]
             const key =
-                Math.round(v.x * 100) +
-                '_' +
-                Math.round(v.y * 100) +
-                '_' +
-                Math.round(v.z * 100)
+                Math.round(v.x * 100) + '_' + Math.round(v.y * 100) + '_' + Math.round(v.z * 100)
             if (verticesMap[key] === undefined) {
                 verticesMap[key] = i
-                points.push(
-                    new CANNON.Vec3(vertices[i].x, vertices[i].y, vertices[i].z)
-                )
+                points.push(new CANNON.Vec3(vertices[i].x, vertices[i].y, vertices[i].z))
                 changes[i] = points.length - 1
             } else {
                 changes[i] = changes[verticesMap[key]]
@@ -105,10 +89,7 @@ class CannonUtils {
         })
     }
 
-    public static offsetCenterOfMass(
-        body: CANNON.Body,
-        centreOfMass: CANNON.Vec3
-    ): void {
+    public static offsetCenterOfMass(body: CANNON.Body, centreOfMass: CANNON.Vec3): void {
         body.shapeOffsets.forEach(function (offset) {
             centreOfMass.vadd(offset, centreOfMass)
         })
