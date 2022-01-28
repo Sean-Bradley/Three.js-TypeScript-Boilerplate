@@ -108,7 +108,6 @@ export default class TheBallGame {
             reflectivity: 0.99,
         })
         this.cubeRenderTarget1 = new THREE.WebGLCubeRenderTarget(128, {
-            format: THREE.RGBFormat,
             generateMipmaps: true,
             minFilter: THREE.LinearMipmapLinearFilter,
         })
