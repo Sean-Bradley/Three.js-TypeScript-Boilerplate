@@ -4,7 +4,7 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton'
 import TeleportVR from 'teleportvr'
 import GrabVR from 'grabvr'
 import Explosion from './explosion'
-import * as CANNON from 'cannon'
+import * as CANNON from 'cannon-es'
 //import CannonDebugRenderer from './utils/cannonDebugRenderer'
 
 let bulletCounter = 0
@@ -255,7 +255,7 @@ controllerGrip1.addEventListener('selectstart', () => {
     }, 100)
 })
 
-function addExplosion(e: CANNON.ICollisionEvent) {
+function addExplosion(e: any) {
     explosions[explosionCounter].explode(e.contact.bj.position)
     explosionCounter++
     if (explosionCounter >= explosions.length) {
