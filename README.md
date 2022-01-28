@@ -96,8 +96,6 @@ Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Stats.js](docs/with-stats.jpg)
 
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/stats/)
-
 ### DAT.gui
 
 To get a version of the boilerplate that includes the **Stats** and the **Dat.GUI** panels then,
@@ -111,8 +109,6 @@ npm run dev
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Stats.js and Dat.GUI](docs/with-stats-gui.jpg)
-
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/statsgui/)
 
 ### Socket.IO
 
@@ -130,8 +126,6 @@ Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 Open 2 or more browsers, and you can move the cube around and rotate it. You will see the cube mirror itself in the other browsers. Each browser controls there own cube.
 
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/socketio/)
-
 ### Cannon.js
 
 To get a version of the boilerplate that includes **Cannon.js** then
@@ -145,8 +139,6 @@ npm run dev
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Cannon.js](docs/with-cannonjs.jpg)
-
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/cannonjs/)
 
 ### Webcam as Texture
 
@@ -162,8 +154,6 @@ Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Webcam as Texture](docs/with-webcam.jpg)
 
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webcam/)
-
 ### BSC5 Bright Star Catalog
 
 To get a version of the boilerplate that shows the BSC5 Bright Star Catalog Data with Constellations
@@ -177,8 +167,6 @@ npm run dev
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With BSC5 Bright Star Catalog](docs/with-bsc5.jpg)
-
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/bsc5/)
 
 ### The Ball Game
 
@@ -210,8 +198,6 @@ Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With Annotations](docs/annotations.jpg)
 
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/annotations/)
-
 ### Constructive Solid Geometry
 
 To get a version of the boilerplate that demonstrates Constructive Solid Geometry (CSG)
@@ -226,8 +212,6 @@ Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With CSG](docs/with-csg.jpg)
 
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/csg/)
-
 ### WebXR
 
 To get a version of the boilerplate that demonstrates WebXR
@@ -241,8 +225,6 @@ npm run dev
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ![With WebXR](docs/with-webxr.jpg)
-
-View example on [CodeSandbox.io](https://codesandbox.io/s/github/Sean-Bradley/Three.js-TypeScript-Boilerplate/tree/webxr/)
 
 ---
 
@@ -270,3 +252,13 @@ To help support my TypeScript projects, please check out my book titled **Design
 &nbsp;<a href="https://www.amazon.com.au/dp/B094716FD6"><img src="/docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B094716FD6</a>
 
 (ASIN : B0948BCH24 / B094716FD6)
+
+## Games Created from this Boilerplate
+
+[First Car Shooter : https://github.com/Sean-Bradley/First-Car-Shooter](https://github.com/Sean-Bradley/First-Car-Shooter)
+
+![First Car Shooter](/docs/fcs-demo.gif)
+
+[Ball-VR : https://github.com/Sean-Bradley/Ball-VR](https://github.com/Sean-Bradley/Ball-VR)
+
+![Ball-VR](/docs/ball-vr-demo.gif)
