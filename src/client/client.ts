@@ -223,7 +223,7 @@ function gotoAnnotation(a: any): void {
         }
     })
     if (a.descriptionDomElement) {
-        console.log(a.descriptionDomElement.style.display)
+        //console.log(a.descriptionDomElement.style.display)
         a.descriptionDomElement.style.display = 'block'
     }
 }
