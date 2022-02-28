@@ -15,7 +15,7 @@
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.13",
     "@types/three": "^0.136.1",
-    "dat.gui": "^0.7.7",
+    "dat.gui": "^0.7.9",
     "three": "^0.136.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",
