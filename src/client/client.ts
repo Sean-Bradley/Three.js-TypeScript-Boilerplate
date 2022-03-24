@@ -101,7 +101,8 @@ mtlLoader.load(
                             annotationDiv.innerHTML = a
                             const annotationLabel = new CSS2DObject(annotationDiv)
                             annotationLabel.position.copy(annotations[a].lookAt)
-                            scene.add(annotationLabel)
+                             scene.add(annotationLabel)
+                            
 
                             if (annotations[a].description) {
                                 const annotationDescriptionDiv = document.createElement('div')
