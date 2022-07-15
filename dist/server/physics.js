@@ -36,10 +36,10 @@ class Physics {
         this.theBallGame = theBallGame;
         this.world.gravity.set(0, -9.82, 0);
         this.groundMaterial = new CANNON.Material('groundMaterial');
-        this.groundMaterial.friction = 0.15;
+        this.groundMaterial.friction = 0.25;
         this.groundMaterial.restitution = 0.25;
         this.slipperyMaterial = new CANNON.Material('slipperyMaterial');
-        this.slipperyMaterial.friction = 0.15;
+        this.slipperyMaterial.friction = 0.25;
         this.slipperyMaterial.restitution = 0.25;
         const groundShape = new CANNON.Box(new CANNON.Vec3(25, 1, 25));
         const groundBody = new CANNON.Body({

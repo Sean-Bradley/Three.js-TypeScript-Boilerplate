@@ -88,7 +88,7 @@ export default class TheBallGame {
             })
         })
 
-        setInterval(() => {
+        setInterval(() => {            
             io.emit('gameData', {
                 gameId: this.gameId,
                 gamePhase: this.gamePhase,

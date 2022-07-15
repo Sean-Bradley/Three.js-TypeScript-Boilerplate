@@ -13,7 +13,11 @@ export default class TheBallGame {
     public players: { [id: string]: THREE.Mesh } = {}
     public obstacles: { [id: string]: THREE.Mesh } = {}
 
-    private updateInterval: any
+    private updateServer = () => {
+        //this gets replaced at runtime depending on socket connection
+    }
+
+    private elapsed = 0
 
     public myId = ''
 
@@ -162,7 +166,9 @@ export default class TheBallGame {
         })
         socket.on('disconnect', (message: any) => {
             console.log('disconnect ' + message)
-            clearInterval(this.updateInterval)
+            this.updateServer = () => {
+                //reseting it to do nothing
+            }
             Object.keys(this.players).forEach((p) => {
                 scene.remove(this.players[p])
             })
@@ -173,13 +179,22 @@ export default class TheBallGame {
                 document.getElementById('screenNameInput') as HTMLInputElement
             ).value = screenName
 
-            this.updateInterval = setInterval(() => {
+            this.updateServer = () => {
+                //this will now update the server with the current ball properties
                 socket.emit('update', {
                     t: Date.now(),
                     vec: this.vec,
                     spc: this.spcKey,
-                }) //, p: myObject3D.position, r: myObject3D.rotation })
-            }, 50)
+                })
+            }
+
+            // this.updateInterval = setInterval(() => {
+            //     socket.emit('update', {
+            //         t: Date.now(),
+            //         vec: this.vec,
+            //         spc: this.spcKey,
+            //     }) //, p: myObject3D.position, r: myObject3D.rotation })
+            // }, 50)
             this.ui.updateScoreBoard(recentWinners)
         })
 
@@ -427,7 +442,13 @@ export default class TheBallGame {
         })
     }
 
-    public update = () => {
+    public update = (delta: number) => {
+        this.elapsed += delta
+        if (this.elapsed > .0333) { // ~ 30 frames a second
+            this.elapsed -= .0333
+            this.updateServer()
+        }
+
         if (this.jewel) {
             this.jewel.rotation.x += 0.01
             this.jewel.rotation.y += 0.025

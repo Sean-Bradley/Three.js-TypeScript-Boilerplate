@@ -13,22 +13,22 @@
   "devDependencies": {
     "@types/dat.gui": "^0.7.7",
     "@types/express": "^4.17.13",
-    "@types/node": "^17.0.23",
-    "@types/three": "^0.140.0",
-    "concurrently": "^7.0.0",
-    "nodemon": "^2.0.15",
-    "three": "^0.140.2",
-    "ts-loader": "^9.2.8",
-    "typescript": "^4.6.2",
-    "webpack": "^5.70.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
+    "@types/node": "^18.0.4",
+    "@types/three": "^0.141.0",
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.19",
+    "three": "^0.142.0",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3",
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "cannon-es": "^0.19.0",
-    "express": "^4.17.3",
-    "socket.io": "^4.1.3",
-    "socket.io-client": "^4.1.3"
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
   }
 }

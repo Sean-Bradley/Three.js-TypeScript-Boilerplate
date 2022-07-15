@@ -30,10 +30,15 @@ function onWindowResize() {
 const stats = Stats()
 document.body.appendChild(stats.dom)
 
+const clock = new THREE.Clock()
+let delta
+
 function animate() {
     requestAnimationFrame(animate)
 
-    theBallGame.update()
+    delta = Math.min(clock.getDelta(), 0.1)
+
+    theBallGame.update(delta)
 
     renderer.render(scene, camera)
 
