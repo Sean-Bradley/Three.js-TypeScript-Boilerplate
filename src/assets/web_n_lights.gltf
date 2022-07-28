@@ -1,0 +1,139 @@
+{
+    "asset": { "generator": "Khronos glTF Spline I/O v0.0.1", "version": "2.0" },
+    "scenes": [{ "nodes": [0] }],
+    "nodes": [
+        { "name": "", "children": [1, 2, 3] },
+        {
+            "name": "thisIsTheLightGroup",
+            "matrix": [
+                1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 31.238074177466043, 69.69992407888408,
+                -4.116219094982355, 1
+            ],
+            "children": [4, 5, 6, 7, 8, 9]
+        },
+        {
+            "name": "thisIsTheCamera",
+            "camera": 0,
+            "translation": [210.77, 15.569999999999999, -26.430000000000234],
+            "rotation": [
+                0.019990534681570915, 0.7441224155854304, -0.022289513964275698, 0.6673720002470027
+            ]
+        },
+        {
+            "name": "Personal Camera",
+            "camera": 1,
+            "translation": [146.54236164699904, 144.6512607619693, 130.09273957722985],
+            "rotation": [
+                -0.20149320869924323, 0.45604483870401474, 0.10681892237981686, 0.8602402628109934
+            ]
+        },
+        {
+            "name": "Point Light",
+            "translation": [-31.238074177466043, -77.04772774425008, -10.42891519351398],
+            "extensions": { "KHR_lights_punctual": { "light": 0 } }
+        },
+        {
+            "name": "Directional Light 2",
+            "translation": [23.2390798106559, -2.918168273538896, -24.02123297941177],
+            "rotation": [
+                -0.6128186576322113, 0.6945839065061901, -0.28257700061689345, 0.24931251152482312
+            ],
+            "extensions": { "KHR_lights_punctual": { "light": 1 } }
+        },
+        {
+            "name": "Directional Light 4",
+            "translation": [24.790311017298276, -88.65452636449864, 26.515379520314966],
+            "rotation": [
+                0.08172792545966906, -0.5957586416899301, 0.7915807597084732, -0.10859138046449561
+            ],
+            "extensions": { "KHR_lights_punctual": { "light": 2 } }
+        },
+        {
+            "name": "Directional Light 3",
+            "translation": [24.790311017298276, -106.54721055180511, 26.515379520314966],
+            "rotation": [
+                0.0705115418236218, -0.6142032584353462, 0.7808625859815723, -0.08964430607255884
+            ],
+            "extensions": { "KHR_lights_punctual": { "light": 3 } }
+        },
+        {
+            "name": "Directional Light",
+            "translation": [-3.3740196139311287, -100.9402752796707, 61.17854158329121],
+            "rotation": [
+                -0.008200340410676795, -0.4907948716986974, 0.871114978089208, 0.01455483699828912
+            ],
+            "extensions": { "KHR_lights_punctual": { "light": 4 } }
+        },
+        {
+            "name": "Spot Light",
+            "translation": [-38.17, 95.56, -51.88],
+            "rotation": [-0.15643446504023092, 0, 0, 0.9876883405951378],
+            "extensions": { "KHR_lights_punctual": { "light": 5 } }
+        }
+    ],
+    "cameras": [
+        {
+            "type": "perspective",
+            "perspective": {
+                "aspectRatio": 2.071197411003236,
+                "yfov": 0.7853981633974483,
+                "znear": 102.01,
+                "zfar": 96760
+            }
+        },
+        {
+            "type": "orthographic",
+            "orthographic": { "xmag": 1920, "ymag": 927, "zfar": 100000, "znear": -100000 }
+        }
+    ],
+    "meshes": [],
+    "extensions": {
+        "KHR_lights_punctual": {
+            "lights": [
+                {
+                    "type": "point",
+                    "name": "Point Light",
+                    "color": [0.4219999999999997, 0, 1],
+                    "intensity": 0.615,
+                    "range": 5897
+                },
+                {
+                    "type": "directional",
+                    "name": "Directional Light 2",
+                    "color": [0.9982199067050971, 0.46034413173293315, 0.9354677329583448],
+                    "intensity": 0.513
+                },
+                {
+                    "type": "directional",
+                    "name": "Directional Light 4",
+                    "color": [0.4654460055396531, 0.10703723097355425, 0.5127830135012136],
+                    "intensity": 0.384
+                },
+                {
+                    "type": "directional",
+                    "name": "Directional Light 3",
+                    "color": [0.8789760613930633, 0.4539384031983458, 0.9351131105885923],
+                    "intensity": 0.384
+                },
+                {
+                    "type": "directional",
+                    "name": "Directional Light",
+                    "color": [1, 0.4563106796116505, 0.7553398058252426],
+                    "intensity": 0.384
+                },
+                {
+                    "type": "spot",
+                    "name": "Spot Light",
+                    "color": [1, 1, 1],
+                    "intensity": 1.923,
+                    "range": 975,
+                    "spot": {
+                        "innerConeAngle": 0.4886921905584123,
+                        "outerConeAngle": 0.4886921905584123
+                    }
+                }
+            ]
+        }
+    },
+    "extensionsUsed": ["KHR_lights_punctual"]
+}
