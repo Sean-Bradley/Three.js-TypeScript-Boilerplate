@@ -75,6 +75,7 @@ scene.add(cube)
 
 const controls = new OrbitControls(orbitCamera, renderer.domElement)
 
+// ADD TO THIS ARRAY - Also, please make me a keybinding to cycle through objects so we can move them arround and... we need to be able to store the location of things
 let objects = [cube, camera]
 
 const transformControls = new TransformControls(orbitCamera, renderer.domElement)
