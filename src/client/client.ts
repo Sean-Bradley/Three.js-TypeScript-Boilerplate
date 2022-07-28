@@ -37,27 +37,9 @@ orbitCamera.position.z = 4
 // Instantiate a loader
 const loader = new GLTFLoader()
 // Load a glTF resource
-loader.load(
-    // resource URL
-    '/assets/exportFromSpline.gltf',
-    // called when the resource is loaded
-    function (gltf) {
-        gltf.scene.traverse(function (child) {
-            if ((child as THREE.Mesh).isMesh) {
-                const m = child as THREE.Mesh
-            }
-        })
-        scene.add(gltf.scene)
-    },
-    // called while loading is progressing
-    function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-    },
-    // called when loading has errors
-    function (error) {
-        console.log('An error happened')
-    }
-)
+loader.load('assets/web_n_lights.gltf', (gltfScene) => {
+    scene.add(gltfScene.scene)
+})
 
 // THE PLAYGROUND
 const renderer = new THREE.WebGLRenderer()
