@@ -37,7 +37,7 @@ orbitCamera.position.z = 4
 // Instantiate a loader
 const loader = new GLTFLoader()
 // Load a glTF resource
-loader.load('assets/web_n_lights.gltf', (gltfScene) => {
+loader.load('assets/web_n_lights.gltf', (gltfScene: any) => {
     scene.add(gltfScene.scene)
 })
 
@@ -111,6 +111,71 @@ function onWindowResize() {
     render()
 }
 
+/**
+ ** 3D OBJECT
+ */
+
+// Setup
+const amount = 24
+let rotMod = 0
+const materialConfig: any = {
+    color: 0xe295ef,
+    flatShading: THREE.SmoothShading,
+    metalness: 0.5,
+    roughness: 0.6,
+}
+
+// Boilerplate code
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+}
+
+// Lathe
+let lathe: any
+const latheRender = () => {
+    const extrudeSettings = {
+        depth: 1.5,
+        steps: 1,
+        bevelEnabled: false,
+        bevelThickness: 0.1,
+        bevelSegments: 2,
+        bevelSize: 0.1,
+        curveSegments: 64,
+    }
+    lathe = new THREE.Group()
+    const difference = 0.04
+    const amount = 36
+    let lastOuterWall = 1
+
+    for (let i = 0; i < amount; i++) {
+        const value = (i + 0.5) / 2
+        const innerWall = lastOuterWall === 1 ? value : lastOuterWall - 0.0085
+        const outerWall = lastOuterWall === 1 ? value + difference : innerWall + difference
+
+        let arcShape = new THREE.Shape()
+        arcShape.absarc(0, 0, outerWall, 0, Math.PI * 2, true)
+        let holePath = new THREE.Path()
+        holePath.absarc(0, 0, innerWall, 0, Math.PI * 2, false)
+        arcShape.holes.push(holePath)
+        const geo = new THREE.ExtrudeGeometry(arcShape, extrudeSettings)
+        const material = new THREE.MeshStandardMaterial(materialConfig)
+        const cyl = new THREE.Mesh(geo, material)
+        cyl.scale.set(1, 1, difference + 0.1)
+
+        lathe.add(cyl)
+        lastOuterWall = outerWall
+    }
+
+    lathe.rotation.set(0, 0, 4.53)
+    scene.add(lathe)
+}
+latheRender()
+
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.shadowMap.enabled = true
+
 function animate() {
     requestAnimationFrame(animate)
 
@@ -121,6 +186,23 @@ function animate() {
 }
 
 function render() {
+    if (rotMod >= -0.53) {
+        rotMod = rotMod - 0.002
+        lathe.children.forEach((cyl: any, i: any) => {
+            const factor = i * 0.18
+            cyl.rotation.y = factor * rotMod
+            cyl.rotation.x = factor * rotMod
+            cyl.rotation.z = factor * rotMod
+        })
+    }
+
     renderer.render(scene, camSelect)
 }
+
 animate()
+
+// Animation
+function animateCrt() {
+    requestAnimationFrame(animateCrt)
+}
+animateCrt()
