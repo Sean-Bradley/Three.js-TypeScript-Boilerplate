@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OBJLoader = void 0;
 const three_1 = require("three");
 var OBJLoader = (function () {
     // o object_name | g group_name
@@ -566,4 +567,3 @@ var OBJLoader = (function () {
     return OBJLoader;
 })();
 exports.OBJLoader = OBJLoader;
-//# sourceMappingURL=OBJLoader.js.map

@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.6.1",
+    "@types/three": "^0.126.2",
     "concurrently": "^7.3.0",
     "nodemon": "^2.0.19"
   },
@@ -23,10 +24,10 @@
     "cross-blob": "^3.0.1",
     "express": "^4.18.1",
     "gl": "^5.0.3",
-    "jimp": "^0.16.1",
+    "jimp": "^0.16.0",
     "jsdom": "^19.0.0",
     "socket.io": "^3.0.4",
-    "three": "^0.142.0",
+    "three": "^0.126.1",
     "typescript": "4.7.4"
   }
 }

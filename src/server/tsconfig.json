@@ -4,7 +4,6 @@
         "module": "commonjs",
         "outDir": "../../dist/server",
         "baseUrl": ".",
-        "sourceMap": true,
         "paths": {
             "./OBJLoader.js": ["../../node_modules/three/examples/jsm/loaders/"]
         },
