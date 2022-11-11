@@ -45,8 +45,8 @@ export default class TheBallGame {
     private backGroundTexture: THREE.CubeTexture
     private jewel = new THREE.Object3D()
     private explosions: Explosion[]
-    private sphereGeometry = new THREE.SphereBufferGeometry(1, 24, 24)
-    private cubeGeometry = new THREE.BoxBufferGeometry(2, 2, 2)
+    private sphereGeometry = new THREE.SphereGeometry(1, 24, 24)
+    private cubeGeometry = new THREE.BoxGeometry(2, 2, 2)
     private sphereMaterial: THREE.MeshBasicMaterial
     private cubeMaterial: THREE.MeshBasicMaterial
     private cubeRenderTarget1: THREE.WebGLCubeRenderTarget
@@ -150,7 +150,7 @@ export default class TheBallGame {
             }
         )
 
-        this.groundMirror = new Reflector(new THREE.PlaneBufferGeometry(50, 50), {
+        this.groundMirror = new Reflector(new THREE.PlaneGeometry(50, 50), {
             color: new THREE.Color(0x222222),
             clipBias: 0.003,
             textureWidth: window.innerWidth * window.devicePixelRatio,
