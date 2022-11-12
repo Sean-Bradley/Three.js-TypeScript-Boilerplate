@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
@@ -46,8 +47,13 @@ const circleTexture = new THREE.TextureLoader().load('img/circle.png')
 
 const progressBar = document.getElementById('progressBar') as HTMLProgressElement
 
-new GLTFLoader().load(
-    './models/house-water.glb',
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('./js/libs/draco/')
+
+const loader = new GLTFLoader()
+loader.setDRACOLoader(dracoLoader)
+loader.load(
+    './models/house-water-transformed.glb',
     (gltf) => {
         gltf.scene.traverse((c) => {
             if ((c as THREE.Mesh).isMesh) {
