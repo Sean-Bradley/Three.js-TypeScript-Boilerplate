@@ -20,9 +20,9 @@ export default class CannonDebugRenderer {
         this._meshes = [];
         this._material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
         this._particleMaterial = new THREE.PointsMaterial({ color: 0xff0000, size: 10, sizeAttenuation: false, depthTest: false });
-        this._sphereGeometry = new THREE.SphereBufferGeometry(1);
-        this._boxGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
-        this._planeGeometry = new THREE.PlaneBufferGeometry(10, 10, 10, 10);
+        this._sphereGeometry = new THREE.SphereGeometry(1);
+        this._boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        this._planeGeometry = new THREE.PlaneGeometry(10, 10, 10, 10);
         this._particleGeometry = new THREE.BufferGeometry();
         this._particleGeometry.setFromPoints([new THREE.Vector3(0, 0, 0)]);
     }

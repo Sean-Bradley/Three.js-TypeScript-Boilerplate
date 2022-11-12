@@ -79,7 +79,7 @@ world.addBody(planeBody)
 for (var i = 0; i < 20; i++) {
     const size = { x: Math.random() * 4 + 1, y: Math.random() * 4 + 1, z: Math.random() * 4 + 1 }
     const mesh = new THREE.Mesh(
-        new THREE.BoxBufferGeometry(size.x, size.y, size.z),
+        new THREE.BoxGeometry(size.x, size.y, size.z),
         new THREE.MeshBasicMaterial({
             color: 0xff0066,
             wireframe: true,
@@ -273,7 +273,7 @@ var uniforms = {
     },
 }
 var targetMesh = new THREE.Mesh(
-    new THREE.SphereBufferGeometry(1, 32, 32),
+    new THREE.SphereGeometry(1, 32, 32),
     new THREE.ShaderMaterial({
         uniforms: uniforms,
         vertexShader: (document.getElementById('vertexShader') as HTMLElement)
@@ -289,7 +289,7 @@ teleportVR.useDefaultTargetHelper(false)
 
 //custom TeleportVR Direction object
 var targetDirectionIndicatorL = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(0.2, 0.01, 0.5),
+    new THREE.BoxGeometry(0.2, 0.01, 0.5),
     new THREE.MeshBasicMaterial({
         color: 0x0000ff,
         wireframe: true,
@@ -301,7 +301,7 @@ targetDirectionIndicatorL.rotateY(Math.PI / -4)
 teleportVR.target.add(targetDirectionIndicatorL)
 
 var targetDirectionIndicatorR = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(0.2, 0.01, 0.5),
+    new THREE.BoxGeometry(0.2, 0.01, 0.5),
     new THREE.MeshBasicMaterial({
         color: 0x0000ff,
         wireframe: true,
