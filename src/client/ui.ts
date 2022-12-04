@@ -63,13 +63,11 @@ export default class UI {
         )
 
         document.addEventListener('pointerlockchange', this.lockChangeAlert, false)
-
         ;(
             document.getElementById('screenNameInput') as HTMLInputElement
         ).addEventListener('keyup', (e) => {
             if (e.which === 13) blur()
         })
-
         ;(
             document.getElementById('screenNameInput') as HTMLInputElement
         ).addEventListener('change', (e) => {
@@ -163,26 +161,26 @@ export default class UI {
     }
 
     public onDocumentKey = (e: KeyboardEvent) => {
-        this.keyMap[e.key] = e.type === 'keydown'
+        this.keyMap[e.code] = e.type === 'keydown'
         const tmpVec = [0, 0]
 
-        if (this.keyMap['w']) {
+        if (this.keyMap['KeyW']) {
             tmpVec[0] += Math.cos(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] -= Math.sin(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap['s']) {
+        if (this.keyMap['KeyS']) {
             tmpVec[0] -= Math.cos(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] += Math.sin(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap['a']) {
+        if (this.keyMap['KeyA']) {
             tmpVec[0] += Math.sin(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] += Math.cos(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap['d']) {
+        if (this.keyMap['KeyD']) {
             tmpVec[0] -= Math.sin(this.theBallGame.cameraRotationXZOffset)
             tmpVec[1] -= Math.cos(this.theBallGame.cameraRotationXZOffset)
         }
-        if (this.keyMap[' ']) {
+        if (this.keyMap['Space']) {
             //space
             this.theBallGame.spcKey = 1
         } else {
