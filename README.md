@@ -4,19 +4,19 @@ This boilerplate is supplementary to my book titled **Three.js and TypeScript** 
 
 <img style="float:left; min-width:150px;" src="./docs/threejs-typescript-250.jpg">
 
-&nbsp;<a href="https://www.amazon.com/dp/B09GYTKRCH"><img src="/docs/flag_us.gif">&nbsp; https://www.amazon.com/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.co.uk/dp/B09GYTKRCH"><img src="/docs/flag_uk.gif">&nbsp; https://www.amazon.co.uk/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.in/dp/B09GYTKRCH"><img src="/docs/flag_in.gif">&nbsp; https://www.amazon.in/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.de/dp/B09GYTKRCH"><img src="/docs/flag_de.gif">&nbsp; https://www.amazon.de/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.fr/dp/B09GYTKRCH"><img src="/docs/flag_fr.gif">&nbsp; https://www.amazon.fr/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.es/dp/B09GYTKRCH"><img src="/docs/flag_es.gif">&nbsp; https://www.amazon.es/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.it/dp/B09GYTKRCH"><img src="/docs/flag_it.gif">&nbsp; https://www.amazon.it/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.nl/dp/B09GYTKRCH"><img src="/docs/flag_nl.gif">&nbsp; https://www.amazon.nl/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.co.jp/dp/B09GYTKRCH"><img src="/docs/flag_jp.gif">&nbsp; https://www.amazon.co.jp/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.ca/dp/B09GYTKRCH"><img src="/docs/flag_ca.gif">&nbsp; https://www.amazon.ca/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.com.br/dp/B09GYTKRCH"><img src="/docs/flag_br.gif">&nbsp; https://www.amazon.com.br/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.com.mx/dp/B09GYTKRCH"><img src="/docs/flag_mx.gif">&nbsp; https://www.amazon.com.mx/dp/B09GYTKRCH</a><br/>
-&nbsp;<a href="https://www.amazon.com.au/dp/B09GYTKRCH"><img src="/docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B09GYTKRCH</a>
+&nbsp;<a href="https://www.amazon.com/dp/B09GYTKRCH"><img src="./docs/flag_us.gif">&nbsp; https://www.amazon.com/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.co.uk/dp/B09GYTKRCH"><img src="./docs/flag_uk.gif">&nbsp; https://www.amazon.co.uk/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.in/dp/B09GYTKRCH"><img src="./docs/flag_in.gif">&nbsp; https://www.amazon.in/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.de/dp/B09GYTKRCH"><img src="./docs/flag_de.gif">&nbsp; https://www.amazon.de/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.fr/dp/B09GYTKRCH"><img src="./docs/flag_fr.gif">&nbsp; https://www.amazon.fr/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.es/dp/B09GYTKRCH"><img src="./docs/flag_es.gif">&nbsp; https://www.amazon.es/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.it/dp/B09GYTKRCH"><img src="./docs/flag_it.gif">&nbsp; https://www.amazon.it/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.nl/dp/B09GYTKRCH"><img src="./docs/flag_nl.gif">&nbsp; https://www.amazon.nl/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.co.jp/dp/B09GYTKRCH"><img src="./docs/flag_jp.gif">&nbsp; https://www.amazon.co.jp/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.ca/dp/B09GYTKRCH"><img src="./docs/flag_ca.gif">&nbsp; https://www.amazon.ca/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.com.br/dp/B09GYTKRCH"><img src="./docs/flag_br.gif">&nbsp; https://www.amazon.com.br/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.com.mx/dp/B09GYTKRCH"><img src="./docs/flag_mx.gif">&nbsp; https://www.amazon.com.mx/dp/B09GYTKRCH</a><br/>
+&nbsp;<a href="https://www.amazon.com.au/dp/B09GYTKRCH"><img src="./docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B09GYTKRCH</a>
 
 and my **ThreeJS and TypeScript** courses at [Udemy](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F), [YouTube (Channel membership required)](https://www.youtube.com/playlist?list=PLKWUX7aMnlEKTmkBqwjc-tZgULJdNBjEd) and [Skillshare](https://skl.sh/2uxctEP)
 
@@ -238,27 +238,31 @@ This boilerplate was created as a sub project of my [ThreeJS and TypeScript Cour
 
 To help support my TypeScript projects, please check out my book titled **Design Patterns in TypeScript**.
 
-<img style="float:left; min-width:150px;" src="/docs/dp-in-typescript.jpg">
+<img style="float:left; min-width:150px;" src="./docs/dp-in-typescript.jpg">
 
-&nbsp;<a href="https://www.amazon.com/dp/B0948BCH24"><img src="/docs/flag_us.gif">&nbsp; https://www.amazon.com/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.co.uk/dp/B0948BCH24"><img src="/docs/flag_uk.gif">&nbsp; https://www.amazon.co.uk/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.in/dp/B094716FD6"><img src="/docs/flag_in.gif">&nbsp; https://www.amazon.in/dp/B094716FD6</a><br/>
-&nbsp;<a href="https://www.amazon.de/dp/B0948BCH24"><img src="/docs/flag_de.gif">&nbsp; https://www.amazon.de/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.fr/dp/B0948BCH24"><img src="/docs/flag_fr.gif">&nbsp; https://www.amazon.fr/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.es/dp/B0948BCH24"><img src="/docs/flag_es.gif">&nbsp; https://www.amazon.es/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.it/dp/B0948BCH24"><img src="/docs/flag_it.gif">&nbsp; https://www.amazon.it/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.co.jp/dp/B0948BCH24"><img src="/docs/flag_jp.gif">&nbsp; https://www.amazon.co.jp/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.ca/dp/B0948BCH24"><img src="/docs/flag_ca.gif">&nbsp; https://www.amazon.ca/dp/B0948BCH24</a><br/>
-&nbsp;<a href="https://www.amazon.com.au/dp/B094716FD6"><img src="/docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B094716FD6</a>
+&nbsp;<a href="https://www.amazon.com/dp/B0948BCH24"><img src="./docs/flag_us.gif">&nbsp; https://www.amazon.com/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.co.uk/dp/B0948BCH24"><img src="./docs/flag_uk.gif">&nbsp; https://www.amazon.co.uk/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.in/dp/B094716FD6"><img src="./docs/flag_in.gif">&nbsp; https://www.amazon.in/dp/B094716FD6</a><br/>
+&nbsp;<a href="https://www.amazon.de/dp/B0948BCH24"><img src="./docs/flag_de.gif">&nbsp; https://www.amazon.de/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.fr/dp/B0948BCH24"><img src="./docs/flag_fr.gif">&nbsp; https://www.amazon.fr/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.es/dp/B0948BCH24"><img src="./docs/flag_es.gif">&nbsp; https://www.amazon.es/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.it/dp/B0948BCH24"><img src="./docs/flag_it.gif">&nbsp; https://www.amazon.it/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.co.jp/dp/B0948BCH24"><img src="./docs/flag_jp.gif">&nbsp; https://www.amazon.co.jp/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.ca/dp/B0948BCH24"><img src="./docs/flag_ca.gif">&nbsp; https://www.amazon.ca/dp/B0948BCH24</a><br/>
+&nbsp;<a href="https://www.amazon.com.au/dp/B094716FD6"><img src="./docs/flag_au.gif">&nbsp; https://www.amazon.com.au/dp/B094716FD6</a>
 
 (ASIN : B0948BCH24 / B094716FD6)
 
 ## Games Created from this Boilerplate
 
-[First Car Shooter : https://github.com/Sean-Bradley/First-Car-Shooter](https://github.com/Sean-Bradley/First-Car-Shooter)
+[Straight Car : https://github.com/Sean-Bradley/Straight-Car](https://github.com/Sean-Bradley/Straight-Car)
 
-![First Car Shooter](/docs/fcs-demo.gif)
+![Straight Car](/docs/sc-demo.gif)
 
 [Ball-VR : https://github.com/Sean-Bradley/Ball-VR](https://github.com/Sean-Bradley/Ball-VR)
 
 ![Ball-VR](/docs/ball-vr-demo.gif)
+
+[First Car Shooter : https://github.com/Sean-Bradley/First-Car-Shooter](https://github.com/Sean-Bradley/First-Car-Shooter)
+
+![First Car Shooter](/docs/fcs-demo.gif)
