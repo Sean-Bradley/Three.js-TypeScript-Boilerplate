@@ -1,6 +1,6 @@
 import Explosion from './explosion'
 import * as THREE from 'three'
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
+import TWEEN from '@tweenjs/tween.js'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { Reflector } from 'three/examples/jsm/objects/Reflector'
 import UI from './ui'

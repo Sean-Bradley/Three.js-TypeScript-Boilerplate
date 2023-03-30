@@ -27,7 +27,7 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 const clock = new THREE.Clock()
