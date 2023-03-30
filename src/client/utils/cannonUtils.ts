@@ -12,14 +12,16 @@ interface Face3 {
 
 class CannonUtils {
     public static CreateTrimesh(geometry: THREE.BufferGeometry): CANNON.Trimesh {
-        const vertices = geometry.clone().toNonIndexed().attributes.position.array as number[]
+        const vertices = (
+            geometry.clone().toNonIndexed().attributes.position as THREE.BufferAttribute
+        ).array as number[]
         const indices = Object.keys(vertices).map(Number)
         return new CANNON.Trimesh(vertices, indices)
     }
 
     public static CreateConvexPolyhedron(geometry: THREE.BufferGeometry): CANNON.ConvexPolyhedron {
-        const position = geometry.attributes.position
-        const normal = geometry.attributes.normal
+        const position = geometry.attributes.position as THREE.BufferAttribute
+        const normal = geometry.attributes.normal as THREE.BufferAttribute
         const vertices: THREE.Vector3[] = []
         for (let i = 0; i < position.count; i++) {
             vertices.push(new THREE.Vector3().fromBufferAttribute(position, i))
