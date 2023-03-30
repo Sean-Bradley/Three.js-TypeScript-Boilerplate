@@ -2,7 +2,8 @@
     "compilerOptions": {
         "target": "ES6",
         "moduleResolution": "node",
-        "strict": true
+        "strict": true,
+        "allowSyntheticDefaultImports": true
     },
     "include": ["**/*.ts"]
 }

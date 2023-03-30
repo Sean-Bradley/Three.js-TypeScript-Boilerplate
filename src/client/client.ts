@@ -32,7 +32,7 @@ function onWindowResize() {
     render()
 }
 
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 const gui = new GUI()
