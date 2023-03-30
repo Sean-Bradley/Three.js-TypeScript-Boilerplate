@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
+import TWEEN from '@tweenjs/tween.js'
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 
 let annotations: { [key: string]: Annotation }
@@ -171,15 +171,14 @@ function onWindowResize() {
     render()
 }
 
-renderer.domElement.addEventListener('click', onClick, false)
+const v = new THREE.Vector2()
+
 function onClick(event: MouseEvent) {
-    raycaster.setFromCamera(
-        {
-            x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
-            y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1,
-        },
-        camera
+    v.set(
+        (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+        -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
     )
+    raycaster.setFromCamera(v, camera)
 
     const intersects = raycaster.intersectObjects(annotationMarkers, true)
     if (intersects.length > 0) {
@@ -189,15 +188,14 @@ function onClick(event: MouseEvent) {
     }
 }
 
-renderer.domElement.addEventListener('dblclick', onDoubleClick, false)
+renderer.domElement.addEventListener('click', onClick, false)
+
 function onDoubleClick(event: MouseEvent) {
-    raycaster.setFromCamera(
-        {
-            x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
-            y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1,
-        },
-        camera
+    v.set(
+        (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+        -(event.clientY / renderer.domElement.clientHeight) * 2 + 1
     )
+    raycaster.setFromCamera(v, camera)
 
     const intersects = raycaster.intersectObjects(sceneMeshes, true)
 
@@ -217,6 +215,7 @@ function onDoubleClick(event: MouseEvent) {
             .start()
     }
 }
+renderer.domElement.addEventListener('dblclick', onDoubleClick, false)
 
 function gotoAnnotation(a: any): void {
     new TWEEN.Tween(camera.position)
@@ -253,7 +252,7 @@ function gotoAnnotation(a: any): void {
     }
 }
 
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 function animate() {
