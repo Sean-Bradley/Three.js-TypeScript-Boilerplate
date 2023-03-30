@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'dat.gui'
-import { TWEEN } from 'three/examples/jsm/libs/tween.module.min'
+import TWEEN from '@tweenjs/tween.js'
 import { io } from 'socket.io-client'
 
 const scene = new THREE.Scene()
@@ -101,7 +101,7 @@ socket.on('removeClient', (id: string) => {
     scene.remove(scene.getObjectByName(id) as THREE.Object3D)
 })
 
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 const gui = new GUI()
