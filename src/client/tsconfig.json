@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
         "moduleResolution": "node",
-        "strict": true
+        "strict": true,        
+        "allowSyntheticDefaultImports": true
     },
     "include": [
         "**/*.ts"

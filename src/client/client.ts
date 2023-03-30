@@ -205,7 +205,7 @@ function fragmentShader() {
     `
 }
 
-const stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 const guiData = {
