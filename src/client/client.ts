@@ -114,7 +114,7 @@ cube.scale.y = 3
 cube.scale.z = 4
 scene.add(cube)
 
-const stats: Stats = Stats()
+const stats = new Stats()
 document.body.appendChild(stats.dom)
 
 var data = {
