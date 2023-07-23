@@ -11,12 +11,17 @@ interface Face3 {
 }
 
 class CannonUtils {
-    public static CreateTrimesh(geometry: THREE.BufferGeometry): CANNON.Trimesh {
-        const vertices = (
-            geometry.clone().toNonIndexed().attributes.position as THREE.BufferAttribute
-        ).array as number[]
+    public static CreateTrimesh(
+        geometry: THREE.BufferGeometry
+    ): CANNON.Trimesh {
+        let vertices
+        if (geometry.index === null) {
+            vertices = (geometry.attributes.position as THREE.BufferAttribute).array
+        } else {
+            vertices = (geometry.clone().toNonIndexed().attributes.position as THREE.BufferAttribute).array
+        }
         const indices = Object.keys(vertices).map(Number)
-        return new CANNON.Trimesh(vertices, indices)
+        return new CANNON.Trimesh(vertices as unknown as number[], indices)
     }
 
     public static CreateConvexPolyhedron(geometry: THREE.BufferGeometry): CANNON.ConvexPolyhedron {
