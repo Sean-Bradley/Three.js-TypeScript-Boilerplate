@@ -111,7 +111,7 @@ export default class UI {
                 false
             )
             this.rendererDomElement.addEventListener(
-                'mousewheel',
+                'wheel',
                 this.onDocumentMouseWheel,
                 false
             )
@@ -128,7 +128,7 @@ export default class UI {
                 false
             )
             this.rendererDomElement.removeEventListener(
-                'mousewheel',
+                'wheel',
                 this.onDocumentMouseWheel,
                 false
             )
@@ -154,7 +154,7 @@ export default class UI {
         return false
     }
 
-    public onDocumentMouseWheel = (e: THREE.Event) => {
+    public onDocumentMouseWheel = (e: WheelEvent) => {
         this.theBallGame.radius -= e.deltaY * 0.005
         this.theBallGame.radius = Math.max(Math.min(this.theBallGame.radius, 20), 2)
         return false
