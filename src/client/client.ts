@@ -12,8 +12,7 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const controls = new OrbitControls(camera, renderer.domElement)
-//controls.addEventListener('change', render)
+new OrbitControls(camera, renderer.domElement)
 
 const geometry = new THREE.BoxGeometry()
 const material = new THREE.MeshBasicMaterial({
@@ -47,11 +46,6 @@ cameraFolder.open()
 
 function animate() {
     requestAnimationFrame(animate)
-
-    //stats.begin()
-    //cube.rotation.x += 0.01
-    //cube.rotation.y += 0.01
-    //stats.end()
 
     render()
 
