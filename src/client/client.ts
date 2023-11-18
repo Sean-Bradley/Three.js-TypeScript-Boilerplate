@@ -127,6 +127,7 @@ loader.load(
                     annotationSprite.scale.set(0.066, 0.066, 0.066)
                     annotationSprite.position.copy(annotations[a].lookAt)
                     annotationSprite.userData.id = a
+                    annotationSprite.renderOrder = 1
                     scene.add(annotationSprite)
                     annotationMarkers.push(annotationSprite)
 
@@ -156,9 +157,6 @@ loader.load(
             progressBar.value = percentComplete
             progressBar.style.display = 'block'
         }
-    },
-    (error) => {
-        console.log('An error happened')
     }
 )
 
@@ -268,8 +266,8 @@ function animate() {
 }
 
 function render() {
-    labelRenderer.render(scene, camera)
     renderer.render(scene, camera)
+    labelRenderer.render(scene, camera)
 }
 
 animate()
