@@ -214,7 +214,7 @@ Visit [https://127.0.0.1:8080](https://127.0.0.1:8080)
 
 This boilerplate was created as a sub project of my [ThreeJS and TypeScript Course](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and is only just the beginning of what you will create.
 
-[![ThreeJS and TypeScript Course](docs/threejs-course-image.png)](https://youtu.be/fS4H7gm7gK4)
+[![ThreeJS and TypeScript Course](docs/threejs-course-image.png)](https://youtu.be/cZWAqrJhtvQ)
 
 ## Games Created from this Boilerplate
 
