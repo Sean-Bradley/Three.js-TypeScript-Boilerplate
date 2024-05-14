@@ -49,9 +49,7 @@ class App {
 
             socket.on('update', (message: any) => {
                 if (this.clients[socket.id]) {
-                    this.clients[socket.id].t = message.t //client timestamp
-                    this.clients[socket.id].p = message.p //position
-                    this.clients[socket.id].r = message.r //rotation
+                    this.clients[socket.id] = message // relaying the complete message
                 }
             })
         })

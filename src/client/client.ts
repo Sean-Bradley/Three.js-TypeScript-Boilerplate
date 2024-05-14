@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'dat.gui'
-import TWEEN from '@tweenjs/tween.js'
 import { io } from 'socket.io-client'
 
 const scene = new THREE.Scene()
@@ -55,7 +54,7 @@ socket.on('id', (id: any) => {
         socket.emit('update', {
             t: Date.now(),
             p: myObject3D.position,
-            r: myObject3D.rotation,
+            q: myObject3D.quaternion,
         })
     }, 50)
 })
@@ -70,28 +69,10 @@ socket.on('clients', (clients: any) => {
             scene.add(clientCubes[p])
         } else {
             if (clients[p].p) {
-                new TWEEN.Tween(clientCubes[p].position)
-                    .to(
-                        {
-                            x: clients[p].p.x,
-                            y: clients[p].p.y,
-                            z: clients[p].p.z,
-                        },
-                        50
-                    )
-                    .start()
+                clientCubes[p].position.lerp(clients[p].p, 0.5)
             }
-            if (clients[p].r) {
-                new TWEEN.Tween(clientCubes[p].rotation)
-                    .to(
-                        {
-                            x: clients[p].r._x,
-                            y: clients[p].r._y,
-                            z: clients[p].r._z,
-                        },
-                        50
-                    )
-                    .start()
+            if (clients[p].q) {
+                clientCubes[p].quaternion.slerp(new THREE.Quaternion(...clients[p].q), 0.5)
             }
         }
     })
@@ -121,8 +102,6 @@ const animate = function () {
     requestAnimationFrame(animate)
 
     controls.update()
-
-    TWEEN.update()
 
     if (clientCubes[myId]) {
         camera.lookAt(clientCubes[myId].position)
