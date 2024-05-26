@@ -41,13 +41,17 @@ function onWindowResize() {
 let myId = ''
 let timestamp = 0
 const clientCubes: { [id: string]: THREE.Mesh } = {}
+const positions: { [id: string]: THREE.Vector3 } = {}
+const quaternions: { [id: string]: THREE.Quaternion } = {}
 const socket = io()
 socket.on('connect', function () {
     console.log('connect')
 })
+
 socket.on('disconnect', function (message: any) {
     console.log('disconnect ' + message)
 })
+
 socket.on('id', (id: any) => {
     myId = id
     setInterval(() => {
@@ -58,26 +62,26 @@ socket.on('id', (id: any) => {
         })
     }, 50)
 })
+
 socket.on('clients', (clients: any) => {
     let pingStatsHtml = 'Socket Ping Stats<br/><br/>'
-    Object.keys(clients).forEach((p) => {
+
+    Object.keys(clients).forEach((c) => {
         timestamp = Date.now()
-        pingStatsHtml += p + ' ' + (timestamp - clients[p].t) + 'ms<br/>'
-        if (!clientCubes[p]) {
-            clientCubes[p] = new THREE.Mesh(geometry, material)
-            clientCubes[p].name = p
-            scene.add(clientCubes[p])
+        pingStatsHtml += c + ' ' + (timestamp - clients[c].t) + 'ms<br/>'
+
+        if (!clientCubes[c]) {
+            clientCubes[c] = new THREE.Mesh(geometry, material)
+            clientCubes[c].name = c
+            scene.add(clientCubes[c])
         } else {
-            if (clients[p].p) {
-                clientCubes[p].position.lerp(clients[p].p, 0.5)
-            }
-            if (clients[p].q) {
-                clientCubes[p].quaternion.slerp(new THREE.Quaternion(...clients[p].q), 0.5)
-            }
+            clients[c].p && (positions[c] = clients[c].p)
+            clients[c].q && (quaternions[c] = new THREE.Quaternion(...clients[c].q))
         }
     })
     ;(document.getElementById('pingStats') as HTMLDivElement).innerHTML = pingStatsHtml
 })
+
 socket.on('removeClient', (id: string) => {
     scene.remove(scene.getObjectByName(id) as THREE.Object3D)
 })
@@ -103,9 +107,10 @@ const animate = function () {
 
     controls.update()
 
-    if (clientCubes[myId]) {
-        camera.lookAt(clientCubes[myId].position)
-    }
+    Object.keys(clientCubes).forEach((c, i) => {
+        positions[c] && clientCubes[c].position.lerp(positions[c], 0.1)
+        quaternions[c] && clientCubes[c].quaternion.slerp(quaternions[c], 0.1)
+    })
 
     render()
 
