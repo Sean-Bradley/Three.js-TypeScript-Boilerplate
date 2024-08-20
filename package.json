@@ -18,7 +18,7 @@
     "cannon-es": "^0.20.0",
     "concurrently": "^8.2.2",
     "dat.gui": "^0.7.9",
-    "jeasings": "^0.0.7",
+    "jeasings": "^0.0.8",
     "nodemon": "^3.1.4",
     "three": "^0.167.1",
     "ts-loader": "^9.5.1",
