@@ -1,6 +1,6 @@
 import Explosion from './explosion'
 import * as THREE from 'three'
-import TWEEN from '@tweenjs/tween.js'
+import JEASINGS from 'jeasings'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { Reflector } from 'three/examples/jsm/objects/Reflector'
 import UI from './ui'
@@ -305,7 +305,7 @@ export default class TheBallGame {
                 } else {
                     if (gameData.players[p].p) {
                         if (p === this.myId) {
-                            new TWEEN.Tween(this.players[p].position)
+                            new JEASINGS.JEasing(this.players[p].position)
                                 .to(
                                     {
                                         x: gameData.players[p].p.x,
@@ -314,7 +314,6 @@ export default class TheBallGame {
                                     },
                                     50
                                 )
-                                .start()
                                 .onUpdate(() => {
                                     this.camera.position.set(
                                         this.players[p].position.x +
@@ -339,8 +338,9 @@ export default class TheBallGame {
                                         this.players[this.myId].position.z
                                     )
                                 })
+                                .start()
                         } else {
-                            new TWEEN.Tween(this.players[p].position)
+                            new JEASINGS.JEasing(this.players[p].position)
                                 .to(
                                     {
                                         x: gameData.players[p].p.x,
@@ -353,7 +353,7 @@ export default class TheBallGame {
                         }
                     }
                     if (gameData.players[p].q) {
-                        new TWEEN.Tween(this.players[p].quaternion)
+                        new JEASINGS.JEasing(this.players[p].quaternion)
                             .to(
                                 {
                                     _x: gameData.players[p].q.x,
@@ -385,7 +385,7 @@ export default class TheBallGame {
                     }
                 } else {
                     if (gameData.obstacles[o].p) {
-                        new TWEEN.Tween(this.obstacles[o].position)
+                        new JEASINGS.JEasing(this.obstacles[o].position)
                             .to(
                                 {
                                     x: gameData.obstacles[o].p.x,
@@ -397,7 +397,7 @@ export default class TheBallGame {
                             .start()
                     }
                     if (gameData.obstacles[o].q) {
-                        new TWEEN.Tween(this.obstacles[o].quaternion)
+                        new JEASINGS.JEasing(this.obstacles[o].quaternion)
                             .to(
                                 {
                                     x: gameData.obstacles[o].q.x,
@@ -410,7 +410,7 @@ export default class TheBallGame {
                             .start()
                     }
                     if (gameData.obstacles[o].s) {
-                        new TWEEN.Tween(this.obstacles[o].scale)
+                        new JEASINGS.JEasing(this.obstacles[o].scale)
                             .to(
                                 {
                                     x: gameData.obstacles[o].s.x,
@@ -425,7 +425,7 @@ export default class TheBallGame {
             })
             if (this.jewel && gameData.jewel) {
                 if (gameData.jewel.p) {
-                    new TWEEN.Tween(this.jewel.position)
+                    new JEASINGS.JEasing(this.jewel.position)
                         .to(
                             {
                                 x: gameData.jewel.p.x,
@@ -444,8 +444,9 @@ export default class TheBallGame {
 
     public update = (delta: number) => {
         this.elapsed += delta
-        if (this.elapsed > .0333) { // ~ 30 frames a second
-            this.elapsed -= .0333
+        if (this.elapsed > 0.0333) {
+            // ~ 30 frames a second
+            this.elapsed -= 0.0333
             this.updateServer()
         }
 
@@ -467,6 +468,6 @@ export default class TheBallGame {
             this.players[this.myId].visible = true
         }
 
-        TWEEN.update()
+        JEASINGS.update()
     }
 }

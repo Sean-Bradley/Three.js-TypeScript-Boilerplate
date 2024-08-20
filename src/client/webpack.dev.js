@@ -1,6 +1,6 @@
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const path = require('path');
+const { merge } = require('webpack-merge')
+const common = require('./webpack.common.js')
+const path = require('path')
 
 module.exports = merge(common, {
     mode: 'development',
@@ -10,11 +10,12 @@ module.exports = merge(common, {
             directory: path.join(__dirname, '../../dist/client'),
         },
         hot: true,
-        proxy: {
-            "/socket.io": {
-                target: "http://127.0.0.1:3000",
-                ws: true
-            }
-        }
-    }
-});
+        proxy: [
+            {
+                context: ['/socket.io'],
+                target: 'http://localhost:3000',
+                ws: true,
+            },
+        ],
+    },
+})
