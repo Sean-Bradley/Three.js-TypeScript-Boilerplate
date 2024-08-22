@@ -12,9 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.0",
-    "@types/three": "^0.164.0",
-    "three": "^0.164.1",
+    "@types/node": "^22.5.0",
+    "@types/three": "^0.167.2",
+    "three": "^0.167.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
     "webpack": "^5.94.0",
