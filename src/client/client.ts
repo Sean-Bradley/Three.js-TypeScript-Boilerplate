@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
-import TWEEN from '@tweenjs/tween.js'
+import JEASINGS from 'jeasings'
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 
 let annotations: { [key: string]: Annotation }
@@ -200,7 +200,7 @@ function onDoubleClick(event: MouseEvent) {
     if (intersects.length > 0) {
         const p = intersects[0].point
 
-        new TWEEN.Tween(controls.target)
+        new JEASINGS.JEasing(controls.target)
             .to(
                 {
                     x: p.x,
@@ -209,14 +209,14 @@ function onDoubleClick(event: MouseEvent) {
                 },
                 500
             )
-            .easing(TWEEN.Easing.Cubic.Out)
+            .easing(JEASINGS.Cubic.Out)
             .start()
     }
 }
 renderer.domElement.addEventListener('dblclick', onDoubleClick, false)
 
 function gotoAnnotation(a: any): void {
-    new TWEEN.Tween(camera.position)
+    new JEASINGS.JEasing(camera.position)
         .to(
             {
                 x: a.camPos.x,
@@ -225,10 +225,10 @@ function gotoAnnotation(a: any): void {
             },
             500
         )
-        .easing(TWEEN.Easing.Cubic.Out)
+        .easing(JEASINGS.Cubic.Out)
         .start()
 
-    new TWEEN.Tween(controls.target)
+    new JEASINGS.JEasing(controls.target)
         .to(
             {
                 x: a.lookAt.x,
@@ -237,7 +237,7 @@ function gotoAnnotation(a: any): void {
             },
             500
         )
-        .easing(TWEEN.Easing.Cubic.Out)
+        .easing(JEASINGS.Cubic.Out)
         .start()
 
     Object.keys(annotations).forEach((annotation) => {
@@ -258,7 +258,7 @@ function animate() {
 
     controls.update()
 
-    TWEEN.update()
+    JEASINGS.update()
 
     render()
 
