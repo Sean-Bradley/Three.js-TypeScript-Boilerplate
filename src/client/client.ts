@@ -6,6 +6,14 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import JEASINGS from 'jeasings'
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 
+interface Annotation {
+    title: string
+    description: string
+    position: THREE.Vector3
+    lookAt: THREE.Vector3
+    descriptionDomElement?: HTMLElement
+}
+
 let annotations: { [key: string]: Annotation }
 const annotationMarkers: THREE.Sprite[] = []
 
