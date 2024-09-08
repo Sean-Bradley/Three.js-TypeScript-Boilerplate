@@ -1,4 +1,4 @@
-import * as THREE from 'three/tsl'
+import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
@@ -32,7 +32,7 @@ camera.position.x = 10
 camera.position.y = 5
 camera.position.z = 8
 
-const renderer = new THREE.WebGPURenderer({ antialias: true })
+const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
