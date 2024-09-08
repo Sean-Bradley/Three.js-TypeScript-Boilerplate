@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "moduleResolution": "node",
+        "moduleResolution": "Bundler",
         "strict": true
     },
     "include": ["**/*.ts"]
