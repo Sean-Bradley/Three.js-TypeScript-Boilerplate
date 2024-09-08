@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import Stats from 'three/examples/jsm/libs/stats.module'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import Stats from 'three/addons/libs/stats.module.js'
 import { CSG } from './utils/CSGMesh'
 
 const scene = new THREE.Scene()
 
-var light1 = new THREE.SpotLight(0xffffff, 400)
+const light1 = new THREE.SpotLight(0xffffff, 400)
 light1.position.set(2.5, 5, 5)
 light1.angle = Math.PI / 4
 light1.penumbra = 0.5
@@ -16,7 +16,7 @@ light1.shadow.camera.near = 0.5
 light1.shadow.camera.far = 20
 scene.add(light1)
 
-var light2 = new THREE.SpotLight(0xffffff, 400)
+const light2 = new THREE.SpotLight(0xffffff, 400)
 light2.position.set(-2.5, 5, 5)
 light2.angle = Math.PI / 4
 light2.penumbra = 0.5
@@ -45,7 +45,7 @@ const controls = new OrbitControls(camera, renderer.domElement)
         new THREE.MeshStandardMaterial({ color: 0xff0000 })
     )
     const sphereMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(1.45, 8, 8),
+        new THREE.SphereGeometry(1.45, 32, 32),
         new THREE.MeshStandardMaterial({ color: 0x0000ff })
     )
     cubeMesh.position.set(-5, 0, -6)
@@ -66,19 +66,19 @@ const controls = new OrbitControls(camera, renderer.domElement)
 
     // create 3 cylinders and union them
     const cylinderMesh1 = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 32, 1, false),
         new THREE.MeshStandardMaterial({
             color: 0xffbf00,
         })
     )
     const cylinderMesh2 = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 32, 1, false),
         new THREE.MeshStandardMaterial({
             color: 0x00ff00,
         })
     )
     const cylinderMesh3 = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.85, 0.85, 2, 8, 1, false),
+        new THREE.CylinderGeometry(0.85, 0.85, 2, 32, 1, false),
         new THREE.MeshStandardMaterial({
             color: 0x9f2b68,
         })
