@@ -13,9 +13,9 @@
     "devDependencies": {
         "@types/express": "^4.17.21",
         "@types/node": "^22.5.0",
-        "@types/three": "^0.167.2",
+        "@types/three": "^0.168.0",
         "jeasings": "^0.0.11",
-        "three": "^0.167.1",
+        "three": "^0.168.0",
         "ts-loader": "^9.5.1",
         "typescript": "^5.5.4",
         "webpack": "^5.94.0",
