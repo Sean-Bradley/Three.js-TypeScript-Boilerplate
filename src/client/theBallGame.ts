@@ -1,8 +1,8 @@
 import Explosion from './explosion'
 import * as THREE from 'three'
 import JEASINGS from 'jeasings'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { Reflector } from 'three/examples/jsm/objects/Reflector'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 import UI from './ui'
 import { Socket } from 'socket.io-client'
 

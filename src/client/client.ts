@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Stats from 'three/examples/jsm/libs/stats.module'
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 import TheBallGame from './theBallGame'
 import { io } from 'socket.io-client'
 
