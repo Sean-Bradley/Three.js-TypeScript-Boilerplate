@@ -1,8 +1,18 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import Stats from 'three/examples/jsm/libs/stats.module'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { GUI } from 'dat.gui'
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
+
+interface Star {
+    id: number
+    name: string
+    gLon: number
+    gLat: number
+    mag: number
+    spectralClass: string
+    v: THREE.Vector3
+}
 
 const scene = new THREE.Scene()
 
