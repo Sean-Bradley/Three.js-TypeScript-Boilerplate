@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 import Stats from 'three/addons/libs/stats.module.js'
-import JEASINGS from 'jeasings'
+import JEASINGS, { JEasing, Cubic } from 'jeasings'
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js'
 
 interface Annotation {
@@ -208,7 +208,7 @@ function onDoubleClick(event: MouseEvent) {
     if (intersects.length > 0) {
         const p = intersects[0].point
 
-        new JEASINGS.JEasing(controls.target)
+        new JEasing(controls.target)
             .to(
                 {
                     x: p.x,
@@ -217,14 +217,14 @@ function onDoubleClick(event: MouseEvent) {
                 },
                 500
             )
-            .easing(JEASINGS.Cubic.Out)
+            .easing(Cubic.Out)
             .start()
     }
 }
 renderer.domElement.addEventListener('dblclick', onDoubleClick, false)
 
 function gotoAnnotation(a: any): void {
-    new JEASINGS.JEasing(camera.position)
+    new JEasing(camera.position)
         .to(
             {
                 x: a.camPos.x,
@@ -233,10 +233,10 @@ function gotoAnnotation(a: any): void {
             },
             500
         )
-        .easing(JEASINGS.Cubic.Out)
+        .easing(Cubic.Out)
         .start()
 
-    new JEASINGS.JEasing(controls.target)
+    new JEasing(controls.target)
         .to(
             {
                 x: a.lookAt.x,
@@ -245,7 +245,7 @@ function gotoAnnotation(a: any): void {
             },
             500
         )
-        .easing(JEASINGS.Cubic.Out)
+        .easing(Cubic.Out)
         .start()
 
     Object.keys(annotations).forEach((annotation) => {
