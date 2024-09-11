@@ -13,20 +13,20 @@
   "devDependencies": {
     "@types/dat.gui": "^0.7.13",
     "@types/express": "^4.17.21",
-    "@types/node": "^22.4.1",
-    "@types/three": "^0.167.1",
-    "concurrently": "^8.2.2",
+    "@types/node": "^22.5.4",
+    "@types/three": "^0.168.0",
+    "concurrently": "^9.0.0",
     "dat.gui": "^0.7.9",
     "nodemon": "^3.1.4",
-    "three": "^0.167.1",
+    "three": "^0.168.0",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.5.4",
-    "webpack": "^5.93.0",
+    "typescript": "^5.6.2",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^5.0.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
   }
