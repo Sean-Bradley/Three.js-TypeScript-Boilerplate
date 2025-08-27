@@ -5,7 +5,7 @@ import { CSG } from './utils/CSGMesh'
 
 const scene = new THREE.Scene()
 
-const light1 = new THREE.SpotLight(0xffffff, 400)
+const light1 = new THREE.SpotLight(0xffffff, Math.PI * 40)
 light1.position.set(2.5, 5, 5)
 light1.angle = Math.PI / 4
 light1.penumbra = 0.5
@@ -16,7 +16,7 @@ light1.shadow.camera.near = 0.5
 light1.shadow.camera.far = 20
 scene.add(light1)
 
-const light2 = new THREE.SpotLight(0xffffff, 400)
+const light2 = new THREE.SpotLight(0xffffff, Math.PI * 40)
 light2.position.set(-2.5, 5, 5)
 light2.angle = Math.PI / 4
 light2.penumbra = 0.5
