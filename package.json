@@ -22,6 +22,6 @@
     "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
-    "express": "^4.21.0"
+    "express": "^5.1.0"
   }
 }
