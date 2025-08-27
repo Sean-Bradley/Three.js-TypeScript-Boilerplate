@@ -11,17 +11,17 @@
     "author": "Sean Bradley",
     "license": "ISC",
     "devDependencies": {
-        "@types/express": "^4.17.21",
-        "@types/node": "^22.5.4",
-        "@types/three": "^0.168.0",
-        "three": "^0.168.0",
-        "ts-loader": "^9.5.1",
-        "typescript": "^5.5.4",
-        "webpack": "^5.94.0",
-        "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^5.1.0"
+        "@types/express": "^5.0.3",
+        "@types/node": "^24.3.0",
+        "@types/three": "^0.179.0",
+        "three": "^0.179.1",
+        "ts-loader": "^9.5.4",
+        "typescript": "^5.9.2",
+        "webpack": "^5.101.3",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2"
     },
     "dependencies": {
-        "express": "^4.21.0"
+        "express": "^5.1.0"
     }
 }
