@@ -41,6 +41,7 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -173,7 +174,6 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
-    render()
 }
 
 const stats = new Stats()
@@ -186,18 +186,17 @@ physicsFolder.add(world.gravity, 'y', -10.0, 10.0, 0.1)
 physicsFolder.add(world.gravity, 'z', -10.0, 10.0, 0.1)
 physicsFolder.open()
 
-const clock = new THREE.Clock()
+const timer = new THREE.Timer()
+timer.connect(document)
 
 const cannonDebugRenderer = new CannonDebugRenderer(scene, world)
 
 function animate() {
-    requestAnimationFrame(animate)
+    timer.update()
 
     controls.update()
 
-    let delta = clock.getDelta()
-    if (delta > 0.1) delta = 0.1
-    world.step(delta)
+    world.step(timer.getDelta())
     cannonDebugRenderer.update()
 
     // Copy coordinates from Cannon.js to Three.js
@@ -258,13 +257,7 @@ function animate() {
         )
     }
 
-    render()
+    renderer.render(scene, camera)
 
     stats.update()
 }
-
-function render() {
-    renderer.render(scene, camera)
-}
-
-animate()
