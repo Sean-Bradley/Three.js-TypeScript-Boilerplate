@@ -10,6 +10,7 @@ camera.position.z = 2
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 new OrbitControls(camera, renderer.domElement)
@@ -28,7 +29,6 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
-    render()
 }
 
 const stats = new Stats()
@@ -44,17 +44,15 @@ const cameraFolder = gui.addFolder('Camera')
 cameraFolder.add(camera.position, 'z', 0, 10)
 cameraFolder.open()
 
-function animate() {
-    requestAnimationFrame(animate)
+const timer = new THREE.Timer()
 
-    render()
+function animate() {
+    timer.update()
+
+    cube.rotation.x += timer.getDelta() * 0.5
+    cube.rotation.y += timer.getDelta() * 1
+
+    renderer.render(scene, camera)
 
     stats.update()
 }
-
-function render() {
-    renderer.render(scene, camera)
-}
-
-animate()
-//render()
