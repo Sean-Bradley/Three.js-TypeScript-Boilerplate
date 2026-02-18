@@ -34,7 +34,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.xr.enabled = true
-
+renderer.setAnimationLoop(render)
 document.body.appendChild(renderer.domElement)
 
 document.body.appendChild(VRButton.createButton(renderer))
@@ -182,7 +182,7 @@ controllerGrip0.addEventListener('selectstart', () => {
         teleportVR.gamePads[0].hapticActuators &&
         teleportVR.gamePads[0].hapticActuators.length > 0
     ) {
-        (teleportVR.gamePads[1].hapticActuators[1] as any).pulse(1.0, 5)
+        ;(teleportVR.gamePads[1].hapticActuators[1] as any).pulse(1.0, 5)
     }
     bullets[bulletCounter].visible = false
     controllerGrip0.getWorldPosition(bullets[bulletCounter].position)
@@ -220,7 +220,7 @@ controllerGrip1.addEventListener('selectstart', () => {
         teleportVR.gamePads[1].hapticActuators &&
         teleportVR.gamePads[1].hapticActuators.length > 0
     ) {
-        (teleportVR.gamePads[1].hapticActuators[1] as any).pulse(1.0, 5)
+        ;(teleportVR.gamePads[1].hapticActuators[1] as any).pulse(1.0, 5)
     }
     bullets[bulletCounter].visible = false
     controllerGrip1.getWorldPosition(bullets[bulletCounter].position)
@@ -329,24 +329,24 @@ statsVR.setX(0)
 statsVR.setY(0)
 statsVR.setZ(-2)
 
-const clock = new THREE.Clock()
-let delta: number
+const timer = new THREE.Timer()
+timer.connect(document)
 
 //const cannonDebugRenderer = new CannonDebugRenderer(scene, world)
 
 function render() {
+    timer.update()
+
     statsVR.update()
 
     teleportVR.update(elevationsMeshList)
 
-    grabVR.update(delta)
+    grabVR.update(timer.getDelta())
 
-    delta = clock.getDelta()
-    if (delta > 0.01) delta = 0.01
-    world.step(delta)
+    world.step(timer.getDelta())
     //cannonDebugRenderer.update()
 
-    uniforms.time.value += delta
+    uniforms.time.value += timer.getDelta()
 
     meshes.forEach((m, i) => {
         if (!m.userData.isGrabbed) {
@@ -372,7 +372,7 @@ function render() {
 
     bullets.forEach((b, i) => {
         if (b.visible) {
-            b.userData.lifeTime += delta
+            b.userData.lifeTime += timer.getDelta()
             if (b.userData.lifeTime < 15) {
                 b.position.set(
                     bulletBodies[i].position.x,
@@ -398,5 +398,3 @@ function render() {
 
     renderer.render(scene, camera)
 }
-
-renderer.setAnimationLoop(render)
