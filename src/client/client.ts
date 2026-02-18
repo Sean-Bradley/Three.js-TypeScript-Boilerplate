@@ -21,6 +21,7 @@ camera.position.z = 2
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 const labelRenderer = new CSS2DRenderer()
@@ -40,7 +41,6 @@ function onWindowResize() {
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
     labelRenderer.setSize(window.innerWidth, window.innerHeight)
-    render()
 }
 
 const stars: { [id: number]: Star } = {}
@@ -247,19 +247,11 @@ gui.add(guiData, 'constellationNames').onChange(() => {
     })
 })
 
-const animate = function () {
-    requestAnimationFrame(animate)
-
+function animate() {
     controls.update()
 
-    render()
+    renderer.render(scene, camera)
+    labelRenderer.render(scene, camera)
 
     stats.update()
 }
-
-function render() {
-    renderer.render(scene, camera)
-    labelRenderer.render(scene, camera)
-}
-
-animate()
