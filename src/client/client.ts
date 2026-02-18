@@ -9,6 +9,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -24,7 +25,6 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
-    render()
 }
 
 const webcam = document.createElement('video') as HTMLMediaElement
@@ -139,8 +139,6 @@ function updateSmoothness(v: number) {
 }
 
 function animate() {
-    requestAnimationFrame(animate)
-
     //if (webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
     canvasCtx.drawImage(webcam as CanvasImageSource, 0, 0, webcamCanvas.width, webcamCanvas.height)
     if (webcamTexture) webcamTexture.needsUpdate = true
@@ -148,12 +146,7 @@ function animate() {
 
     controls.update()
 
-    render()
+    renderer.render(scene, camera)
 
     stats.update()
 }
-
-function render() {
-    renderer.render(scene, camera)
-}
-animate()
