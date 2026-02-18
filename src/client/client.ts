@@ -10,6 +10,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -35,7 +36,6 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
-    render()
 }
 
 let myId = ''
@@ -102,9 +102,7 @@ cubeRotationFolder.add(myObject3D.rotation, 'z', 0, Math.PI * 2, 0.01)
 cubeRotationFolder.open()
 cubeFolder.open()
 
-const animate = function () {
-    requestAnimationFrame(animate)
-
+function animate() {
     controls.update()
 
     Object.keys(clientCubes).forEach((c, i) => {
@@ -112,13 +110,7 @@ const animate = function () {
         quaternions[c] && clientCubes[c].quaternion.slerp(quaternions[c], 0.1)
     })
 
-    render()
+    renderer.render(scene, camera)
 
     stats.update()
 }
-
-const render = function () {
-    renderer.render(scene, camera)
-}
-
-animate()
