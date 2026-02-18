@@ -9,6 +9,7 @@ const scene = new THREE.Scene()
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setAnimationLoop(animate)
 document.body.appendChild(renderer.domElement)
 
 const camera = new THREE.PerspectiveCamera(
@@ -30,19 +31,15 @@ function onWindowResize() {
 const stats = new Stats()
 document.body.appendChild(stats.dom)
 
-const clock = new THREE.Clock()
-let delta
+const timer = new THREE.Timer()
+timer.connect(document)
 
 function animate() {
-    requestAnimationFrame(animate)
+    timer.update()
 
-    delta = Math.min(clock.getDelta(), 0.1)
-
-    theBallGame.update(delta)
+    theBallGame.update(timer.getDelta())
 
     renderer.render(scene, camera)
 
     stats.update()
 }
-
-animate()
