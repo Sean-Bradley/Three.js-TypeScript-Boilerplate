@@ -13,17 +13,17 @@
   "devDependencies": {
     "@types/dat.gui": "^0.7.13",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.2.3",
-    "@types/three": "^0.182.0",
-    "concurrently": "^9.2.1",
+    "@types/node": "^26.1.1",
+    "@types/three": "^0.185.1",
+    "concurrently": "^9.2.4",
     "dat.gui": "^0.7.9",
-    "nodemon": "^3.1.11",
-    "three": "^0.183.0",
-    "ts-loader": "^9.5.4",
-    "typescript": "^5.9.3",
-    "webpack": "^5.105.2",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.3"
+    "nodemon": "^3.1.14",
+    "three": "^0.185.1",
+    "ts-loader": "^9.6.2",
+    "typescript": "6.0.3",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1",
+    "webpack-dev-server": "^6.0.0"
   },
   "dependencies": {
     "express": "^5.2.1",
