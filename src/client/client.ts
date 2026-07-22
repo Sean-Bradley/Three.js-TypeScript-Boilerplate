@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import StatsVR from './utils/statsvr'
-import { VRButton } from 'three/examples/jsm/webxr/VRButton'
+import { VRButton } from 'three/addons/webxr/VRButton.js'
 import TeleportVR from 'teleportvr'
 import GrabVR from 'grabvr'
 import Explosion from './explosion'
